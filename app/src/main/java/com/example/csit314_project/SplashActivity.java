@@ -14,7 +14,7 @@ public class SplashActivity extends Activity {
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
-        int SPLASH_DISPLAY_LENGTH = 1000;
+        int SPLASH_DISPLAY_LENGTH = 1000; //time is in ms
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {

@@ -4,6 +4,10 @@ public class User {
     private String username;
     private String password;
 
+    public String getUsername() {
+        return username;
+    }
+
     private enum USER_TYPE {
         PUBLIC,
         HEALTH_STAFF,

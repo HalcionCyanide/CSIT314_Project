@@ -23,4 +23,8 @@ public class LoginController {
         }
         return false;
     }
+
+    protected void logout() {
+        currentUser = null;
+    }
 }
