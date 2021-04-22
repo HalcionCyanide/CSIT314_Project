@@ -15,9 +15,9 @@ public class LoginController {
         return(INSTANCE);
     }
 
-    protected boolean ValidateLogin(String username, String password) {
+    protected boolean validate(String username, String password) {
         User user = new User(username, password);
-        if (user.Login()) {
+        if (user.login()) {
             currentUser = user;
             return true;
         }

@@ -22,7 +22,7 @@ public class User {
         this.password = password;
     }
 
-    public boolean Login (){
+    public boolean login (){
         //TODO IMPLEMENT CODE, GRAB THE USER DATA FROM THE DATABASE
         //OPEN DB
         //CHECK WHERE USER AND PASS MATCH
