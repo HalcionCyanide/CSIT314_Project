@@ -3,9 +3,16 @@ package com.example.csit314_project;
 public class User {
     private String username;
     private String password;
+    private String NRIC;
 
     public String getUsername() {
         return username;
+    }
+    public String getNRIC() {
+        return NRIC;
+    }
+    public USER_TYPE getUserType() {
+        return userType;
     }
 
     private enum USER_TYPE {
