@@ -12,7 +12,7 @@ public class MainMenuActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mainmenu);
+        setContentView(R.layout.activity_public_main);
 
         LoginController LC = LoginController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
