@@ -2,19 +2,21 @@ package com.example.csit314_project;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class LoginActivity extends Activity {
 
     TextView txtUsername;
     TextView txtPassword;
     Button btnLogin;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,12 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // click handling code
-                boolean canLogin = onSubmit(txtUsername.getText().toString(), txtPassword.getText().toString());
+                boolean canLogin = false;
+                try {
+                    canLogin = onSubmit(txtUsername.getText().toString(), txtPassword.getText().toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if(canLogin){
                     //toast here
                     displaySuccess();
@@ -52,10 +59,10 @@ public class LoginActivity extends Activity {
         });
     }
 
-    boolean onSubmit(String username, String password) {
+    boolean onSubmit(String username, String password) throws IOException {
         //let the login controller handle it, for now....
         LoginController LC = LoginController.getInstance();
-        return LC.validate(username, password);
+        return LC.validate(username, password, LoginActivity.this);
     }
 
     void displaySuccess() {
