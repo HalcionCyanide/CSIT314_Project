@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">CSIT314_Project</string>
+    <string-array name="Roles">
+        <item>Public User</item>
+        <item>Health Staff</item>
+        <item>Business</item>
+        <item>Health Org</item>
+    </string-array>
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>

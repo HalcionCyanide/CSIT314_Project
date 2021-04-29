@@ -2,8 +2,6 @@ package com.example.csit314_project;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +34,7 @@ public class LoginActivity extends Activity {
                 // click handling code
                 boolean canLogin = false;
                 try {
-                    canLogin = onSubmit(txtUsername.getText().toString(), txtPassword.getText().toString());
+                    canLogin = onLogin(txtUsername.getText().toString(), txtPassword.getText().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -44,7 +42,25 @@ public class LoginActivity extends Activity {
                     //toast here
                     displaySuccess();
                     //transition to next page
-                    Intent mainIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                    UserController UC = UserController.getInstance();
+                    //assign a default value just in-case
+                    Class<?> nextActivity = null; // THIS WILL BREAK APP, BE CAREFUL
+                    User user = UC.currentUser;
+                    switch (user.role) {
+                        case PUBLIC:
+                            nextActivity = PublicMainActivity.class;
+                            break;
+                        case BUSINESS:
+                            nextActivity = BusinessMainActivity.class;
+                            break;
+                        case HEALTH_STAFF:
+                            nextActivity = HealthStaffMainActivity.class;
+                            break;
+                        case HEALTH_ORG:
+                            nextActivity = HealthOrgMainActivity.class;
+                            break;
+                    }
+                    Intent mainIntent = new Intent(LoginActivity.this, nextActivity);
                     LoginActivity.this.startActivity(mainIntent);
                     LoginActivity.this.finish();
                 }
@@ -59,10 +75,10 @@ public class LoginActivity extends Activity {
         });
     }
 
-    boolean onSubmit(String username, String password) throws IOException {
+    boolean onLogin(String username, String password) throws IOException {
         //let the login controller handle it, for now....
-        LoginController LC = LoginController.getInstance();
-        return LC.validate(username, password, LoginActivity.this);
+        UserController UC = UserController.getInstance();
+        return UC.validateOnLogin(username, password, LoginActivity.this);
     }
 
     void displaySuccess() {
