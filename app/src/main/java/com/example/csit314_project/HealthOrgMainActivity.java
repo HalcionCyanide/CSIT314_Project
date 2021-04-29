@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -21,7 +24,6 @@ public class HealthOrgMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthorg_main);
         displayPage();
-
     }
 
     void displayPage() {
@@ -60,33 +62,110 @@ public class HealthOrgMainActivity extends Activity {
         EditText txt_contact = userPopup.findViewById(R.id.txt_contact);
 
         Spinner spinner_gender = userPopup.findViewById(R.id.spinner_gender);
-        String txt_gender = spinner_gender.getSelectedItem().toString();
+        final String[] txt_gender = new String[1];
 
         Spinner spinner_role = userPopup.findViewById(R.id.spinner_role);
-        String txt_role = spinner_role.getSelectedItem().toString();
+        final String[] txt_role = new String[1];
+
+        TextView txt_resultUsername = userPopup.findViewById(R.id.txt_resultUsername);
+        TextView txt_resultPassword = userPopup.findViewById(R.id.txt_resultPassword);
 
         Button btn_confAddUser = userPopup.findViewById(R.id.btn_confaddUser);
         Button btn_cancel = userPopup.findViewById(R.id.btn_cancel);
+
+        txt_firstName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txt_resultUsername.setText(String.format("%s%s90", txt_firstName.getText().toString(), txt_lastName.getText().toString()));
+                txt_resultPassword.setText(String.format("%s%s%s",
+                        txt_firstName.getText().toString(),
+                        txt_lastName.getText().toString(),
+                        txt_NRIC.getText().toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        txt_lastName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txt_resultUsername.setText(String.format("%s%s90", txt_firstName.getText().toString(), txt_lastName.getText().toString()));
+                txt_resultPassword.setText(String.format("%s%s%s",
+                        txt_firstName.getText().toString(),
+                        txt_lastName.getText().toString(),
+                        txt_NRIC.getText().toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        txt_NRIC.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txt_resultUsername.setText(String.format("%s%s90", txt_firstName.getText().toString(), txt_lastName.getText().toString()));
+                txt_resultPassword.setText(String.format("%s%s%s",
+                        txt_firstName.getText().toString(),
+                        txt_lastName.getText().toString(),
+                        txt_NRIC.getText().toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txt_gender[0] = spinner_gender.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_role.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txt_role[0] = spinner_role.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         dialogBuilder.setView(userPopup);
         dialog = dialogBuilder.create();
         dialog.show();
 
-        String username = txt_firstName.getText().toString() + txt_lastName.getText().toString() + "90";
-        String password = txt_firstName.getText().toString() + txt_lastName.getText().toString() + txt_NRIC.getText().toString();
-
-        TextView txt_resultUsername = userPopup.findViewById(R.id.txt_resultUsername);
-        TextView txt_resultPassword = userPopup.findViewById(R.id.txt_resultPassword);
-        //parse username and password btw
-        txt_resultUsername.setText(username);
-        txt_resultPassword.setText(password);
-
         btn_confAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: PROCESS THE INFO AND ADD THE PERSON
+                //Parse Role
                 User.USER_TYPE user_type;
-                switch (txt_role) {
+                switch (txt_role[0]) {
                     case "Public User":
                         user_type = User.USER_TYPE.PUBLIC;
                         break;
@@ -100,13 +179,16 @@ public class HealthOrgMainActivity extends Activity {
                         user_type = User.USER_TYPE.HEALTH_ORG;
                         break;
                     default:
-                        throw new IllegalStateException("Unexpected value: " + txt_role);
+                        throw new IllegalStateException("Unexpected value: " + txt_role[0]);
                 }
+
+                String username = txt_resultUsername.getText().toString();
+                String password = txt_resultPassword.getText().toString();
 
                 //call controller
                 if (onAddUser(
                         txt_NRIC.getText().toString(),
-                        txt_gender,
+                        txt_gender[0],
                         txt_firstName.getText().toString(),
                         txt_lastName.getText().toString(),
                         txt_email.getText().toString(),
