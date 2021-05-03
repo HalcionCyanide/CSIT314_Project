@@ -18,8 +18,9 @@ public class User {
     private String username;
     private String password;
     public  USER_TYPE role;
+    private boolean hasCovid;
 
-    UserDatabaseHelper userDBHelper;
+    DatabaseHelper userDBHelper;
 
     public String getUsername() {
         return username;
@@ -38,7 +39,7 @@ public class User {
 
     public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, USER_TYPE userType, Context context) {
         //OPEN DB
-        userDBHelper = new UserDatabaseHelper(context);
+        userDBHelper = new DatabaseHelper(context);
         try {
             userDBHelper.createDataBase();
         } catch (IOException e) {
@@ -73,13 +74,13 @@ public class User {
             values.put("Username", username);
             values.put("Password", password);
             values.put("Roles", decodeUserType);
-            db.insert("User_Data", null, values);
+            db.insert("UserData", null, values);
         }
         userDBHelper.close();
     }
 
     public User findUserByUsername(String username, Context context) {
-        userDBHelper = new UserDatabaseHelper(context);
+        userDBHelper = new DatabaseHelper(context);
         try {
             userDBHelper.createDataBase();
         } catch (IOException e) {
@@ -87,7 +88,7 @@ public class User {
         }
         if(userDBHelper.openDataBase()) {
             SQLiteDatabase db = userDBHelper.getWritableDatabase();
-            String query = "SELECT * FROM User_Data WHERE Username = '" + username + "'";
+            String query = "SELECT * FROM UserData WHERE Username = '" + username + "'";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null && cursor.moveToFirst()) {
                 User data = new User();
@@ -116,6 +117,7 @@ public class User {
                         Log.e("ROLE", "No role set");
                         break;
                 }
+                data.hasCovid = cursor.getLong(9) != 0;
                 cursor.close();
                 return data;
             } else {
@@ -126,7 +128,7 @@ public class User {
     }
 
     public User findUserByNRIC(String NRIC, Context context) {
-        userDBHelper = new UserDatabaseHelper(context);
+        userDBHelper = new DatabaseHelper(context);
         try {
             userDBHelper.createDataBase();
         } catch (IOException e) {
@@ -134,7 +136,7 @@ public class User {
         }
         if (userDBHelper.openDataBase()) {
             SQLiteDatabase db = userDBHelper.getWritableDatabase();
-            String query = "SELECT * FROM User_Data WHERE NRIC = '" + NRIC + "'";
+            String query = "SELECT * FROM UserData WHERE NRIC = '" + NRIC + "'";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null && cursor.moveToFirst()) {
                 User data = new User();
@@ -163,6 +165,7 @@ public class User {
                         Log.e("ROLE", "No role set");
                         break;
                 }
+                data.hasCovid = cursor.getInt(9) != 0;
                 cursor.close();
                 return data;
             } else {
@@ -173,7 +176,7 @@ public class User {
     }
 
     public User findUserByUserType(String userType, Context context) {
-        userDBHelper = new UserDatabaseHelper(context);
+        userDBHelper = new DatabaseHelper(context);
         try {
             userDBHelper.createDataBase();
         } catch (IOException e) {
@@ -181,7 +184,7 @@ public class User {
         }
         if (userDBHelper.openDataBase()) {
             SQLiteDatabase db = userDBHelper.getWritableDatabase();
-            String query = "SELECT * FROM User_Data WHERE Roles = '" + userType + "'";
+            String query = "SELECT * FROM UserData WHERE Roles = '" + userType + "'";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null && cursor.moveToFirst()) {
                 User data = new User();
@@ -210,6 +213,7 @@ public class User {
                         Log.e("ROLE", "No role set");
                         break;
                 }
+                data.hasCovid = cursor.getInt(9) != 0;
                 cursor.close();
                 return data;
             } else {

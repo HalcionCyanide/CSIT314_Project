@@ -39,7 +39,15 @@ public class HealthOrgMainActivity extends Activity {
             }
         });
 
-        Button btn_logout = findViewById(R.id.btn_logout);
+        Button btn_searchUser = findViewById(R.id.btn_searchUser);
+        btn_searchUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchUserDialog();
+            }
+        });
+
+        Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +163,6 @@ public class HealthOrgMainActivity extends Activity {
 
             }
         });
-
-        dialogBuilder.setView(userPopup);
-        dialog = dialogBuilder.create();
-        dialog.show();
-
         btn_confAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,13 +208,33 @@ public class HealthOrgMainActivity extends Activity {
                 dialog.dismiss();
             }
         });
-
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
+
+        dialogBuilder.setView(userPopup);
+        dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    public void searchUserDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_search, null);
+
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(userPopup);
+        dialog = dialogBuilder.create();
+        dialog.show();
     }
 
     boolean onAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, User.USER_TYPE userType, Context context) {

@@ -18,7 +18,7 @@ public class HealthStaffMainActivity extends Activity {
         TextView currUser = findViewById(R.id.txt_currentUser);
         currUser.setText(LC.currentUser.getUsername());
 
-        Button btn_logout = findViewById(R.id.btn_logout);
+        Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

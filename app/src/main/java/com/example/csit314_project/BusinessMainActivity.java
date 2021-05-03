@@ -20,7 +20,7 @@ public class BusinessMainActivity extends Activity {
 
         DatePicker datePicker = new DatePicker(BusinessMainActivity.this, R.id.txt_datepicker);
 
-        Button btn_logout = findViewById(R.id.btn_logout);
+        Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
