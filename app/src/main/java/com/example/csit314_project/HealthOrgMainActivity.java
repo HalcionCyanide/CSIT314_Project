@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class HealthOrgMainActivity extends Activity {
 
     private AlertDialog dialog;
@@ -223,6 +225,16 @@ public class HealthOrgMainActivity extends Activity {
     public void searchUserDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_search, null);
+        //TODO ADD BUTTON FUNCTIONALITY
+
+        Button btn_search = userPopup.findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO CODE HERE, REFER TO addNewUserDialog
+                //TODO onSearchUser THIS IS YOUR NEW FRIEND
+            }
+        });
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +252,11 @@ public class HealthOrgMainActivity extends Activity {
     boolean onAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, User.USER_TYPE userType, Context context) {
         UserController UC = UserController.getInstance();
         return UC.validateOnAddUser(NRIC, gender, firstName, lastName, email, contactNumber, username, password, userType, context);
+    }
+
+    List<User> onSearchUser(String NRIC, String userType, String username, Context context) {
+        UserController UC = UserController.getInstance();
+        return UC.validateOnSearchUser(NRIC, userType, username, context);
     }
 
     void displaySuccess() {

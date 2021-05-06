@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private String NRIC;
@@ -79,7 +81,7 @@ public class User {
         userDBHelper.close();
     }
 
-    public User findUserByUsername(String username, Context context) {
+    public User findSingleUserByUsername(String username, Context context) {
         userDBHelper = new DatabaseHelper(context);
         try {
             userDBHelper.createDataBase();
@@ -127,7 +129,7 @@ public class User {
         return null;
     }
 
-    public User findUserByNRIC(String NRIC, Context context) {
+    public User findSingleUserByNRIC(String NRIC, Context context) {
         userDBHelper = new DatabaseHelper(context);
         try {
             userDBHelper.createDataBase();
@@ -175,8 +177,31 @@ public class User {
         return null;
     }
 
-    public User findUserByUserType(String userType, Context context) {
+    public List<User> findUserSpecial(String NRIC, String userType, String username, Context context) {
         userDBHelper = new DatabaseHelper(context);
+        List<User> tempList = new ArrayList<User>();
+
+        String userTypestr = ""; //this will trigger a crash
+        if (!userType.isEmpty()) {
+            userTypestr = " Roles = '" + userType + "'";
+        }
+
+        String NRICstr = "";
+        if (!NRIC.isEmpty()) {
+            if (!userType.isEmpty()){
+                NRICstr += " AND";
+            }
+            NRICstr += " NRIC = '" + NRIC + "'";
+        }
+
+        String usernamestr = "";
+        if (!username.isEmpty()) {
+            if (!userType.isEmpty() || !NRIC.isEmpty()){
+                usernamestr += " AND";
+            }
+            usernamestr = " Username = '" + username + "'";
+        }
+
         try {
             userDBHelper.createDataBase();
         } catch (IOException e) {
@@ -184,9 +209,9 @@ public class User {
         }
         if (userDBHelper.openDataBase()) {
             SQLiteDatabase db = userDBHelper.getWritableDatabase();
-            String query = "SELECT * FROM UserData WHERE Roles = '" + userType + "'";
+            String query = String.format("SELECT * FROM UserData WHERE%s%s%s", userTypestr, NRICstr, usernamestr);
             Cursor cursor = db.rawQuery(query, null);
-            if (cursor != null && cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToNext()) {
                 User data = new User();
                 data.NRIC = cursor.getString(0);
                 data.gender = cursor.getString(1);
@@ -215,11 +240,9 @@ public class User {
                 }
                 data.hasCovid = cursor.getInt(9) != 0;
                 cursor.close();
-                return data;
-            } else {
-                return null;
+                tempList.add(data);
             }
         }
-        return null;
+        return tempList;
     }
 }

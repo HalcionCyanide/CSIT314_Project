@@ -3,6 +3,7 @@ package com.example.csit314_project;
 import android.content.Context;
 
 import java.io.IOException;
+import java.util.List;
 
 public class UserController {
 
@@ -22,7 +23,7 @@ public class UserController {
 
     protected boolean validateOnLogin(String username, String password, Context context) throws IOException {
         User user = new User();
-        user = user.findUserByUsername(username, context);
+        user = user.findSingleUserByUsername(username, context);
         //if there is such a user
         if (user != null) {
             //double check password
@@ -38,7 +39,7 @@ public class UserController {
     protected boolean validateOnAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, User.USER_TYPE userType, Context context) {
         User user = new User();
         //if the user cannot be found
-        if (user.findUserByNRIC(NRIC, context) == null) {
+        if (user.findSingleUserByNRIC(NRIC, context) == null) {
             user.addUser(NRIC, gender, firstName, lastName, email, contactNumber, username, password, userType, context);
             return true;
         }
@@ -47,5 +48,11 @@ public class UserController {
 
     protected void logout() {
         currentUser = null;
+    }
+
+    public List<User> validateOnSearchUser(String nric, String username, String userType, Context context) {
+        User user = new User();
+        //if the user cannot be found
+        return user.findUserSpecial(nric, userType, username, context);
     }
 }
