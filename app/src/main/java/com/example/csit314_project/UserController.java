@@ -36,7 +36,7 @@ public class UserController {
         return false;
     }
 
-    protected boolean validateOnAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, User.USER_TYPE userType, Context context) {
+    protected boolean validateOnAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         User user = new User();
         //if the user cannot be found
         if (user.findSingleUserByNRIC(NRIC, context) == null) {

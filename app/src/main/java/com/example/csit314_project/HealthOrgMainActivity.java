@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -169,23 +170,6 @@ public class HealthOrgMainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //Parse Role
-                User.USER_TYPE user_type;
-                switch (txt_role[0]) {
-                    case "Public User":
-                        user_type = User.USER_TYPE.PUBLIC;
-                        break;
-                    case "Business":
-                        user_type = User.USER_TYPE.BUSINESS;
-                        break;
-                    case "Health Staff":
-                        user_type = User.USER_TYPE.HEALTH_STAFF;
-                        break;
-                    case "Health Org":
-                        user_type = User.USER_TYPE.HEALTH_ORG;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + txt_role[0]);
-                }
 
                 String username = txt_resultUsername.getText().toString();
                 String password = txt_resultPassword.getText().toString();
@@ -200,7 +184,7 @@ public class HealthOrgMainActivity extends Activity {
                         txt_contact.getText().toString(),
                         username,
                         password,
-                        user_type,
+                        txt_role[0],
                         HealthOrgMainActivity.this)) {
                     displaySuccess();
                 }
@@ -224,17 +208,41 @@ public class HealthOrgMainActivity extends Activity {
 
     public void searchUserDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_search, null);
-        //TODO ADD BUTTON FUNCTIONALITY
+        final View userPopup = getLayoutInflater().inflate(R.layout.generic_searchuser, null);
+
+        ListView results = userPopup.findViewById(R.id.list_userResults);
+        EditText txt_NRIC = userPopup.findViewById(R.id.txt_NRICinput);
+        EditText txt_username = userPopup.findViewById(R.id.txt_NameInput);
+
+        Spinner spinner_role = userPopup.findViewById(R.id.spinner_role);
+        final String[] txt_role = new String[1];
+        spinner_role.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txt_role[0] = spinner_role.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         Button btn_search = userPopup.findViewById(R.id.btn_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CODE HERE, REFER TO addNewUserDialog
-                //TODO onSearchUser THIS IS YOUR NEW FRIEND
+                if (onSearchUser(results, txt_NRIC.getText().toString(), txt_role[0], txt_username.getText().toString(), HealthOrgMainActivity.this)) {
+                    //if there are results
+                    displaySuccess();
+                }
+                else {
+                    displayError();
+                }
             }
         });
+
+        //TODO ADD INTERACTION ON CLICK WITH ListView results
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -249,14 +257,18 @@ public class HealthOrgMainActivity extends Activity {
         dialog.show();
     }
 
-    boolean onAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, User.USER_TYPE userType, Context context) {
+    boolean onAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         UserController UC = UserController.getInstance();
         return UC.validateOnAddUser(NRIC, gender, firstName, lastName, email, contactNumber, username, password, userType, context);
     }
 
-    List<User> onSearchUser(String NRIC, String userType, String username, Context context) {
+    boolean onSearchUser(ListView result, String NRIC, String userType, String username, Context context) {
         UserController UC = UserController.getInstance();
-        return UC.validateOnSearchUser(NRIC, userType, username, context);
+        List<User> tempList = UC.validateOnSearchUser(NRIC, userType, username, context);
+        //TODO YOUR WORK HERE @JASON @DERRON
+        //DO SOMETHING WITH RESULT, IE PORT THE RESULTS FROM tempList INTO result
+        //result = ?? something something tempList
+        return !tempList.isEmpty();
     }
 
     void displaySuccess() {

@@ -19,7 +19,7 @@ public class User {
     private String contactNumber;
     private String username;
     private String password;
-    public  USER_TYPE role;
+    public  String role;
     private boolean hasCovid;
 
     DatabaseHelper userDBHelper;
@@ -31,15 +31,7 @@ public class User {
         return password;
     }
 
-    private static final String USERS_DB_NAME ="users.db";// Database name
-    public enum USER_TYPE {
-        PUBLIC,
-        HEALTH_STAFF,
-        BUSINESS,
-        HEALTH_ORG,
-    }
-
-    public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, USER_TYPE userType, Context context) {
+    public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         //OPEN DB
         userDBHelper = new DatabaseHelper(context);
         try {
@@ -51,21 +43,6 @@ public class User {
             //attempt to search for this user
             //add the user
             SQLiteDatabase db = userDBHelper.getWritableDatabase();
-            String decodeUserType = "";
-            switch (userType) {
-                case PUBLIC:
-                    decodeUserType = "Public_User";
-                    break;
-                case HEALTH_STAFF:
-                    decodeUserType = "Health_Staff";
-                    break;
-                case HEALTH_ORG:
-                    decodeUserType = "Health_Org";
-                    break;
-                case BUSINESS:
-                    decodeUserType = "Business_User";
-                    break;
-            }
             ContentValues values = new ContentValues();
             values.put("NRIC", NRIC);
             values.put("Gender", gender);
@@ -75,7 +52,7 @@ public class User {
             values.put("ContactNumber", Integer.valueOf(contactNumber)); //CONTACT NUMBER IS A INTEGER IN THE TABLE.
             values.put("Username", username);
             values.put("Password", password);
-            values.put("Roles", decodeUserType);
+            values.put("Roles", userType);
             db.insert("UserData", null, values);
         }
         userDBHelper.close();
@@ -102,23 +79,7 @@ public class User {
                 data.contactNumber = cursor.getString(5);
                 data.username = cursor.getString(6);
                 data.password = cursor.getString(7);
-                switch (cursor.getString(8)) {
-                    case "Public_User":
-                        data.role = USER_TYPE.PUBLIC;
-                        break;
-                    case "Business_User":
-                        data.role = USER_TYPE.BUSINESS;
-                        break;
-                    case "Health_Staff":
-                        data.role = USER_TYPE.HEALTH_STAFF;
-                        break;
-                    case "Health_Org":
-                        data.role = USER_TYPE.HEALTH_ORG;
-                        break;
-                    default:
-                        Log.e("ROLE", "No role set");
-                        break;
-                }
+                data.role = cursor.getString(8);
                 data.hasCovid = cursor.getLong(9) != 0;
                 cursor.close();
                 return data;
@@ -150,23 +111,7 @@ public class User {
                 data.contactNumber = cursor.getString(5);
                 data.username = cursor.getString(6);
                 data.password = cursor.getString(7);
-                switch (cursor.getString(8)) {
-                    case "Public_User":
-                        data.role = USER_TYPE.PUBLIC;
-                        break;
-                    case "Business_User":
-                        data.role = USER_TYPE.BUSINESS;
-                        break;
-                    case "Health_Staff":
-                        data.role = USER_TYPE.HEALTH_STAFF;
-                        break;
-                    case "Health_Org":
-                        data.role = USER_TYPE.HEALTH_ORG;
-                        break;
-                    default:
-                        Log.e("ROLE", "No role set");
-                        break;
-                }
+                data.role = cursor.getString(8);
                 data.hasCovid = cursor.getInt(9) != 0;
                 cursor.close();
                 return data;
@@ -221,23 +166,7 @@ public class User {
                 data.contactNumber = cursor.getString(5);
                 data.username = cursor.getString(6);
                 data.password = cursor.getString(7);
-                switch (cursor.getString(8)) {
-                    case "Public_User":
-                        data.role = USER_TYPE.PUBLIC;
-                        break;
-                    case "Business_User":
-                        data.role = USER_TYPE.BUSINESS;
-                        break;
-                    case "Health_Staff":
-                        data.role = USER_TYPE.HEALTH_STAFF;
-                        break;
-                    case "Health_Org":
-                        data.role = USER_TYPE.HEALTH_ORG;
-                        break;
-                    default:
-                        Log.e("ROLE", "No role set");
-                        break;
-                }
+                data.role = cursor.getString(8);
                 data.hasCovid = cursor.getInt(9) != 0;
                 cursor.close();
                 tempList.add(data);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txt_singlePersonInfo"
+        android:layout_width="321dp"
+        android:layout_height="283dp"
+        android:layout_marginTop="32dp"
+        android:text="person info here"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/btn_sendAlert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Send Alert"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/txt_singlePersonInfo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_singlePersonInfo"
+        app:layout_constraintTop_toBottomOf="@+id/txt_singlePersonInfo" />
+
+    <Button
+        android:id="@+id/btn_suspend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Suspend"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/txt_singlePersonInfo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_singlePersonInfo"
+        app:layout_constraintTop_toBottomOf="@+id/txt_singlePersonInfo" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="@+id/txt_singlePersonInfo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_singlePersonInfo"
+        app:layout_constraintTop_toBottomOf="@+id/btn_suspend" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
