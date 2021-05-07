@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class HealthOrgMainActivity extends Activity {
 
@@ -268,6 +270,16 @@ public class HealthOrgMainActivity extends Activity {
         //TODO YOUR WORK HERE @JASON @DERRON
         //DO SOMETHING WITH RESULT, IE PORT THE RESULTS FROM tempList INTO result
         //result = ?? something something tempList
+        ArrayList<String> lvUsers = new ArrayList<String>();
+
+        for (int i=0; i < tempList.size(); i++)
+        {
+            String tempString = tempList.get(i).getNRIC() + ", " + tempList.get(i).getFirstName() + " " + tempList.get(i).getLastName();
+            lvUsers.add(tempString);
+        }
+
+        ArrayAdapter<String> usersAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lvUsers);
+        result.setAdapter(usersAdapter);
         return !tempList.isEmpty();
     }
 

@@ -30,6 +30,15 @@ public class User {
     public String getPassword() {
         return password;
     }
+    public String getNRIC() {
+        return NRIC;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
 
     public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         //OPEN DB
@@ -150,7 +159,7 @@ public class User {
             SQLiteDatabase db = userDBHelper.getWritableDatabase();
             String query = String.format("SELECT * FROM UserData WHERE%s%s%s", userTypestr, NRICstr, usernamestr);
             Cursor cursor = db.rawQuery(query, null);
-            if (cursor != null && cursor.moveToNext()) {
+            while (cursor != null && cursor.moveToNext()) {
                 User data = new User();
                 data.NRIC = cursor.getString(0);
                 data.gender = cursor.getString(1);
@@ -162,9 +171,10 @@ public class User {
                 data.password = cursor.getString(7);
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getInt(9) != 0;
-                cursor.close();
+
                 tempList.add(data);
             }
+            cursor.close();
         }
         return tempList;
     }
