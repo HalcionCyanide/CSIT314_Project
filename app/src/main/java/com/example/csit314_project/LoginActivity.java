@@ -47,16 +47,16 @@ public class LoginActivity extends Activity {
                     Class<?> nextActivity = null; // THIS WILL BREAK APP, BE CAREFUL
                     User user = UC.currentUser;
                     switch (user.role) {
-                        case PUBLIC:
+                        case "Public_User":
                             nextActivity = PublicMainActivity.class;
                             break;
-                        case BUSINESS:
+                        case "Business_User":
                             nextActivity = BusinessMainActivity.class;
                             break;
-                        case HEALTH_STAFF:
+                        case "Health_Staff":
                             nextActivity = HealthStaffMainActivity.class;
                             break;
-                        case HEALTH_ORG:
+                        case "Health_Org":
                             nextActivity = HealthOrgMainActivity.class;
                             break;
                     }

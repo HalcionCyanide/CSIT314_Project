@@ -50,7 +50,7 @@ public class UserController {
         currentUser = null;
     }
 
-    public List<User> validateOnSearchUser(String nric, String username, String userType, Context context) {
+    public List<User> validateOnSearchUser(String nric, String userType, String username, Context context) {
         User user = new User();
         //if the user cannot be found
         return user.findUserSpecial(nric, userType, username, context);
