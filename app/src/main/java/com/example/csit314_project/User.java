@@ -133,18 +133,12 @@ public class User {
 
         String NRICstr = "";
         if (!NRIC.isEmpty()) {
-            if (!userType.isEmpty()){
-                NRICstr += " AND";
-            }
-            NRICstr += " NRIC = '" + NRIC + "'";
+            NRICstr += " AND NRIC = '" + NRIC + "'";
         }
 
         String usernamestr = "";
         if (!username.isEmpty()) {
-            if (!userType.isEmpty() || !NRIC.isEmpty()){
-                usernamestr += " AND";
-            }
-            usernamestr = " Username = '" + username + "'";
+            usernamestr = " AND Username = '" + username + "'";
         }
 
         try {
