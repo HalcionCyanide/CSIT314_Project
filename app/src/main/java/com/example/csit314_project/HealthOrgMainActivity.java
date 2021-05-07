@@ -267,9 +267,7 @@ public class HealthOrgMainActivity extends Activity {
     boolean onSearchUser(ListView result, String NRIC, String userType, String username, Context context) {
         UserController UC = UserController.getInstance();
         List<User> tempList = UC.validateOnSearchUser(NRIC, userType, username, context);
-        //TODO YOUR WORK HERE @JASON @DERRON
-        //DO SOMETHING WITH RESULT, IE PORT THE RESULTS FROM tempList INTO result
-        //result = ?? something something tempList
+
         ArrayList<String> lvUsers = new ArrayList<String>();
 
         for (int i=0; i < tempList.size(); i++)
@@ -280,6 +278,13 @@ public class HealthOrgMainActivity extends Activity {
 
         ArrayAdapter<String> usersAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lvUsers);
         result.setAdapter(usersAdapter);
+        //TODO YOUR WORK HERE @JASON
+        //on click interactions
+        //youtube link might help
+        //https://youtu.be/Mja5YoL9Jak
+        // on click leads to generic_manageuser
+
+
         return !tempList.isEmpty();
     }
 
