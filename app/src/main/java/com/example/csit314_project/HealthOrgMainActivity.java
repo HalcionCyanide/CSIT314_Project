@@ -283,10 +283,20 @@ public class HealthOrgMainActivity extends Activity {
         //youtube link might help
         //https://youtu.be/Mja5YoL9Jak
         // on click leads to generic_manageuser
+        result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent mainIntent = new Intent(HealthOrgMainActivity.this, GenericManageUserActivity.class);
+                HealthOrgMainActivity.this.startActivity(mainIntent);
+                HealthOrgMainActivity.this.finish();
+            }
+        });
 
 
         return !tempList.isEmpty();
     }
+
+
 
     void displaySuccess() {
         Toast.makeText(getApplicationContext(), "Operation Success", Toast.LENGTH_SHORT).show();
