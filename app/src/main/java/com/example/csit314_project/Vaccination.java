@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.io.IOException;
 
 public class Vaccination {
-    String NRIC;
-    String vaccination_brand;
-    String first_vaccination;
-    String second_vaccination;
+    public String NRIC;
+    public String vaccination_brand;
+    public String first_vaccination;
+    public String second_vaccination;
 
     DatabaseHelper dbHelper;
 
@@ -31,7 +31,7 @@ public class Vaccination {
             values.put("Vaccination_Brand", vaccination_brand);
             values.put("First_Vaccination", first_vaccination);
 
-            db.insert("UserData", null, values);
+            db.insert("Vaccination", null, values);
 
 
         }
