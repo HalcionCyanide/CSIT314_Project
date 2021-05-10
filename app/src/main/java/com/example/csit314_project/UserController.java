@@ -70,4 +70,13 @@ public class UserController {
             user.setSuspend(!user.isSuspend, nric, context);
         }
     }
+
+    public void toggleCovid(String nric, Context context) {
+        User user = new User();
+        user = user.findSingleUserByNRIC(nric, context);
+        //if the user cannot be found
+        if (user != null) {
+            user.setCovid(!user.hasCovid, nric, context);
+        }
+    }
 }

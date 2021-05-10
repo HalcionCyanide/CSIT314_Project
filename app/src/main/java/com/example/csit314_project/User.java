@@ -1,6 +1,6 @@
 /******************************************************************************
  filename	User.java
- authors      	Zheng Qingping, Derron, Jason
+ authors    Zheng Qingping, Derron, Jason
  UOW email	qzheng011@uowmail.edu.au
  Course: 	CSIT314
  Brief Description:
@@ -44,9 +44,24 @@ public class User {
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            Log.e("suspension", Boolean.toString(suspend));
             values.put("IsSuspend", suspend);
-            db.update("UserData", values, "NRIC = '" + nric + "'", null);
+            int i = db.update("UserData", values, "NRIC = '" + nric + "'", null);
+        }
+        dbHelper.close();
+    }
+
+    public void setCovid(boolean covid, String nric, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        try {
+            dbHelper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("HasCovid", covid);
+            int i = db.update("UserData", values, "NRIC = '" + nric + "'", null);
         }
         dbHelper.close();
     }

@@ -17,16 +17,6 @@
         app:layout_constraintTop_toBottomOf="@+id/list_UserInfo" />
 
     <Button
-        android:id="@+id/btn_suspend"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Suspend"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_UserInfo" />
-
-    <Button
         android:id="@+id/btn_back"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
