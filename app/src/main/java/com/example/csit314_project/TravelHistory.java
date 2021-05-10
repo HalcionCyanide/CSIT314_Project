@@ -1,8 +1,15 @@
 package com.example.csit314_project;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TravelHistory {
     public String NRIC;
@@ -83,5 +90,68 @@ public class TravelHistory {
             e.printStackTrace();
         }
         return returnStr;
+    }
+
+    DatabaseHelper dbHelper;
+
+    public List<String> getByMostCases(int limit, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        List<String> tempList = new ArrayList<String>();
+
+        try {
+            dbHelper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String query =
+                    "SELECT Location, count(HasCovid)" +
+                            "FROM UserData, TravelHistory " +
+                            "WHERE UserData.NRIC = TravelHistory.NRIC " +
+                            "AND HasCovid = 1 " +
+                            "GROUP BY Location " +
+                            "ORDER BY count(HasCovid) DESC " +
+                            "LIMIT " + limit;
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    String data = cursor.getString(0) + " " + cursor.getString(1);
+                    tempList.add(data);
+                }
+                cursor.close();
+            }
+        }
+        return tempList;
+    }
+
+    public List<String> getByMostCheckIn(int limit, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        List<String> tempList = new ArrayList<String>();
+
+        try {
+            dbHelper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String query =
+                    "SELECT Location, count(CheckIn) " +
+                    "FROM UserData, TravelHistory " +
+                    "WHERE UserData.NRIC = TravelHistory.NRIC " +
+                    "GROUP BY Location " +
+                    "ORDER BY count(CheckIn) DESC " +
+                    "LIMIT " + limit;
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    String data = cursor.getString(0) + " " + cursor.getString(1);
+                    tempList.add(data);
+                }
+                cursor.close();
+            }
+        }
+        return tempList;
     }
 }

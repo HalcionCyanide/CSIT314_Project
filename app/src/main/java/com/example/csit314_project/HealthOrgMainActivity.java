@@ -337,6 +337,9 @@ public class HealthOrgMainActivity extends Activity {
 
     boolean onRetrieveCovidStats(ListView mostCases, ListView mostCheckIn, Context context) {
         //TODO QING PLS FOLLOW UP U FUCK
+
+
+
         return false;
     }
 
