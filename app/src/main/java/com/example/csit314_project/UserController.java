@@ -27,7 +27,7 @@ public class UserController {
         //if there is such a user
         if (user != null) {
             //double check password
-            if (user.getPassword().equals(password)) {
+            if (user.password.equals(password) && !user.isSuspend) {
                 currentUser = user;
                 return true;
             }
@@ -54,5 +54,20 @@ public class UserController {
         User user = new User();
         //if the user cannot be found
         return user.findUserSpecial(nric, userType, username, context);
+    }
+
+    public User validateOnSearchUser(String nric, Context context) {
+        User user = new User();
+        //if the user cannot be found
+        return user.findSingleUserByNRIC(nric, context);
+    }
+
+    public void toggleSuspension(String nric, Context context) {
+        User user = new User();
+        user = user.findSingleUserByNRIC(nric, context);
+        //if the user cannot be found
+        if (user != null) {
+            user.setSuspend(!user.isSuspend, nric, context);
+        }
     }
 }

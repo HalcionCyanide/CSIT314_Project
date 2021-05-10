@@ -1,3 +1,11 @@
+/******************************************************************************
+ filename	HealthStaffMainActivity.java
+ author      	Zheng Qingping
+ UOW email	qzheng011@uowmail.edu.au
+ Course: 	CSIT314
+ Brief Description:
+ Health Staff main Activity
+ ******************************************************************************/
 package com.example.csit314_project;
 
 import android.app.Activity;
@@ -16,7 +24,7 @@ public class HealthStaffMainActivity extends Activity {
 
         UserController LC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.getUsername());
+        currUser.setText(LC.currentUser.username);
 
         Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {

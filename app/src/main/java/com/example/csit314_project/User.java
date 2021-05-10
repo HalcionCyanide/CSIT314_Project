@@ -1,3 +1,12 @@
+/******************************************************************************
+ filename	User.java
+ authors      	Zheng Qingping, Derron, Jason
+ UOW email	qzheng011@uowmail.edu.au
+ Course: 	CSIT314
+ Brief Description:
+ Health Org main Activity
+ ******************************************************************************/
+
 package com.example.csit314_project;
 
 import android.content.ContentValues;
@@ -11,47 +20,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String NRIC;
-    private String gender;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String contactNumber;
-    private String username;
-    private String password;
-    public  String role;
-    private boolean hasCovid;
+    public String NRIC;
+    public String gender;
+    public String firstName;
+    public String lastName;
+    public String email;
+    public String contactNumber;
+    public String username;
+    public String password;
+    public String role;
+    public boolean hasCovid;
+    public boolean isSuspend;
 
-    DatabaseHelper userDBHelper;
+    DatabaseHelper dbHelper;
 
-    public String getUsername() {
-        return username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public String getNRIC() {
-        return NRIC;
-    }
-    public String getFirstName() {
-        return firstName;
-    }
-    public String getLastName() {
-        return lastName;
+    public void setSuspend(boolean suspend, String nric, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        try {
+            dbHelper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            Log.e("suspension", Boolean.toString(suspend));
+            values.put("IsSuspend", suspend);
+            db.update("UserData", values, "NRIC = '" + nric + "'", null);
+        }
+        dbHelper.close();
     }
 
     public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         //OPEN DB
-        userDBHelper = new DatabaseHelper(context);
+        dbHelper = new DatabaseHelper(context);
         try {
-            userDBHelper.createDataBase();
+            dbHelper.createDataBase();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(userDBHelper.openDataBase()) {
+        if(dbHelper.openDataBase()) {
             //attempt to search for this user
             //add the user
-            SQLiteDatabase db = userDBHelper.getWritableDatabase();
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("NRIC", NRIC);
             values.put("Gender", gender);
@@ -62,20 +73,22 @@ public class User {
             values.put("Username", username);
             values.put("Password", password);
             values.put("Roles", userType);
+            values.put("HasCovid", false);
+            values.put("IsSuspend", false);
             db.insert("UserData", null, values);
         }
-        userDBHelper.close();
+        dbHelper.close();
     }
 
     public User findSingleUserByUsername(String username, Context context) {
-        userDBHelper = new DatabaseHelper(context);
+        dbHelper = new DatabaseHelper(context);
         try {
-            userDBHelper.createDataBase();
+            dbHelper.createDataBase();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(userDBHelper.openDataBase()) {
-            SQLiteDatabase db = userDBHelper.getWritableDatabase();
+        if(dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query = "SELECT * FROM UserData WHERE Username = '" + username + "'";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -90,6 +103,7 @@ public class User {
                 data.password = cursor.getString(7);
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getLong(9) != 0;
+                data.isSuspend = cursor.getLong(10) != 0;
                 cursor.close();
                 return data;
             } else {
@@ -100,14 +114,14 @@ public class User {
     }
 
     public User findSingleUserByNRIC(String NRIC, Context context) {
-        userDBHelper = new DatabaseHelper(context);
+        dbHelper = new DatabaseHelper(context);
         try {
-            userDBHelper.createDataBase();
+            dbHelper.createDataBase();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (userDBHelper.openDataBase()) {
-            SQLiteDatabase db = userDBHelper.getWritableDatabase();
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query = "SELECT * FROM UserData WHERE NRIC = '" + NRIC + "'";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -122,6 +136,7 @@ public class User {
                 data.password = cursor.getString(7);
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getInt(9) != 0;
+                data.isSuspend = cursor.getLong(10) != 0;
                 cursor.close();
                 return data;
             } else {
@@ -132,7 +147,7 @@ public class User {
     }
 
     public List<User> findUserSpecial(String NRIC, String userType, String username, Context context) {
-        userDBHelper = new DatabaseHelper(context);
+        dbHelper = new DatabaseHelper(context);
         List<User> tempList = new ArrayList<User>();
 
         String userTypestr = ""; //this will trigger a crash
@@ -151,30 +166,32 @@ public class User {
         }
 
         try {
-            userDBHelper.createDataBase();
+            dbHelper.createDataBase();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (userDBHelper.openDataBase()) {
-            SQLiteDatabase db = userDBHelper.getWritableDatabase();
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query = String.format("SELECT * FROM UserData WHERE%s%s%s", userTypestr, NRICstr, usernamestr);
             Cursor cursor = db.rawQuery(query, null);
-            while (cursor != null && cursor.moveToNext()) {
-                User data = new User();
-                data.NRIC = cursor.getString(0);
-                data.gender = cursor.getString(1);
-                data.firstName = cursor.getString(2);
-                data.lastName = cursor.getString(3);
-                data.email = cursor.getString(4);
-                data.contactNumber = cursor.getString(5);
-                data.username = cursor.getString(6);
-                data.password = cursor.getString(7);
-                data.role = cursor.getString(8);
-                data.hasCovid = cursor.getInt(9) != 0;
-
-                tempList.add(data);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    User data = new User();
+                    data.NRIC = cursor.getString(0);
+                    data.gender = cursor.getString(1);
+                    data.firstName = cursor.getString(2);
+                    data.lastName = cursor.getString(3);
+                    data.email = cursor.getString(4);
+                    data.contactNumber = cursor.getString(5);
+                    data.username = cursor.getString(6);
+                    data.password = cursor.getString(7);
+                    data.role = cursor.getString(8);
+                    data.hasCovid = cursor.getInt(9) != 0;
+                    data.isSuspend = cursor.getLong(10) != 0;
+                    tempList.add(data);
+                }
+                cursor.close();
             }
-            cursor.close();
         }
         return tempList;
     }

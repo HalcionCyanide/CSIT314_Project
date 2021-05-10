@@ -16,7 +16,7 @@ public class BusinessMainActivity extends Activity {
 
         UserController LC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.getUsername());
+        currUser.setText(LC.currentUser.username);
 
         DatePicker datePicker = new DatePicker(BusinessMainActivity.this, R.id.txt_datepicker);
 

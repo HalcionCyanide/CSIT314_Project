@@ -17,7 +17,7 @@ public class PublicMainActivity extends Activity {
 
         UserController LC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.getUsername());
+        currUser.setText(LC.currentUser.username);
 
         Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {

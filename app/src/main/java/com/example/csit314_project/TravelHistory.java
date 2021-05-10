@@ -5,10 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TravelHistory {
-    private String NRIC;
-    private String timeIn;
-    private String timeOut;
-    private String location;
+    public String NRIC;
+    public String timeIn;
+    public String timeOut;
+    public String location;
 
     public String getDuration () {
         return updateDuration(timeIn, timeOut);

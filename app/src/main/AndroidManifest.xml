@@ -20,6 +20,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".BusinessMainActivity" />
         <activity android:name=".HealthOrgMainActivity" />
+        <activity android:name=".GenericManageUserActivity" />
         <activity android:name=".HealthStaffMainActivity" />
         <activity android:name=".PublicMainActivity" />
 

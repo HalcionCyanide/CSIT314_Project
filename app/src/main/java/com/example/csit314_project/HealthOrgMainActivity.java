@@ -1,3 +1,12 @@
+/******************************************************************************
+ filename	HealthOrgMainActivity.java
+ authors      	Zheng Qingping, Derron, Jason
+ UOW email	qzheng011@uowmail.edu.au
+ Course: 	CSIT314
+ Brief Description:
+ Health Org main Activity
+ ******************************************************************************/
+
 package com.example.csit314_project;
 
 import android.app.Activity;
@@ -34,7 +43,7 @@ public class HealthOrgMainActivity extends Activity {
     void displayPage() {
         UserController LC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.getUsername());
+        currUser.setText(LC.currentUser.username);
 
         Button btn_addUser = findViewById(R.id.btn_addUser);
         btn_addUser.setOnClickListener(new View.OnClickListener() {
@@ -244,8 +253,6 @@ public class HealthOrgMainActivity extends Activity {
             }
         });
 
-        //TODO ADD INTERACTION ON CLICK WITH ListView results
-
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,31 +279,26 @@ public class HealthOrgMainActivity extends Activity {
 
         for (int i=0; i < tempList.size(); i++)
         {
-            String tempString = tempList.get(i).getNRIC() + ", " + tempList.get(i).getFirstName() + " " + tempList.get(i).getLastName();
+            String tempString = tempList.get(i).NRIC + ", " + tempList.get(i).firstName + " " + tempList.get(i).lastName;
             lvUsers.add(tempString);
         }
 
         ArrayAdapter<String> usersAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lvUsers);
         result.setAdapter(usersAdapter);
-        //TODO YOUR WORK HERE @JASON
-        //on click interactions
-        //youtube link might help
-        //https://youtu.be/Mja5YoL9Jak
-        // on click leads to generic_manageuser
+
         result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent mainIntent = new Intent(HealthOrgMainActivity.this, GenericManageUserActivity.class);
+                String text = (String) parent.getItemAtPosition(position);
+                String fakeNRIC = text.substring(0, text.indexOf(","));
+                mainIntent.putExtra("SINGLE_NRIC", fakeNRIC);
                 HealthOrgMainActivity.this.startActivity(mainIntent);
-                HealthOrgMainActivity.this.finish();
             }
         });
 
-
         return !tempList.isEmpty();
     }
-
-
 
     void displaySuccess() {
         Toast.makeText(getApplicationContext(), "Operation Success", Toast.LENGTH_SHORT).show();
