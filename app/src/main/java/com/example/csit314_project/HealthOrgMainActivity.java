@@ -61,6 +61,14 @@ public class HealthOrgMainActivity extends Activity {
             }
         });
 
+        Button btn_generateReport = findViewById(R.id.btn_generateReport);
+        btn_generateReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateReportDialog();
+            }
+        });
+
         Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,6 +274,33 @@ public class HealthOrgMainActivity extends Activity {
         dialog.show();
     }
 
+    public void generateReportDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_generatereport, null);
+
+        ListView mostCheckIn = userPopup.findViewById(R.id.list_userResults);
+        ListView mostCases = userPopup.findViewById(R.id.txt_NRICinput);
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        //there were results
+        if(onRetrieveCovidStats(mostCases, mostCheckIn, this)) {
+            displaySuccess();
+        }
+        else {
+            displayError();
+        }
+
+        dialogBuilder.setView(userPopup);
+        dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
     boolean onAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         UserController UC = UserController.getInstance();
         return UC.validateOnAddUser(NRIC, gender, firstName, lastName, email, contactNumber, username, password, userType, context);
@@ -298,6 +333,11 @@ public class HealthOrgMainActivity extends Activity {
         });
 
         return !tempList.isEmpty();
+    }
+
+    boolean onRetrieveCovidStats(ListView mostCases, ListView mostCheckIn, Context context) {
+        //TODO QING PLS FOLLOW UP U FUCK
+        return false;
     }
 
     void displaySuccess() {
