@@ -1,3 +1,10 @@
+/*
+filename	BusinessMainActivity.java
+authors     Zheng Qingping
+UOW email   qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: BusinessMainActivity class
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;

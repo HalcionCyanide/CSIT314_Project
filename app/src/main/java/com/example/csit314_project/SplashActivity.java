@@ -1,3 +1,10 @@
+/*
+filename   SplashActivity.java
+authors    Zheng Qingping
+UOW email	qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: SplashScreen Activity
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;
@@ -12,8 +19,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        /* New Handler to start the Menu-Activity
-         * and close this Splash-Screen after some seconds.*/
+        /* New Handler to start the Menu-Activity and close this Splash-Screen after some seconds.*/
         int SPLASH_DISPLAY_LENGTH = 1000; //time is in ms
         new Handler().postDelayed(new Runnable(){
             @Override

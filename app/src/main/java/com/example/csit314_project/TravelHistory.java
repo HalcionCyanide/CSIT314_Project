@@ -1,3 +1,11 @@
+/*
+filename    TravelHistory.java
+authors     Zheng Qingping
+UOW email   qzheng011@uowmail.edu.au
+Course:     CSIT314
+Brief Description:
+Travel History base class
+*/
 package com.example.csit314_project;
 
 import android.content.Context;
@@ -16,10 +24,24 @@ public class TravelHistory {
     public String timeIn;
     public String timeOut;
     public String location;
+    DatabaseHelper dbHelper;
 
+    /*
+    Function Name: getDuration
+    Brief Description: returns the duration based on Time in and time out
+    Parameters: None
+    */
     public String getDuration () {
         return updateDuration(timeIn, timeOut);
     }
+
+    /*
+    Function Name: updateDuration
+    Brief Description: measures the duration of the visit.
+    Parameters:
+    timeIn : time of check in, formatted in "dd/MM/yyyy HH:mm"
+    timeOut : time of check out, formatted in "dd/MM/yyyy HH:mm"
+    */
     private String updateDuration(String timeIn, String timeOut){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String returnStr = "";
@@ -92,8 +114,13 @@ public class TravelHistory {
         return returnStr;
     }
 
-    DatabaseHelper dbHelper;
-
+    /*
+    Function Name: getByMostCases
+    Brief Description: Accesses the database, returning a list of locations where COVID = 1, sorted.
+    Parameters:
+    limit : maximum number of entries
+    context : app context for the database opening
+    */
     public List<String> getByMostCases(int limit, Context context) {
         dbHelper = new DatabaseHelper(context);
         List<String> tempList = new ArrayList<String>();
@@ -125,6 +152,13 @@ public class TravelHistory {
         return tempList;
     }
 
+    /*
+    Function Name: getByMostCheckIn
+    Brief Description: Accesses the database, returning a list of locations, by number of times Checked-in.
+    Parameters:
+    limit : maximum number of entries
+    context : app context for the database opening
+    */
     public List<String> getByMostCheckIn(int limit, Context context) {
         dbHelper = new DatabaseHelper(context);
         List<String> tempList = new ArrayList<String>();

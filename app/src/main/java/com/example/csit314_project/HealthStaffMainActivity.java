@@ -1,11 +1,10 @@
-/******************************************************************************
- filename	HealthStaffMainActivity.java
- author      	Zheng Qingping
- UOW email	qzheng011@uowmail.edu.au
- Course: 	CSIT314
- Brief Description:
- Health Staff main Activity
- ******************************************************************************/
+/*
+filename    HealthStaffMainActivity.java
+author      Zheng Qingping
+UOW email	qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: Health Staff main Activity
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;

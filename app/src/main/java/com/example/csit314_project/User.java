@@ -1,11 +1,11 @@
-/******************************************************************************
- filename	User.java
- authors    Zheng Qingping, Derron, Jason
- UOW email	qzheng011@uowmail.edu.au
- Course: 	CSIT314
- Brief Description:
- Health Org main Activity
- ******************************************************************************/
+/*
+filename	User.java
+authors    Zheng Qingping, Derron, Jason
+UOW email	qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description:
+User base class
+*/
 
 package com.example.csit314_project;
 
@@ -13,7 +13,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,9 +32,18 @@ public class User {
     public boolean isSuspend;
     public List<TravelHistory> travelHistories = new ArrayList<>();
     public List<Vaccination> vaccinations = new ArrayList<>();
+    public List<Alert> alerts = new ArrayList<>();
 
     DatabaseHelper dbHelper;
 
+    /*
+    Function Name: setSuspend
+    Brief Description: Accesses the database, Flipping the status of user suspend
+    Parameters:
+    suspend : new status to set to
+    nric : Primary key
+    context : app context for the database opening
+    */
     public void setSuspend(boolean suspend, String nric, Context context) {
         dbHelper = new DatabaseHelper(context);
         try {
@@ -47,11 +55,19 @@ public class User {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("IsSuspend", suspend);
-            int i = db.update("UserData", values, "NRIC = '" + nric + "'", null);
+            db.update("UserData", values, "NRIC = '" + nric + "'", null);
         }
         dbHelper.close();
     }
 
+    /*
+    Function Name: setCovid
+    Brief Description: Accesses the database, Flipping the status of user covid
+    Parameters:
+    covid : new status to set to
+    nric : Primary key
+    context : app context for the database opening
+    */
     public void setCovid(boolean covid, String nric, Context context) {
         dbHelper = new DatabaseHelper(context);
         try {
@@ -63,11 +79,18 @@ public class User {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("HasCovid", covid);
-            int i = db.update("UserData", values, "NRIC = '" + nric + "'", null);
+            db.update("UserData", values, "NRIC = '" + nric + "'", null);
         }
         dbHelper.close();
     }
 
+    /*
+    Function Name: addUser
+    Brief Description: Accesses the database adding a new entry
+    Parameters:
+    All member variables of the user
+    context : app context for the database opening
+    */
     public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
@@ -77,7 +100,6 @@ public class User {
             e.printStackTrace();
         }
         if(dbHelper.openDataBase()) {
-            //attempt to search for this user
             //add the user
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -97,6 +119,13 @@ public class User {
         dbHelper.close();
     }
 
+    /*
+    Function Name: findSingleUserByUsername
+    Brief Description: Accesses the database returning a single user
+    Parameters:
+    Username : username to search for
+    context : app context for the database opening
+    */
     public User findSingleUserByUsername(String username, Context context) {
         dbHelper = new DatabaseHelper(context);
         try {
@@ -131,6 +160,13 @@ public class User {
         return null;
     }
 
+    /*
+    Function Name: findSingleUserByNRIC
+    Brief Description: Accesses the database returning a single user
+    Parameters:
+    NRIC : NRIC to search for
+    context : app context for the database opening
+    */
     public User findSingleUserByNRIC(String NRIC, Context context) {
         dbHelper = new DatabaseHelper(context);
         try {
@@ -166,23 +202,32 @@ public class User {
         return null;
     }
 
+    /*
+    Function Name: findUserSpecial
+    Brief Description: Accesses the database returning a list of users user
+    Parameters:
+    NRIC : NRIC to search for
+    userType : userType to search for
+    username : username to search for
+    context : app context for the database opening
+    */
     public List<User> findUserSpecial(String NRIC, String userType, String username, Context context) {
         dbHelper = new DatabaseHelper(context);
-        List<User> tempList = new ArrayList<User>();
+        List<User> tempList = new ArrayList<>();
 
-        String userTypestr = ""; //this will trigger a crash
+        String userTypeStr = ""; //this will trigger a crash
         if (!userType.isEmpty()) {
-            userTypestr = " Roles = '" + userType + "'";
+            userTypeStr = " Roles = '" + userType + "'";
         }
 
-        String NRICstr = "";
+        String NRICStr = "";
         if (!NRIC.isEmpty()) {
-            NRICstr += " AND NRIC = '" + NRIC + "'";
+            NRICStr += " AND NRIC = '" + NRIC + "'";
         }
 
-        String usernamestr = "";
+        String usernameStr = "";
         if (!username.isEmpty()) {
-            usernamestr = " AND Username = '" + username + "'";
+            usernameStr = " AND Username = '" + username + "'";
         }
 
         try {
@@ -192,7 +237,7 @@ public class User {
         }
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String query = String.format("SELECT * FROM UserData WHERE%s%s%s", userTypestr, NRICstr, usernamestr);
+            String query = String.format("SELECT * FROM UserData WHERE%s%s%s", userTypeStr, NRICStr, usernameStr);
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -213,12 +258,19 @@ public class User {
 
                     tempList.add(data);
                 }
+                cursor.close();
             }
-            cursor.close();
         }
         return tempList;
     }
 
+    /*
+    Function Name: updateTravelAndVax
+    Brief Description: Accesses the database , updating the travel history and vaccination record of the calling user
+    Parameters:
+    NRIC : NRIC to update
+    context : app context for the database opening
+    */
     void updateTravelAndVax(String NRIC, Context context) {
         dbHelper = new DatabaseHelper(context);
         try {
@@ -240,8 +292,8 @@ public class User {
 
                     travelHistories.add(dummyHist);
                 }
+                TravelHistCursor.close();
             }
-            TravelHistCursor.close();
 
             String query3 = "SELECT * FROM Vaccination WHERE NRIC = '" + NRIC + "'";
             Cursor VaxCursor = db.rawQuery(query3, null);
@@ -255,8 +307,8 @@ public class User {
 
                     vaccinations.add(dummyVax);
                 }
+                VaxCursor.close();
             }
-            VaxCursor.close();
         }
     }
 }

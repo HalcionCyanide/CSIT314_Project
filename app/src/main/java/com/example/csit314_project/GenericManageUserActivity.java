@@ -1,3 +1,11 @@
+/*
+filename    GenericManageUserActivity.java
+authors     Zheng Qingping, Derron, Jason
+UOW email   qzheng011@uowmail.edu.au
+Course:     CSIT314
+Brief Description:
+GenericManageUserActivity class
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;
@@ -90,6 +98,11 @@ public class GenericManageUserActivity extends Activity {
         }
     }
 
+    /*
+    Function Name: generateVaccineDialog
+    Brief Description: creates a Dialog based on R.layout.manage_vaccination
+    Parameters: None
+    */
     void generateVaccineDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.manage_vaccination, null);
@@ -120,6 +133,11 @@ public class GenericManageUserActivity extends Activity {
         dialog.show();
     }
 
+    /*
+    Function Name: generateTravelHistoryDialog
+    Brief Description: creates a Dialog based on R.layout.manage_travelhistory
+    Parameters: None
+    */
     void generateTravelHistoryDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.manage_travelhistory, null);
@@ -143,6 +161,11 @@ public class GenericManageUserActivity extends Activity {
         dialog.show();
     }
 
+    /*
+    Function Name: displayUserInfo
+    Brief Description: Default user info printing
+    Parameters: None
+    */
     void displayUserInfo() {
         fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
 

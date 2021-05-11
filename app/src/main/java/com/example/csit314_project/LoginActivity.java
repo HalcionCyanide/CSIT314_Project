@@ -1,3 +1,10 @@
+/*
+filename   LoginActivity.java
+authors    Zheng Qingping
+UOW email	qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: Login Activity
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;
@@ -23,6 +30,11 @@ public class LoginActivity extends Activity {
         displayLogin();
     }
 
+    /*
+    Function Name: displayLogin
+    Brief Description: Prints UI
+    Parameters: None
+    */
     void displayLogin() {
         txtUsername = findViewById(R.id.txt_username);
         txtPassword = findViewById(R.id.txt_password);
@@ -75,16 +87,33 @@ public class LoginActivity extends Activity {
         });
     }
 
+    /*
+    Function Name: onLogin
+    Brief Description: Connector function between boundary and entity
+    Parameters:
+    username: String from boundary
+    password: String from boundary
+    */
     boolean onLogin(String username, String password) throws IOException {
         //let the login controller handle it, for now....
         UserController UC = UserController.getInstance();
         return UC.validateOnLogin(username, password, LoginActivity.this);
     }
 
+    /*
+    Function Name: displaySuccess
+    Brief Description: Prints Success toast
+    Parameters: None
+    */
     void displaySuccess() {
         Toast.makeText(getApplicationContext(), "Login Success, welcome " + txtUsername.getText() , Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    Function Name: displayError
+    Brief Description: Prints Error toast
+    Parameters: None
+    */
     void displayError() {
         Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
     }

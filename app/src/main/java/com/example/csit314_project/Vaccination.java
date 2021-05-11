@@ -1,3 +1,11 @@
+/*
+filename    Vaccination.java
+authors     Zheng Qingping, Derron, Jason
+UOW email   qzheng011@uowmail.edu.au
+Course:     CSIT314
+Brief Description:
+Vaccination base class
+*/
 package com.example.csit314_project;
 
 import android.content.ContentValues;
@@ -14,7 +22,16 @@ public class Vaccination {
 
     DatabaseHelper dbHelper;
 
-    public void addVaccination(String NRIC, String vaccination_brand,String first_vaccination, Context context) {
+    /*
+    Function Name: addVaccination
+    Brief Description: Accesses the database, adding a new entry
+    Parameters:
+    NRIC : Primary key
+    vaccination_brand : String of vaccination brand
+    first_vaccination : date of first vaccination formatted in dd/MM/yyyy HH:mm
+    context : app context for the database opening
+    */
+    public void addVaccination(String NRIC, String vaccination_brand, String first_vaccination, Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
         try{
@@ -23,7 +40,6 @@ public class Vaccination {
             e.printStackTrace();
         }
         if (dbHelper.openDataBase()) {
-            //attempt to search for vaccination
             //add vaccination
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -32,8 +48,6 @@ public class Vaccination {
             values.put("First_Vaccination", first_vaccination);
 
             db.insert("Vaccination", null, values);
-
-
         }
     }
 }

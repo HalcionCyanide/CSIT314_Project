@@ -1,3 +1,10 @@
+/*
+filename	DatePicker.java
+authors     Zheng Qingping
+UOW email   qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: Datepicker helper class
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;
@@ -51,6 +58,4 @@ public class DatePicker implements View.OnClickListener, DatePickerDialog.OnDate
                 // Month is 0 based so add 1
                 .append(_day).append("/").append(_month + 1).append("/").append(_birthYear).append(" "));
     }
-
-
 }

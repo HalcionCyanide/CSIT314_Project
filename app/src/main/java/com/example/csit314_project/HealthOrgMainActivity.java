@@ -1,11 +1,10 @@
-/******************************************************************************
- filename	HealthOrgMainActivity.java
- authors      	Zheng Qingping, Derron, Jason
- UOW email	qzheng011@uowmail.edu.au
- Course: 	CSIT314
- Brief Description:
- Health Org main Activity
- ******************************************************************************/
+/*
+filename   HealthOrgMainActivity.java
+authors    Zheng Qingping, Derron, Jason
+UOW email	qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: Health Org main Activity
+*/
 
 package com.example.csit314_project;
 
@@ -40,6 +39,11 @@ public class HealthOrgMainActivity extends Activity {
         displayPage();
     }
 
+    /*
+    Function Name: displayPage
+    Brief Description: Prints UI
+    Parameters: None
+    */
     void displayPage() {
         UserController LC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
@@ -82,6 +86,11 @@ public class HealthOrgMainActivity extends Activity {
         });
     }
 
+    /*
+    Function Name: addNewUserDialog
+    Brief Description: creates a Dialog based on R.layout.healthorg_adduser
+    Parameters: None
+    */
     public void addNewUserDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_adduser, null);
@@ -225,6 +234,11 @@ public class HealthOrgMainActivity extends Activity {
         dialog.show();
     }
 
+    /*
+    Function Name: searchUserDialog
+    Brief Description: creates a Dialog based on R.layout.generic_searchuser
+    Parameters: None
+    */
     public void searchUserDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.generic_searchuser, null);
@@ -274,6 +288,11 @@ public class HealthOrgMainActivity extends Activity {
         dialog.show();
     }
 
+    /*
+    Function Name: generateReportDialog
+    Brief Description: creates a Dialog based on R.layout.healthorg_generatereport
+    Parameters: None
+    */
     public void generateReportDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_generatereport, null);
@@ -301,11 +320,26 @@ public class HealthOrgMainActivity extends Activity {
         dialog.show();
     }
 
+    /*
+    Function Name: onAddUser
+    Brief Description: when triggered, calls for controller to perform the action
+    Parameters:
+    ALL parameters from User class
+    context : app context for the database opening
+    */
     boolean onAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         UserController UC = UserController.getInstance();
         return UC.validateOnAddUser(NRIC, gender, firstName, lastName, email, contactNumber, username, password, userType, context);
     }
 
+    /*
+    Function Name: onSearchUser
+    Brief Description: when triggered, calls for controller to perform the action
+    Parameters:
+    result : resulting list view to modify
+    NRIC, userType, username : parameters from UI, passed to controller
+    context : app context for the database opening
+    */
     boolean onSearchUser(ListView result, String NRIC, String userType, String username, Context context) {
         UserController UC = UserController.getInstance();
         List<User> tempList = UC.validateOnSearchUser(NRIC, userType, username, context);
@@ -335,6 +369,14 @@ public class HealthOrgMainActivity extends Activity {
         return !tempList.isEmpty();
     }
 
+    /*
+    Function Name: onRetrieveCovidStats
+    Brief Description: when triggered, calls for controller to perform the action
+    Parameters:
+    mostCases : resulting list view to modify
+    mostCheckIn : resulting list view to modify
+    context : app context for the database opening
+    */
     boolean onRetrieveCovidStats(ListView mostCases, ListView mostCheckIn, Context context) {
         TravelHistory dummyTH = new TravelHistory();
         List<String> cases, checks;
@@ -351,10 +393,20 @@ public class HealthOrgMainActivity extends Activity {
         return (!cases.isEmpty() || !checks.isEmpty());
     }
 
+    /*
+    Function Name: displaySuccess
+    Brief Description: Prints Success toast
+    Parameters: None
+    */
     void displaySuccess() {
         Toast.makeText(getApplicationContext(), "Operation Success", Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    Function Name: displayError
+    Brief Description: Prints Error toast
+    Parameters: None
+    */
     void displayError() {
         Toast.makeText(getApplicationContext(), "Operation Failed!", Toast.LENGTH_SHORT).show();
     }

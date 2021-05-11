@@ -1,3 +1,11 @@
+/*
+filename    UserController.java
+authors     Zheng Qingping
+UOW email   qzheng011@uowmail.edu.au
+Course:     CSIT314
+Brief Description:
+UserController singleton managing persistent information in app lifetime
+*/
 package com.example.csit314_project;
 
 import android.content.Context;
@@ -14,6 +22,11 @@ public class UserController {
     //just a temporary holder for the user
     public User currentUser;
 
+    /*
+    Function Name: getInstance
+    Brief Description: Returns the static Instance of the UserController
+    Parameters: None
+    */
     public static UserController getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new UserController();
@@ -21,6 +34,14 @@ public class UserController {
         return(INSTANCE);
     }
 
+    /*
+    Function Name: validateOnLogin
+    Brief Description: verifies the entry from the calling boundary and the User class
+    Parameters:
+    username : string received from the boundary
+    password : string received from the boundary
+    context : app context for the database opening
+    */
     protected boolean validateOnLogin(String username, String password, Context context) throws IOException {
         User user = new User();
         user = user.findSingleUserByUsername(username, context);
@@ -36,6 +57,13 @@ public class UserController {
         return false;
     }
 
+    /*
+    Function Name: validateOnAddUser
+    Brief Description: tests the database if a user can be added
+    Parameters:
+    All parameters from the User class
+    context : app context for the database opening
+    */
     protected boolean validateOnAddUser(String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         User user = new User();
         //if the user cannot be found
@@ -46,22 +74,50 @@ public class UserController {
         return false;
     }
 
+    /*
+    Function Name: validateOnLogin
+    Brief Description: removes reference to currently accessing user
+    Parameters: None
+    */
     protected void logout() {
         currentUser = null;
     }
 
+    /*
+    Function Name: validateOnSearchUser
+    Brief Description: returns List of users based on parameters from boundary
+    Parameters:
+    nric : string received from the boundary
+    userType : string received from the boundary
+    username : string received from the boundary
+    context : app context for the database opening
+    */
     public List<User> validateOnSearchUser(String nric, String userType, String username, Context context) {
         User user = new User();
         //if the user cannot be found
         return user.findUserSpecial(nric, userType, username, context);
     }
 
+    /*
+    Function Name: validateOnSearchUser
+    Brief Description: overload, returns single user based on parameters from boundary
+    Parameters:
+    nric : string received from the boundary
+    context : app context for the database opening
+    */
     public User validateOnSearchUser(String nric, Context context) {
         User user = new User();
         //if the user cannot be found
         return user.findSingleUserByNRIC(nric, context);
     }
 
+    /*
+    Function Name: toggleSuspension
+    Brief Description: Causes single user to flip suspension
+    Parameters:
+    nric : string received from the boundary
+    context : app context for the database opening
+    */
     public void toggleSuspension(String nric, Context context) {
         User user = new User();
         user = user.findSingleUserByNRIC(nric, context);
@@ -71,6 +127,13 @@ public class UserController {
         }
     }
 
+    /*
+    Function Name: toggleCovid
+    Brief Description: Causes single user to flip suspension
+    Parameters:
+    nric : string received from the boundary
+    context : app context for the database opening
+    */
     public void toggleCovid(String nric, Context context) {
         User user = new User();
         user = user.findSingleUserByNRIC(nric, context);

@@ -1,3 +1,10 @@
+/*
+filename   PublicMainActivity.java
+authors    Zheng Qingping
+UOW email	qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: Public user main Activity
+*/
 package com.example.csit314_project;
 
 import android.app.Activity;

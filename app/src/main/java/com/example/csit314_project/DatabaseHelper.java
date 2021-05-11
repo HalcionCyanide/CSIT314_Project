@@ -1,3 +1,10 @@
+/*
+filename	DatabaseHelper.java
+authors     Zheng Qingping
+UOW email   qzheng011@uowmail.edu.au
+Course: 	CSIT314
+Brief Description: DatabaseHelper class, sql backend belongs here
+*/
 package com.example.csit314_project;
 
 import android.content.Context;
