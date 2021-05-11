@@ -31,7 +31,7 @@ public class User {
     public boolean hasCovid;
     public boolean isSuspend;
     public List<TravelHistory> travelHistories = new ArrayList<>();
-    public List<Vaccination> vaccinations = new ArrayList<>();
+    public Vaccination vaccinations;
     public List<Alert> alerts = new ArrayList<>();
 
     DatabaseHelper dbHelper;
@@ -305,7 +305,7 @@ public class User {
                     dummyVax.first_vaccination = VaxCursor.getString(2);
                     dummyVax.second_vaccination = VaxCursor.getString(3);
 
-                    vaccinations.add(dummyVax);
+                    vaccinations = dummyVax;
                 }
                 VaxCursor.close();
             }

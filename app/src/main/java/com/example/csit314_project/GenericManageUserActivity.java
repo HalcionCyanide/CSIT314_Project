@@ -110,7 +110,20 @@ public class GenericManageUserActivity extends Activity {
         /*TODO SPIT THE INFO HERE, ITS TIED INSIDE THE USER.vaccinations
         I HAVE BINDED THE UI ELEMENTS FOR YOU
         */
+        UserController UC = UserController.getInstance();
+        User user = UC.validateOnSearchUser(fakeNRIC,GenericManageUserActivity.this);
+        ListView vListView = userPopup.findViewById(R.id.list_vaccination);
         TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
+
+        txt_NRIC.setText(fakeNRIC);
+
+        arrayList.clear();
+        arrayList.add("Vaccination Brand: " + user.vaccinations.vaccination_brand);
+        arrayList.add("First Vaccination: " + user.vaccinations.first_vaccination);
+        arrayList.add("Second Vaccination: " + user.vaccinations.second_vaccination);
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
+        vListView.setAdapter(adapter);
         ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
 
         Button btn_addVax = userPopup.findViewById(R.id.btn_addVaccination);
@@ -118,6 +131,11 @@ public class GenericManageUserActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //TODO ADD VACCINATION
+                Vaccination newVaccination = new Vaccination();
+                newVaccination.NRIC = fakeNRIC;
+
+                user.vaccinations = newVaccination;
+
             }
         });
 
