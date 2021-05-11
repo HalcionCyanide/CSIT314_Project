@@ -157,6 +157,9 @@ public class GenericManageUserActivity extends Activity {
     Parameters: None
     */
     void generateTravelHistoryDialog() {
+        UserController UC = UserController.getInstance();
+        User user = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.manage_travelhistory, null);
 
@@ -166,6 +169,18 @@ public class GenericManageUserActivity extends Activity {
 
         TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
         ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
+
+        txt_NRIC.setText(fakeNRIC);
+
+        arrayList.clear();
+        for (int i=0; i < user.travelHistories.size(); i++)
+        {
+            String temptravhist = user.travelHistories.get(i).timeIn + user.travelHistories.get(i).timeOut + user.travelHistories.get(i).location;
+            arrayList.add(temptravhist);
+        }
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
+        list_TravelHistory.setAdapter(adapter);
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
