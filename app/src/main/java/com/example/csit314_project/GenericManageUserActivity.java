@@ -1,6 +1,7 @@
 package com.example.csit314_project;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,8 @@ public class GenericManageUserActivity extends Activity {
     ListView userInfo;
     ArrayList<String> arrayList;
     ArrayAdapter<String> adapter;
+
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,15 @@ public class GenericManageUserActivity extends Activity {
                     arrayList.set(6, "Toggle Covid: " + displayedUser.hasCovid);
                     adapter.notifyDataSetChanged();
                 }
+                else if(text.contains("Vac")) {
+                    //perform actions for view of vaccinations
+                    generateVaccineDialog();
+                }
+                else if(text.contains("Travel")) {
+                    //perform actions for view of travel history
+                    generateTravelHistoryDialog();
+                }
+
             }
         });
 
@@ -75,6 +88,59 @@ public class GenericManageUserActivity extends Activity {
             //set visibility of button SEND ALERT
             btn_sendAlert.setVisibility(View.VISIBLE);
         }
+    }
+
+    void generateVaccineDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.manage_vaccination, null);
+
+        /*TODO SPIT THE INFO HERE, ITS TIED INSIDE THE USER.vaccinations
+        I HAVE BINDED THE UI ELEMENTS FOR YOU
+        */
+        TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
+        ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
+
+        Button btn_addVax = userPopup.findViewById(R.id.btn_addVaccination);
+        btn_addVax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO ADD VACCINATION
+            }
+        });
+
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialogBuilder.setView(userPopup);
+        dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    void generateTravelHistoryDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.manage_travelhistory, null);
+
+        /*TODO SPIT THE INFO HERE, ITS TIED INSIDE THE USER.travelhistories
+        I HAVE BINDED THE UI ELEMENTS FOR YOU
+        */
+
+        TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
+        ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
+
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialogBuilder.setView(userPopup);
+        dialog = dialogBuilder.create();
+        dialog.show();
     }
 
     void displayUserInfo() {

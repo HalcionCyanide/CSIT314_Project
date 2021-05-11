@@ -31,8 +31,8 @@ public class User {
     public String role;
     public boolean hasCovid;
     public boolean isSuspend;
-    public List<TravelHistory> travelHistories;
-    public List<Vaccination> vaccinations;
+    public List<TravelHistory> travelHistories = new ArrayList<>();
+    public List<Vaccination> vaccinations = new ArrayList<>();
 
     DatabaseHelper dbHelper;
 
@@ -121,6 +121,7 @@ public class User {
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getLong(9) != 0;
                 data.isSuspend = cursor.getLong(10) != 0;
+                data.updateTravelAndVax(data.NRIC, context);
                 cursor.close();
                 return data;
             } else {
@@ -154,7 +155,9 @@ public class User {
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getInt(9) != 0;
                 data.isSuspend = cursor.getLong(10) != 0;
+                data.updateTravelAndVax(data.NRIC, context);
                 cursor.close();
+
                 return data;
             } else {
                 return null;
@@ -205,11 +208,55 @@ public class User {
                     data.role = cursor.getString(8);
                     data.hasCovid = cursor.getInt(9) != 0;
                     data.isSuspend = cursor.getLong(10) != 0;
+
+                    data.updateTravelAndVax(data.NRIC, context);
+
                     tempList.add(data);
                 }
-                cursor.close();
             }
+            cursor.close();
         }
         return tempList;
+    }
+
+    void updateTravelAndVax(String NRIC, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        try {
+            dbHelper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String query2 = "SELECT * FROM TravelHistory WHERE NRIC = '" + NRIC + "'";
+            Cursor TravelHistCursor = db.rawQuery(query2, null);
+            if(TravelHistCursor != null) {
+                while (TravelHistCursor.moveToNext()) {
+                    TravelHistory dummyHist = new TravelHistory();
+                    dummyHist.NRIC = TravelHistCursor.getString(0);
+                    dummyHist.timeIn = TravelHistCursor.getString(1);
+                    dummyHist.timeOut = TravelHistCursor.getString(2);
+                    dummyHist.location = TravelHistCursor.getString(3);
+
+                    travelHistories.add(dummyHist);
+                }
+            }
+            TravelHistCursor.close();
+
+            String query3 = "SELECT * FROM Vaccination WHERE NRIC = '" + NRIC + "'";
+            Cursor VaxCursor = db.rawQuery(query3, null);
+            if(VaxCursor != null) {
+                while (VaxCursor.moveToNext()) {
+                    Vaccination dummyVax = new Vaccination();
+                    dummyVax.NRIC = VaxCursor.getString(0);
+                    dummyVax.vaccination_brand = VaxCursor.getString(1);
+                    dummyVax.first_vaccination = VaxCursor.getString(2);
+                    dummyVax.second_vaccination = VaxCursor.getString(3);
+
+                    vaccinations.add(dummyVax);
+                }
+            }
+            VaxCursor.close();
+        }
     }
 }
