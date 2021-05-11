@@ -278,8 +278,8 @@ public class HealthOrgMainActivity extends Activity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.healthorg_generatereport, null);
 
-        ListView mostCheckIn = userPopup.findViewById(R.id.list_userResults);
-        ListView mostCases = userPopup.findViewById(R.id.txt_NRICinput);
+        ListView mostCheckIn = userPopup.findViewById(R.id.list_mostCheckIn);
+        ListView mostCases = userPopup.findViewById(R.id.list_mostCases);
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,11 +336,19 @@ public class HealthOrgMainActivity extends Activity {
     }
 
     boolean onRetrieveCovidStats(ListView mostCases, ListView mostCheckIn, Context context) {
-        //TODO QING PLS FOLLOW UP U FUCK
+        TravelHistory dummyTH = new TravelHistory();
+        List<String> cases, checks;
+        cases = dummyTH.getByMostCases(4, context);
+        checks = dummyTH.getByMostCheckIn(4, context);
 
+        ArrayList<String> mCases = new ArrayList<>(cases);
+        ArrayAdapter<String> casesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mCases);
+        mostCases.setAdapter(casesAdapter);
+        ArrayList<String> mCheck = new ArrayList<>(checks);
+        ArrayAdapter<String> checksAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mCheck);
+        mostCheckIn.setAdapter(checksAdapter);
 
-
-        return false;
+        return (!cases.isEmpty() || !checks.isEmpty());
     }
 
     void displaySuccess() {

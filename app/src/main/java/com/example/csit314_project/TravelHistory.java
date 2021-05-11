@@ -116,7 +116,7 @@ public class TravelHistory {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    String data = cursor.getString(0) + " " + cursor.getString(1);
+                    String data = cursor.getString(0) + " Cases: " + cursor.getString(1);
                     tempList.add(data);
                 }
                 cursor.close();
@@ -146,7 +146,7 @@ public class TravelHistory {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    String data = cursor.getString(0) + " " + cursor.getString(1);
+                    String data = cursor.getString(0) + " Check-ins: " + cursor.getString(1);
                     tempList.add(data);
                 }
                 cursor.close();

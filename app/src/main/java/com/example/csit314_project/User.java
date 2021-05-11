@@ -31,6 +31,8 @@ public class User {
     public String role;
     public boolean hasCovid;
     public boolean isSuspend;
+    public List<TravelHistory> travelHistories;
+    public List<Vaccination> vaccinations;
 
     DatabaseHelper dbHelper;
 
