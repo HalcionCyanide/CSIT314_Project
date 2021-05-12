@@ -10,14 +10,13 @@ package com.example.csit314_project;
 
 import android.content.Context;
 
-import java.io.IOException;
 import java.util.List;
 
 public class UserController {
 
     private static UserController INSTANCE = null;
 
-    private UserController() {};
+    private UserController() {}
 
     //just a temporary holder for the user
     public User currentUser;
@@ -42,7 +41,7 @@ public class UserController {
     password : string received from the boundary
     context : app context for the database opening
     */
-    protected boolean validateOnLogin(String username, String password, Context context) throws IOException {
+    protected boolean validateOnLogin(String username, String password, Context context) {
         User user = new User();
         user = user.findSingleUserByUsername(username, context);
         //if there is such a user
@@ -72,15 +71,6 @@ public class UserController {
             return true;
         }
         return false;
-    }
-
-    /*
-    Function Name: validateOnLogin
-    Brief Description: removes reference to currently accessing user
-    Parameters: None
-    */
-    protected void logout() {
-        currentUser = null;
     }
 
     /*

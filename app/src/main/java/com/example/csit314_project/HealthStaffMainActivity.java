@@ -26,14 +26,11 @@ public class HealthStaffMainActivity extends Activity {
         currUser.setText(UC.currentUser.username);
 
         Button btn_logout = findViewById(R.id.btn_search);
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-                Intent mainIntent = new Intent(HealthStaffMainActivity.this, LoginActivity.class);
-                HealthStaffMainActivity.this.startActivity(mainIntent);
-                HealthStaffMainActivity.this.finish();
-            }
+        btn_logout.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
+            Intent mainIntent = new Intent(HealthStaffMainActivity.this, LoginActivity.class);
+            HealthStaffMainActivity.this.startActivity(mainIntent);
+            HealthStaffMainActivity.this.finish();
         });
     }
 }

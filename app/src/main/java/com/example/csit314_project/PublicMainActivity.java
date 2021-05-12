@@ -10,7 +10,6 @@ package com.example.csit314_project;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +26,11 @@ public class PublicMainActivity extends Activity {
         currUser.setText(UC.currentUser.username);
 
         Button btn_logout = findViewById(R.id.btn_search);
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-                Intent mainIntent = new Intent(PublicMainActivity.this, LoginActivity.class);
-                PublicMainActivity.this.startActivity(mainIntent);
-                PublicMainActivity.this.finish();
-            }
+        btn_logout.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
+            Intent mainIntent = new Intent(PublicMainActivity.this, LoginActivity.class);
+            PublicMainActivity.this.startActivity(mainIntent);
+            PublicMainActivity.this.finish();
         });
     }
 }

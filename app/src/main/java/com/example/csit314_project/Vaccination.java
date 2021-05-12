@@ -12,8 +12,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.io.IOException;
-
 public class Vaccination {
     public String NRIC;
     public String vaccination_brand;
@@ -34,11 +32,7 @@ public class Vaccination {
     public void addVaccination(String NRIC, String vaccination_brand, String first_vaccination, Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
-        try{
-            dbHelper.createDataBase();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             //add vaccination
             SQLiteDatabase db = dbHelper.getWritableDatabase();

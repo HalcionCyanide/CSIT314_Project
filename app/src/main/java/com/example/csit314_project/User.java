@@ -13,8 +13,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +44,7 @@ public class User {
     */
     public void setSuspend(boolean suspend, String nric, Context context) {
         dbHelper = new DatabaseHelper(context);
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -70,11 +64,7 @@ public class User {
     */
     public void setCovid(boolean covid, String nric, Context context) {
         dbHelper = new DatabaseHelper(context);
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -94,11 +84,7 @@ public class User {
     public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             //add the user
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -128,11 +114,7 @@ public class User {
     */
     public User findSingleUserByUsername(String username, Context context) {
         dbHelper = new DatabaseHelper(context);
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query = "SELECT * FROM UserData WHERE Username = '" + username + "'";
@@ -169,11 +151,7 @@ public class User {
     */
     public User findSingleUserByNRIC(String NRIC, Context context) {
         dbHelper = new DatabaseHelper(context);
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query = "SELECT * FROM UserData WHERE NRIC = '" + NRIC + "'";
@@ -230,11 +208,7 @@ public class User {
             usernameStr = " AND Username = '" + username + "'";
         }
 
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query = String.format("SELECT * FROM UserData WHERE%s%s%s", userTypeStr, NRICStr, usernameStr);
@@ -273,11 +247,7 @@ public class User {
     */
     void updateTravelAndVax(String NRIC, Context context) {
         dbHelper = new DatabaseHelper(context);
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query2 = "SELECT * FROM TravelHistory WHERE NRIC = '" + NRIC + "'";

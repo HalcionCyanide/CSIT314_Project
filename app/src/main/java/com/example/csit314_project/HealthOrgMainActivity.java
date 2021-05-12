@@ -50,38 +50,20 @@ public class HealthOrgMainActivity extends Activity {
         currUser.setText(UC.currentUser.username);
 
         Button btn_addUser = findViewById(R.id.btn_addUser);
-        btn_addUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewUserDialog();
-            }
-        });
+        btn_addUser.setOnClickListener(v -> addNewUserDialog());
 
         Button btn_searchUser = findViewById(R.id.btn_searchUser);
-        btn_searchUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchUserDialog();
-            }
-        });
+        btn_searchUser.setOnClickListener(v -> searchUserDialog());
 
         Button btn_generateReport = findViewById(R.id.btn_generateReport);
-        btn_generateReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateReportDialog();
-            }
-        });
+        btn_generateReport.setOnClickListener(v -> generateReportDialog());
 
         Button btn_logout = findViewById(R.id.btn_search);
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-                Intent mainIntent = new Intent(HealthOrgMainActivity.this, LoginActivity.class);
-                HealthOrgMainActivity.this.startActivity(mainIntent);
-                HealthOrgMainActivity.this.finish();
-            }
+        btn_logout.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
+            Intent mainIntent = new Intent(HealthOrgMainActivity.this, LoginActivity.class);
+            HealthOrgMainActivity.this.startActivity(mainIntent);
+            HealthOrgMainActivity.this.finish();
         });
     }
 
@@ -193,40 +175,32 @@ public class HealthOrgMainActivity extends Activity {
 
             }
         });
-        btn_confAddUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Parse Role
+        btn_confAddUser.setOnClickListener(v -> {
+            //Parse Role
 
-                String username = txt_resultUsername.getText().toString();
-                String password = txt_resultPassword.getText().toString();
+            String username = txt_resultUsername.getText().toString();
+            String password = txt_resultPassword.getText().toString();
 
-                //call controller
-                if (onAddUser(
-                        txt_NRIC.getText().toString(),
-                        txt_gender[0],
-                        txt_firstName.getText().toString(),
-                        txt_lastName.getText().toString(),
-                        txt_email.getText().toString(),
-                        txt_contact.getText().toString(),
-                        username,
-                        password,
-                        txt_role[0],
-                        HealthOrgMainActivity.this)) {
-                    displaySuccess();
-                }
-                else {
-                    displayError();
-                }
-                dialog.dismiss();
+            //call controller
+            if (onAddUser(
+                    txt_NRIC.getText().toString(),
+                    txt_gender[0],
+                    txt_firstName.getText().toString(),
+                    txt_lastName.getText().toString(),
+                    txt_email.getText().toString(),
+                    txt_contact.getText().toString(),
+                    username,
+                    password,
+                    txt_role[0],
+                    HealthOrgMainActivity.this)) {
+                displaySuccess();
             }
-        });
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            else {
+                displayError();
             }
+            dialog.dismiss();
         });
+        btn_cancel.setOnClickListener(v -> dialog.dismiss());
 
         dialogBuilder.setView(userPopup);
         dialog = dialogBuilder.create();
@@ -261,26 +235,18 @@ public class HealthOrgMainActivity extends Activity {
         });
 
         Button btn_search = userPopup.findViewById(R.id.btn_search);
-        btn_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onSearchUser(results, txt_NRIC.getText().toString(), txt_role[0], txt_username.getText().toString(), HealthOrgMainActivity.this)) {
-                    //if there are results
-                    displaySuccess();
-                }
-                else {
-                    displayError();
-                }
+        btn_search.setOnClickListener(v -> {
+            if (onSearchUser(results, txt_NRIC.getText().toString(), txt_role[0], txt_username.getText().toString(), HealthOrgMainActivity.this)) {
+                //if there are results
+                displaySuccess();
+            }
+            else {
+                displayError();
             }
         });
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btn_back.setOnClickListener(v -> dialog.dismiss());
 
         dialogBuilder.setView(userPopup);
         dialog = dialogBuilder.create();
@@ -299,12 +265,7 @@ public class HealthOrgMainActivity extends Activity {
         ListView mostCheckIn = userPopup.findViewById(R.id.list_mostCheckIn);
         ListView mostCases = userPopup.findViewById(R.id.list_mostCases);
         Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btn_back.setOnClickListener(v -> dialog.dismiss());
 
         //there were results
         if(onRetrieveCovidStats(mostCases, mostCheckIn, this)) {
@@ -343,7 +304,7 @@ public class HealthOrgMainActivity extends Activity {
         UserController UC = UserController.getInstance();
         List<User> tempList = UC.validateOnSearchUser(NRIC, userType, username, context);
 
-        ArrayList<String> lvUsers = new ArrayList<String>();
+        ArrayList<String> lvUsers = new ArrayList<>();
 
         for (int i=0; i < tempList.size(); i++)
         {
@@ -354,15 +315,12 @@ public class HealthOrgMainActivity extends Activity {
         ArrayAdapter<String> usersAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lvUsers);
         result.setAdapter(usersAdapter);
 
-        result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent mainIntent = new Intent(HealthOrgMainActivity.this, GenericManageUserActivity.class);
-                String text = (String) parent.getItemAtPosition(position);
-                String fakeNRIC = text.substring(0, text.indexOf(","));
-                mainIntent.putExtra("SINGLE_NRIC", fakeNRIC);
-                HealthOrgMainActivity.this.startActivity(mainIntent);
-            }
+        result.setOnItemClickListener((parent, view, position, id) -> {
+            Intent mainIntent = new Intent(HealthOrgMainActivity.this, GenericManageUserActivity.class);
+            String text = (String) parent.getItemAtPosition(position);
+            String fakeNRIC = text.substring(0, text.indexOf(","));
+            mainIntent.putExtra("SINGLE_NRIC", fakeNRIC);
+            HealthOrgMainActivity.this.startActivity(mainIntent);
         });
 
         return !tempList.isEmpty();

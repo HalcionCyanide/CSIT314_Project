@@ -11,9 +11,7 @@ package com.example.csit314_project;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,52 +40,43 @@ public class GenericManageUserActivity extends Activity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
         userInfo.setAdapter(adapter);
 
-        userInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = (String) parent.getItemAtPosition(position);
-                //if clicked on suspend and you are health_org
-                if(text.contains("Suspen") && UC.currentUser.role.equals("Health_Org")) {
-                    UC.toggleSuspension(fakeNRIC, GenericManageUserActivity.this);
-                    fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
-                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                    arrayList.set(7, "Toggle Suspended: " + displayedUser.isSuspend);
-                }
-                //if clicked on covid and you are health_staff
-                else if(text.contains("Covid") && UC.currentUser.role.equals("Health_Staff")) {
-                    UC.toggleCovid(fakeNRIC, GenericManageUserActivity.this);
-                    fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
-                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                    arrayList.set(6, "Toggle Covid: " + displayedUser.hasCovid);
-                }
-                else if(text.contains("Vac")) {
-                    //perform actions for view of vaccinations
-                    generateVaccineDialog();
-                }
-                else if(text.contains("Travel")) {
-                    //perform actions for view of travel history
-                    generateTravelHistoryDialog();
-                }
-                adapter.notifyDataSetChanged();
+        userInfo.setOnItemClickListener((parent, view, position, id) -> {
+            String text = (String) parent.getItemAtPosition(position);
+            //if clicked on suspend and you are health_org
+            if(text.contains("Suspen") && UC.currentUser.role.equals("Health_Org")) {
+                UC.toggleSuspension(fakeNRIC, GenericManageUserActivity.this);
+                fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
+                User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                arrayList.set(7, "Toggle Suspended: " + displayedUser.isSuspend);
             }
+            //if clicked on covid and you are health_staff
+            else if(text.contains("Covid") && UC.currentUser.role.equals("Health_Staff")) {
+                UC.toggleCovid(fakeNRIC, GenericManageUserActivity.this);
+                fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
+                User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                arrayList.set(6, "Toggle Covid: " + displayedUser.hasCovid);
+            }
+            else if(text.contains("Vac")) {
+                //perform actions for view of vaccinations
+                generateVaccineDialog();
+            }
+            else if(text.contains("Travel")) {
+                //perform actions for view of travel history
+                generateTravelHistoryDialog();
+            }
+            adapter.notifyDataSetChanged();
         });
 
         Button btn_back = findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //back btn interaction here
-                GenericManageUserActivity.this.finish();
-            }
+        btn_back.setOnClickListener(view -> {
+            //back btn interaction here
+            GenericManageUserActivity.this.finish();
         });
 
         Button btn_sendAlert = findViewById(R.id.btn_sendAlert);
-        btn_sendAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //sendAlert btn interaction here
-                //TODO IN SPRINT 4
-            }
+        btn_sendAlert.setOnClickListener(view -> {
+            //sendAlert btn interaction here
+            //TODO IN SPRINT 4
         });
 
         if (UC.currentUser.role.equals("Health_Staff")) {
@@ -122,23 +111,15 @@ public class GenericManageUserActivity extends Activity {
         vListView.setAdapter(vaccineAdapter);
 
         Button btn_addVax = userPopup.findViewById(R.id.btn_addVaccination);
-        btn_addVax.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO ADD VACCINATION
-                Vaccination newVaccination = new Vaccination();
-                newVaccination.NRIC = fakeNRIC;
-                user.vaccinations = newVaccination;
-            }
+        btn_addVax.setOnClickListener(v -> {
+            //TODO ADD VACCINATION
+            Vaccination newVaccination = new Vaccination();
+            newVaccination.NRIC = fakeNRIC;
+            user.vaccinations = newVaccination;
         });
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btn_back.setOnClickListener(v -> dialog.dismiss());
         dialogBuilder.setView(userPopup);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -173,12 +154,7 @@ public class GenericManageUserActivity extends Activity {
         list_TravelHistory.setAdapter(THadapter);
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btn_back.setOnClickListener(v -> dialog.dismiss());
         dialogBuilder.setView(userPopup);
         dialog = dialogBuilder.create();
         dialog.show();

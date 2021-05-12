@@ -12,12 +12,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TravelHistory {
     public String NRIC;
@@ -43,7 +43,7 @@ public class TravelHistory {
     timeOut : time of check out, formatted in "dd/MM/yyyy HH:mm"
     */
     private String updateDuration(String timeIn, String timeOut){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
         String returnStr = "";
 
         try {
@@ -123,13 +123,9 @@ public class TravelHistory {
     */
     public List<String> getByMostCases(int limit, Context context) {
         dbHelper = new DatabaseHelper(context);
-        List<String> tempList = new ArrayList<String>();
+        List<String> tempList = new ArrayList<>();
 
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query =
@@ -161,13 +157,9 @@ public class TravelHistory {
     */
     public List<String> getByMostCheckIn(int limit, Context context) {
         dbHelper = new DatabaseHelper(context);
-        List<String> tempList = new ArrayList<String>();
+        List<String> tempList = new ArrayList<>();
 
-        try {
-            dbHelper.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query =

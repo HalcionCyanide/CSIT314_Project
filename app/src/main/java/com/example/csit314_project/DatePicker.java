@@ -21,7 +21,7 @@ public class DatePicker implements View.OnClickListener, DatePickerDialog.OnDate
     private int _day;
     private int _month;
     private int _birthYear;
-    private Context _context;
+    private final Context _context;
 
     public DatePicker(Context context, int editTextViewID)
     {
