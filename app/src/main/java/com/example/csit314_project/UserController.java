@@ -48,7 +48,7 @@ public class UserController {
         if (user != null) {
             //double check password
             if (user.password.equals(password) && !user.isSuspend) {
-                currentUser = user;
+                this.currentUser = user;
                 return true;
             }
             return false;

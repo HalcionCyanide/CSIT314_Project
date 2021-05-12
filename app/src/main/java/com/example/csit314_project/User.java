@@ -29,7 +29,7 @@ public class User {
     public boolean hasCovid;
     public boolean isSuspend;
     public List<TravelHistory> travelHistories = new ArrayList<>();
-    public Vaccination vaccinations;
+    public Vaccination vaccinations = new Vaccination();
     public List<Alert> alerts = new ArrayList<>();
 
     DatabaseHelper dbHelper;
