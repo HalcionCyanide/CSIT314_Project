@@ -25,10 +25,7 @@ public class GenericManageUserActivity extends Activity {
 
     String fakeNRIC;
     ListView userInfo;
-    ArrayList<String> arrayList;
-    ArrayAdapter<String> adapter;
-
-    private AlertDialog dialog;
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +35,10 @@ public class GenericManageUserActivity extends Activity {
 
         userInfo = findViewById(R.id.list_UserInfo);
 
-        displayUserInfo();
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayAdapter<String> adapter;
+
+        displayUserInfo(arrayList);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
         userInfo.setAdapter(adapter);
 
@@ -52,7 +52,6 @@ public class GenericManageUserActivity extends Activity {
                     fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
                     User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
                     arrayList.set(7, "Toggle Suspended: " + displayedUser.isSuspend);
-                    adapter.notifyDataSetChanged();
                 }
                 //if clicked on covid and you are health_staff
                 else if(text.contains("Covid") && UC.currentUser.role.equals("Health_Staff")) {
@@ -60,7 +59,6 @@ public class GenericManageUserActivity extends Activity {
                     fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
                     User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
                     arrayList.set(6, "Toggle Covid: " + displayedUser.hasCovid);
-                    adapter.notifyDataSetChanged();
                 }
                 else if(text.contains("Vac")) {
                     //perform actions for view of vaccinations
@@ -70,7 +68,7 @@ public class GenericManageUserActivity extends Activity {
                     //perform actions for view of travel history
                     generateTravelHistoryDialog();
                 }
-
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -107,9 +105,6 @@ public class GenericManageUserActivity extends Activity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.manage_vaccination, null);
 
-        /*TODO SPIT THE INFO HERE, ITS TIED INSIDE THE USER.vaccinations
-        I HAVE BINDED THE UI ELEMENTS FOR YOU
-        */
         UserController UC = UserController.getInstance();
         User user = UC.validateOnSearchUser(fakeNRIC,GenericManageUserActivity.this);
         ListView vListView = userPopup.findViewById(R.id.list_vaccination);
@@ -117,14 +112,14 @@ public class GenericManageUserActivity extends Activity {
 
         txt_NRIC.setText(fakeNRIC);
 
-        arrayList.clear();
-        arrayList.add("Vaccination Brand: " + user.vaccinations.vaccination_brand);
-        arrayList.add("First Vaccination: " + user.vaccinations.first_vaccination);
-        arrayList.add("Second Vaccination: " + user.vaccinations.second_vaccination);
+        ArrayList<String> vaccineArrayList = new ArrayList<>();
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
-        vListView.setAdapter(adapter);
-        ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
+        vaccineArrayList.add("Vaccination Brand: " + user.vaccinations.vaccination_brand);
+        vaccineArrayList.add("First Vaccination: " + user.vaccinations.first_vaccination);
+        vaccineArrayList.add("Second Vaccination: " + user.vaccinations.second_vaccination);
+
+        ArrayAdapter<String> vaccineAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, vaccineArrayList);
+        vListView.setAdapter(vaccineAdapter);
 
         Button btn_addVax = userPopup.findViewById(R.id.btn_addVaccination);
         btn_addVax.setOnClickListener(new View.OnClickListener() {
@@ -133,9 +128,7 @@ public class GenericManageUserActivity extends Activity {
                 //TODO ADD VACCINATION
                 Vaccination newVaccination = new Vaccination();
                 newVaccination.NRIC = fakeNRIC;
-
                 user.vaccinations = newVaccination;
-
             }
         });
 
@@ -163,24 +156,21 @@ public class GenericManageUserActivity extends Activity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.manage_travelhistory, null);
 
-        /*TODO SPIT THE INFO HERE, ITS TIED INSIDE THE USER.travelhistories
-        I HAVE BINDED THE UI ELEMENTS FOR YOU
-        */
-
         TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
         ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
 
         txt_NRIC.setText(fakeNRIC);
 
-        arrayList.clear();
+        ArrayList<String> THArrayList = new ArrayList<>();
+
         for (int i=0; i < user.travelHistories.size(); i++)
         {
-            String temptravhist = user.travelHistories.get(i).timeIn + user.travelHistories.get(i).timeOut + user.travelHistories.get(i).location;
-            arrayList.add(temptravhist);
+            String tempTravHist = user.travelHistories.get(i).timeIn + user.travelHistories.get(i).timeOut + user.travelHistories.get(i).location;
+            THArrayList.add(tempTravHist);
         }
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
-        list_TravelHistory.setAdapter(adapter);
+        ArrayAdapter<String> THadapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, THArrayList);
+        list_TravelHistory.setAdapter(THadapter);
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -199,13 +189,12 @@ public class GenericManageUserActivity extends Activity {
     Brief Description: Default user info printing
     Parameters: None
     */
-    void displayUserInfo() {
+    void displayUserInfo(ArrayList<String> arrayList) {
         fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
 
         UserController UC = UserController.getInstance();
         User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
 
-        arrayList = new ArrayList<>();
         arrayList.add("First Name: " + displayedUser.firstName);
         arrayList.add("Last Name: " + displayedUser.lastName);
         arrayList.add("Gender: " + displayedUser.gender);

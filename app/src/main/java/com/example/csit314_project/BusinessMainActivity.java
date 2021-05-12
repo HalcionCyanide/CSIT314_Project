@@ -21,9 +21,9 @@ public class BusinessMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_main);
 
-        UserController LC = UserController.getInstance();
+        UserController UC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.username);
+        currUser.setText(UC.currentUser.username);
 
         DatePicker datePicker = new DatePicker(BusinessMainActivity.this, R.id.txt_datepicker);
 
@@ -32,7 +32,6 @@ public class BusinessMainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-                LC.logout();
                 Intent mainIntent = new Intent(BusinessMainActivity.this, LoginActivity.class);
                 BusinessMainActivity.this.startActivity(mainIntent);
                 BusinessMainActivity.this.finish();

@@ -45,9 +45,9 @@ public class HealthOrgMainActivity extends Activity {
     Parameters: None
     */
     void displayPage() {
-        UserController LC = UserController.getInstance();
+        UserController UC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.username);
+        currUser.setText(UC.currentUser.username);
 
         Button btn_addUser = findViewById(R.id.btn_addUser);
         btn_addUser.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,6 @@ public class HealthOrgMainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-                LC.logout();
                 Intent mainIntent = new Intent(HealthOrgMainActivity.this, LoginActivity.class);
                 HealthOrgMainActivity.this.startActivity(mainIntent);
                 HealthOrgMainActivity.this.finish();

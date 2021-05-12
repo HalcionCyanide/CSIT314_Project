@@ -22,16 +22,15 @@ public class PublicMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_main);
 
-        UserController LC = UserController.getInstance();
+        UserController UC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
-        currUser.setText(LC.currentUser.username);
+        currUser.setText(UC.currentUser.username);
 
         Button btn_logout = findViewById(R.id.btn_search);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-                LC.logout();
                 Intent mainIntent = new Intent(PublicMainActivity.this, LoginActivity.class);
                 PublicMainActivity.this.startActivity(mainIntent);
                 PublicMainActivity.this.finish();
