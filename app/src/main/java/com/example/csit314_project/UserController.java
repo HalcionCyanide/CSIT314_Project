@@ -82,10 +82,10 @@ public class UserController {
     username : string received from the boundary
     context : app context for the database opening
     */
-    public List<User> validateOnSearchUser(String nric, String userType, String username, Context context) {
+    public List<User> validateOnSearchUser(String nric, String userType, String nameContains, Context context) {
         User user = new User();
         //if the user cannot be found
-        return user.findUserSpecial(nric, userType, username, context);
+        return user.findUserSpecial(nric, userType, nameContains, context);
     }
 
     /*

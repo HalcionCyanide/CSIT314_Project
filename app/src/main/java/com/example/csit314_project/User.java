@@ -132,7 +132,7 @@ public class User {
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getLong(9) != 0;
                 data.isSuspend = cursor.getLong(10) != 0;
-                data.updateTravelAndVax(data.NRIC, context);
+                data.updateTravelAndVaxAndAlerts(data.NRIC, context);
                 cursor.close();
                 return data;
             } else {
@@ -169,7 +169,7 @@ public class User {
                 data.role = cursor.getString(8);
                 data.hasCovid = cursor.getInt(9) != 0;
                 data.isSuspend = cursor.getLong(10) != 0;
-                data.updateTravelAndVax(data.NRIC, context);
+                data.updateTravelAndVaxAndAlerts(data.NRIC, context);
                 cursor.close();
 
                 return data;
@@ -189,7 +189,7 @@ public class User {
     username : username to search for
     context : app context for the database opening
     */
-    public List<User> findUserSpecial(String NRIC, String userType, String username, Context context) {
+    public List<User> findUserSpecial(String NRIC, String userType, String nameContains, Context context) {
         dbHelper = new DatabaseHelper(context);
         List<User> tempList = new ArrayList<>();
 
@@ -204,8 +204,8 @@ public class User {
         }
 
         String usernameStr = "";
-        if (!username.isEmpty()) {
-            usernameStr = " AND Username = '" + username + "'";
+        if (!nameContains.isEmpty()) {
+            usernameStr = " AND Username LIKE '%" + nameContains + "%'";
         }
 
         dbHelper.createDataBase();
@@ -228,7 +228,7 @@ public class User {
                     data.hasCovid = cursor.getInt(9) != 0;
                     data.isSuspend = cursor.getLong(10) != 0;
 
-                    data.updateTravelAndVax(data.NRIC, context);
+                    data.updateTravelAndVaxAndAlerts(data.NRIC, context);
 
                     tempList.add(data);
                 }
@@ -245,11 +245,12 @@ public class User {
     NRIC : NRIC to update
     context : app context for the database opening
     */
-    void updateTravelAndVax(String NRIC, Context context) {
+    void updateTravelAndVaxAndAlerts(String NRIC, Context context) {
         dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
+
             String query2 = "SELECT * FROM TravelHistory WHERE NRIC = '" + NRIC + "'";
             Cursor TravelHistCursor = db.rawQuery(query2, null);
             if(TravelHistCursor != null) {
@@ -278,6 +279,21 @@ public class User {
                     vaccinations = dummyVax;
                 }
                 VaxCursor.close();
+            }
+
+            String query4 = "SELECT * FROM Alerts WHERE NRIC = '" + NRIC + "'";
+            Cursor AlertCursor = db.rawQuery(query4, null);
+            if(AlertCursor != null) {
+                while (AlertCursor.moveToNext()) {
+                    Alert alertHist = new Alert();
+                    alertHist.NRIC = AlertCursor.getString(0);
+                    alertHist.dateTime = AlertCursor.getString(1);
+                    alertHist.message = AlertCursor.getString(2);
+                    alertHist.acknowledge = AlertCursor.getLong(3) != 0;
+
+                    alerts.add(alertHist);
+                }
+                AlertCursor.close();
             }
         }
     }
