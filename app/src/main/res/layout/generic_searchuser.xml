@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Enter username"
+        android:hint="Name Contains"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/spinner_role"
         app:layout_constraintStart_toStartOf="@+id/spinner_role"

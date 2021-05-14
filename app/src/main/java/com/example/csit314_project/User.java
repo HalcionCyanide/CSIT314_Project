@@ -281,7 +281,7 @@ public class User {
                 VaxCursor.close();
             }
 
-            String query4 = "SELECT * FROM Alerts WHERE NRIC = '" + NRIC + "'";
+            String query4 = "SELECT * FROM Alerts WHERE ReceiveBy = '" + NRIC + "'";
             Cursor AlertCursor = db.rawQuery(query4, null);
             if(AlertCursor != null) {
                 while (AlertCursor.moveToNext()) {
