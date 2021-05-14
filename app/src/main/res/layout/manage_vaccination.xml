@@ -21,22 +21,11 @@
     <ListView
         android:id="@+id/list_vaccination"
         android:layout_width="0dp"
-        android:layout_height="345dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_NRIC" />
-
-    <Button
-        android:id="@+id/btn_addVaccination"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Add"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_vaccination" />
 
     <Button
         android:id="@+id/btn_back"
@@ -46,6 +35,6 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_addVaccination" />
+        app:layout_constraintTop_toBottomOf="@+id/list_vaccination" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

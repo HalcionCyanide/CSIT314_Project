@@ -10,11 +10,16 @@ package com.example.csit314_project;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -76,7 +81,7 @@ public class GenericManageUserActivity extends Activity {
         Button btn_sendAlert = findViewById(R.id.btn_sendAlert);
         btn_sendAlert.setOnClickListener(view -> {
             //sendAlert btn interaction here
-            //TODO IN SPRINT 4
+            //TODO INTERACTION FOR SENDING ALERT
         });
 
         if (UC.currentUser.role.equals("Health_Staff")) {
@@ -110,13 +115,71 @@ public class GenericManageUserActivity extends Activity {
         ArrayAdapter<String> vaccineAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, vaccineArrayList);
         vListView.setAdapter(vaccineAdapter);
 
-        Button btn_addVax = userPopup.findViewById(R.id.btn_addVaccination);
-        btn_addVax.setOnClickListener(v -> {
-            //TODO ADD VACCINATION
-            Vaccination newVaccination = new Vaccination();
-            newVaccination.NRIC = fakeNRIC;
-            user.vaccinations = newVaccination;
+        vListView.setOnItemClickListener((parent, view, position, id) -> {
+            String text = (String) parent.getItemAtPosition(position);
+            if (text.contains("Brand")) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
+                alertDialog.setTitle("Edit Brand");
+
+                //POPULATE SPINNER
+                final Spinner input = new Spinner(GenericManageUserActivity.this);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                        GenericManageUserActivity.this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        getResources().getStringArray(R.array.Vax_Types));
+                input.setAdapter(arrayAdapter);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+
+                alertDialog.setPositiveButton("OK", (dialog, which) -> {
+                    //TODO INTERACTION FOR CHANGING THE BRAND
+                    //THIS IS THE EQUIVALENT OF ONCLICK
+                });
+                alertDialog.setView(input);
+                alertDialog.show();
+            }
+            else if (text.contains("First")) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
+                alertDialog.setTitle("Edit First Vaccine");
+                final EditText input = new EditText(GenericManageUserActivity.this);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+
+                alertDialog.setPositiveButton("OK", (dialog, which) -> {
+                    //TODO INTERACTION FOR CHANGING THE FIRST VACCINE
+                    //THIS IS THE EQUIVALENT OF ONCLICK
+                    //IDEALLY PULL UP DATEPICKER
+                });
+                alertDialog.setView(input);
+                alertDialog.show();
+
+            }
+            else if (text.contains("Second")) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
+                alertDialog.setTitle("Edit Second Vaccine");
+                final EditText input = new EditText(GenericManageUserActivity.this);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+
+                alertDialog.setPositiveButton("OK", (dialog, which) -> {
+                    //TODO INTERACTION FOR CHANGING THE Second VACCINE
+                    //THIS IS THE EQUIVALENT OF ONCLICK
+                    //IDEALLY PULL UP DATEPICKER
+                });
+                alertDialog.setView(input);
+                alertDialog.show();
+            }
         });
+
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         btn_back.setOnClickListener(v -> dialog.dismiss());
