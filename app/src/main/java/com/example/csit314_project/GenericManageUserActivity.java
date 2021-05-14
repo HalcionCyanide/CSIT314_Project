@@ -137,6 +137,7 @@ public class GenericManageUserActivity extends Activity {
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
                     //TODO INTERACTION FOR CHANGING THE BRAND
                     //THIS IS THE EQUIVALENT OF ONCLICK
+                    String selectedBrand = input.getSelectedItem().toString();
                 });
                 alertDialog.setView(input);
                 alertDialog.show();
