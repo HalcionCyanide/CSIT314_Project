@@ -23,8 +23,14 @@ public class DatePicker implements View.OnClickListener, DatePickerDialog.OnDate
     private int _birthYear;
     private final Context _context;
 
-    public DatePicker(Context context, int editTextViewID)
-    {
+    public DatePicker(Context context, EditText base) {
+        this._editText = base;
+        this._editText.setOnClickListener(this);
+        this._context = context;
+    }
+
+    //use if calling from different object
+    public DatePicker(Context context, int editTextViewID) {
         Activity act = (Activity)context;
         this._editText = (EditText)act.findViewById(editTextViewID);
         this._editText.setOnClickListener(this);

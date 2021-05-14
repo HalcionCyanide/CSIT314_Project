@@ -146,6 +146,9 @@ public class GenericManageUserActivity extends Activity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
                 alertDialog.setTitle("Edit First Vaccine");
                 final EditText input = new EditText(GenericManageUserActivity.this);
+                input.setFocusable(false);
+                input.setHint("Select First Vaccine Date");
+                DatePicker datePicker = new DatePicker(this, input);
 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -155,7 +158,10 @@ public class GenericManageUserActivity extends Activity {
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
                     //TODO INTERACTION FOR CHANGING THE FIRST VACCINE
                     //THIS IS THE EQUIVALENT OF ONCLICK
-                    //IDEALLY PULL UP DATEPICKER
+                    //WRITE TO DATABASE
+                    //USER NRIC is just fakeNRIC
+                    //Date to write is input.getText.toString()
+
                 });
                 alertDialog.setView(input);
                 alertDialog.show();
@@ -165,6 +171,9 @@ public class GenericManageUserActivity extends Activity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
                 alertDialog.setTitle("Edit Second Vaccine");
                 final EditText input = new EditText(GenericManageUserActivity.this);
+                input.setFocusable(false);
+                input.setHint("Select Second Vaccine Date");
+                DatePicker datePicker = new DatePicker(this, input);
 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -174,7 +183,9 @@ public class GenericManageUserActivity extends Activity {
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
                     //TODO INTERACTION FOR CHANGING THE Second VACCINE
                     //THIS IS THE EQUIVALENT OF ONCLICK
-                    //IDEALLY PULL UP DATEPICKER
+                    //WRITE TO DATABASE
+                    //USER NRIC is just fakeNRIC
+                    //Date to write is input.getText.toString()
                 });
                 alertDialog.setView(input);
                 alertDialog.show();
