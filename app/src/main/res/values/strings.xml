@@ -10,4 +10,8 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string-array name="Vax_Types">
+        <item>Pfizer-BioNTech</item>
+        <item>Moderna</item>
+    </string-array>
 </resources>

@@ -22,7 +22,7 @@ public class Alert {
 
     DatabaseHelper dbHelper;
 
-    public void addAlert(String nric, String dateTime, String message, boolean acknowledge, Context context) {
+    public void addAlert(String nric, String dateTime, String message, Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
@@ -30,10 +30,10 @@ public class Alert {
             //add vaccination
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("NRIC", nric);
+            values.put("ReceiveBy", nric);
             values.put("DateTime", dateTime);
             values.put("Message", message);
-            values.put("Acknowledge", acknowledge);
+            values.put("Acknowledge", false); //all Alerts are not acknowledged by default
 
             db.insert("Alerts", null, values);
         }
