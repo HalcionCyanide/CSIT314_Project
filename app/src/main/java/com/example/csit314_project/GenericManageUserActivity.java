@@ -138,6 +138,10 @@ public class GenericManageUserActivity extends Activity {
                     //TODO INTERACTION FOR CHANGING THE BRAND
                     //THIS IS THE EQUIVALENT OF ONCLICK
                     String selectedBrand = input.getSelectedItem().toString();
+                    UC.validateUpdateVaccineBrand(fakeNRIC, selectedBrand, GenericManageUserActivity.this);
+                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                    vaccineArrayList.set(0, "Vaccination Brand: " + displayedUser.vaccinations.vaccination_brand);
+                    vaccineAdapter.notifyDataSetChanged();
                 });
                 alertDialog.setView(input);
                 alertDialog.show();
@@ -161,6 +165,11 @@ public class GenericManageUserActivity extends Activity {
                     //WRITE TO DATABASE
                     //USER NRIC is just fakeNRIC
                     //Date to write is input.getText.toString()
+                    String firstVaccine = input.getText().toString();
+                    UC.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, GenericManageUserActivity.this);
+                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                    vaccineArrayList.set(1, "First Vaccination: " + displayedUser.vaccinations.first_vaccination);
+                    vaccineAdapter.notifyDataSetChanged();
 
                 });
                 alertDialog.setView(input);
@@ -186,10 +195,16 @@ public class GenericManageUserActivity extends Activity {
                     //WRITE TO DATABASE
                     //USER NRIC is just fakeNRIC
                     //Date to write is input.getText.toString()
+                    String secondVaccine = input.getText().toString();
+                    UC.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, GenericManageUserActivity.this);
+                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                    vaccineArrayList.set(2, "Second Vaccination: " + displayedUser.vaccinations.second_vaccination);
+                    vaccineAdapter.notifyDataSetChanged();
                 });
                 alertDialog.setView(input);
                 alertDialog.show();
             }
+
         });
 
 
