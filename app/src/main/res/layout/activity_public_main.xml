@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_search"
+        android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log Out"
@@ -25,45 +25,16 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_currentUser" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="351dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="164dp"
-        android:layout_marginEnd="30dp"
+        android:id="@+id/btn_checkIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Check in"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_search" />
+        app:layout_constraintTop_toBottomOf="@+id/list_currentLocations" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="340dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:text="Travel History"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="340dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:text="vaccine certificates"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
-
-    <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_viewAlerts"
         android:layout_width="97dp"
         android:layout_height="46dp"
         android:layout_marginStart="30dp"
@@ -73,13 +44,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button6"
-        android:layout_width="96dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="28dp"
-        android:text="Check out"
-        android:visibility="visible"
+        android:id="@+id/btn_viewVax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vaccine certificates"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_checkIn" />
+
+    <Button
+        android:id="@+id/btn_viewTH"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Travel History"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_viewVax" />
+
+    <ListView
+        android:id="@+id/list_currentLocations"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:entries="@array/Placeholders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,6 @@ package com.example.csit314_project;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,7 @@ public class BusinessMainActivity extends Activity {
 
         DatePicker datePicker = new DatePicker(BusinessMainActivity.this, R.id.txt_datepicker);
 
-        Button btn_logout = findViewById(R.id.btn_search);
+        Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
             Intent mainIntent = new Intent(BusinessMainActivity.this, LoginActivity.class);

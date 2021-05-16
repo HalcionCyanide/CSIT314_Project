@@ -58,7 +58,7 @@ public class HealthOrgMainActivity extends Activity {
         Button btn_generateReport = findViewById(R.id.btn_generateReport);
         btn_generateReport.setOnClickListener(v -> generateReportDialog());
 
-        Button btn_logout = findViewById(R.id.btn_search);
+        Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
             Intent mainIntent = new Intent(HealthOrgMainActivity.this, LoginActivity.class);
@@ -234,7 +234,7 @@ public class HealthOrgMainActivity extends Activity {
             }
         });
 
-        Button btn_search = userPopup.findViewById(R.id.btn_search);
+        Button btn_search = userPopup.findViewById(R.id.btn_logout);
         btn_search.setOnClickListener(v -> {
             if (onSearchUser(results, txt_NRIC.getText().toString(), txt_role[0], txt_username.getText().toString(), HealthOrgMainActivity.this)) {
                 //if there are results

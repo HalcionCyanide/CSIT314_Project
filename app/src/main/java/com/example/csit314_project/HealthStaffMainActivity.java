@@ -10,7 +10,6 @@ package com.example.csit314_project;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +24,7 @@ public class HealthStaffMainActivity extends Activity {
         TextView currUser = findViewById(R.id.txt_currentUser);
         currUser.setText(UC.currentUser.username);
 
-        Button btn_logout = findViewById(R.id.btn_search);
+        Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
             Intent mainIntent = new Intent(HealthStaffMainActivity.this, LoginActivity.class);

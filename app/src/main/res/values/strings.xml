@@ -14,4 +14,7 @@
         <item>Pfizer-BioNTech</item>
         <item>Moderna</item>
     </string-array>
+    <string-array name="Placeholders">
+        <item>You are currently not checked into any location</item>
+    </string-array>
 </resources>
