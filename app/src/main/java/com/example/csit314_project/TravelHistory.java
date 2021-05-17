@@ -8,6 +8,7 @@ Travel History base class
 */
 package com.example.csit314_project;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +25,36 @@ public class TravelHistory {
     public String timeIn;
     public String timeOut;
     public String location;
+
     DatabaseHelper dbHelper;
+
+    /*
+    Function Name: addVaccination
+    Brief Description: Accesses the database, adding a new entry
+    Parameters:
+    NRIC : Primary key
+    vaccination_brand : String of vaccination brand
+    first_vaccination : date of first vaccination formatted in dd/MM/yyyy HH:mm
+    context : app context for the database opening
+    */
+    public boolean addTravelHistory(String NRIC, String timeIn, String timeOut, String location, Context context) {
+        //OPEN DB
+        dbHelper = new DatabaseHelper(context);
+        dbHelper.createDataBase();
+        if (dbHelper.openDataBase()) {
+            //add vaccination
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("NRIC", NRIC);
+            values.put("CheckIn", timeIn);
+            values.put("CheckOut", timeOut);
+            values.put("Location", location);
+
+            db.insert("TravelHistory", null, values);
+            return true;
+        }
+        return false;
+    }
 
     /*
     Function Name: getDuration

@@ -24,12 +24,13 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class PublicMainActivity extends Activity {
 
     ArrayList<String> checkInLocations = new ArrayList<>();
     ListView list_currentLocations;
-    ArrayAdapter<String> vaccineAdapter;
+    ArrayAdapter<String> checkInLocationsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,10 @@ public class PublicMainActivity extends Activity {
         TextView currUser = findViewById(R.id.txt_currentUser);
         currUser.setText(UC.currentUser.username);
 
-        //check-in viewlist initialisations
+        //check-in listview initialisations
         list_currentLocations = findViewById(R.id.list_currentLocations);
-        vaccineAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkInLocations);
-        list_currentLocations.setAdapter(vaccineAdapter);
+        checkInLocationsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkInLocations);
+        list_currentLocations.setAdapter(checkInLocationsAdapter);
 
         list_currentLocations.setOnItemClickListener((parent, view, position, id) -> {
             //try to check out the user
@@ -56,12 +57,14 @@ public class PublicMainActivity extends Activity {
             String timeIn = text.substring((text.lastIndexOf("at ") + 3));
             String location = text.substring((text.lastIndexOf("to: ") + 4), (text.lastIndexOf("at ") - 1));
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
             Date date = new Date();
             String timeOut = formatter.format(date);
             //TODO: UC ADD TRAVEL HISTORY TO THIS USER based on NRIC, timeIn, timeOut, location.
 
             if (onAddTravelHistory(NRIC, timeIn, timeOut, location, PublicMainActivity.this)){
+                //this is a local view
+                checkInLocationsAdapter.remove(text);
                 displaySuccess();
             }
             else {
@@ -70,24 +73,16 @@ public class PublicMainActivity extends Activity {
         });
 
         Button btn_checkIn = findViewById(R.id.btn_checkIn);
-        btn_checkIn.setOnClickListener(v -> {
-            generateCheckInDialog();
-        });
+        btn_checkIn.setOnClickListener(v -> generateCheckInDialog());
 
         Button btn_viewVax = findViewById(R.id.btn_viewVax);
-        btn_viewVax.setOnClickListener(v -> {
-            generateViewVaccineDialog();
-        });
+        btn_viewVax.setOnClickListener(v -> generateViewVaccineDialog());
 
         Button btn_viewAlerts = findViewById(R.id.btn_viewAlerts);
-        btn_viewAlerts.setOnClickListener(v -> {
-            generateViewAlertDialog();
-        });
+        btn_viewAlerts.setOnClickListener(v -> generateViewAlertDialog());
 
         Button btn_viewTravelHistory = findViewById(R.id.btn_viewTH);
-        btn_viewTravelHistory.setOnClickListener(v -> {
-            generateViewTHDialog();
-        });
+        btn_viewTravelHistory.setOnClickListener(v -> generateViewTHDialog());
 
         Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
@@ -109,12 +104,12 @@ public class PublicMainActivity extends Activity {
 
         alertDialog.setPositiveButton("OK", (dialog, which) -> {
             //grab current time in-case
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
             Date date = new Date();
             //adding current location to local list
             checkInLocations.add("Checked in to: " + input.getText().toString() + " at " + formatter.format(date));
             //update the list in UI
-            vaccineAdapter.notifyDataSetChanged();
+            checkInLocationsAdapter.notifyDataSetChanged();
         });
         alertDialog.setView(input);
         alertDialog.show();
@@ -217,8 +212,8 @@ public class PublicMainActivity extends Activity {
     }
 
     boolean onAddTravelHistory (String NRIC, String timeIn, String timeOut, String location, Context context) {
-        //return UC.validateOnAddTravelHistory(NRIC, timeIn, timeOut, location, context);
-        return true; //TEMPORARY
+        UserController UC = UserController.getInstance();
+        return UC.validateOnAddTravelHistory(NRIC, timeIn, timeOut, location, context);
     }
 
     /*
