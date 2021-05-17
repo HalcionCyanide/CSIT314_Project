@@ -38,4 +38,23 @@ public class Alert {
             db.insert("Alerts", null, values);
         }
     }
+
+    public boolean acknowledgeAlert (String NRIC, String dateTime, String message, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        dbHelper.createDataBase();
+        if (dbHelper.openDataBase()) {
+            //add vaccination
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("Acknowledge", true);
+            db.update("Alerts", values,
+                    "ReceiveBy = '" + NRIC + "'" +
+                            " AND DateTime = '" + dateTime + "'" +
+                            " AND Message = '" + message + "'",
+                    null);
+            dbHelper.close();
+            return true;
+        }
+        return false;
+    }
 }

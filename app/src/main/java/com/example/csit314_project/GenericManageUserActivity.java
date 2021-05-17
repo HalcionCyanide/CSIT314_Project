@@ -135,7 +135,6 @@ public class GenericManageUserActivity extends Activity {
                 input.setLayoutParams(lp);
 
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
-                    //TODO INTERACTION FOR CHANGING THE BRAND
                     //THIS IS THE EQUIVALENT OF ONCLICK
                     String selectedBrand = input.getSelectedItem().toString();
                     UC.validateUpdateVaccineBrand(fakeNRIC, selectedBrand, GenericManageUserActivity.this);
@@ -160,11 +159,7 @@ public class GenericManageUserActivity extends Activity {
                 input.setLayoutParams(lp);
 
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
-                    //TODO INTERACTION FOR CHANGING THE FIRST VACCINE
                     //THIS IS THE EQUIVALENT OF ONCLICK
-                    //WRITE TO DATABASE
-                    //USER NRIC is just fakeNRIC
-                    //Date to write is input.getText.toString()
                     String firstVaccine = input.getText().toString();
                     UC.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, GenericManageUserActivity.this);
                     User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
@@ -190,11 +185,7 @@ public class GenericManageUserActivity extends Activity {
                 input.setLayoutParams(lp);
 
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
-                    //TODO INTERACTION FOR CHANGING THE Second VACCINE
                     //THIS IS THE EQUIVALENT OF ONCLICK
-                    //WRITE TO DATABASE
-                    //USER NRIC is just fakeNRIC
-                    //Date to write is input.getText.toString()
                     String secondVaccine = input.getText().toString();
                     UC.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, GenericManageUserActivity.this);
                     User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);

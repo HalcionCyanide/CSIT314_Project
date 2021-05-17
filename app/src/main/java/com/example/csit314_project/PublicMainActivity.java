@@ -12,7 +12,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +62,6 @@ public class PublicMainActivity extends Activity {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
             Date date = new Date();
             String timeOut = formatter.format(date);
-            //TODO: UC ADD TRAVEL HISTORY TO THIS USER based on NRIC, timeIn, timeOut, location.
 
             if (onAddTravelHistory(NRIC, timeIn, timeOut, location, PublicMainActivity.this)){
                 //this is a local view
@@ -150,13 +151,14 @@ public class PublicMainActivity extends Activity {
         final View userPopup = getLayoutInflater().inflate(R.layout.generic_viewalerts, null);
 
         UserController UC = UserController.getInstance();
-        User user = UC.currentUser;
-        ListView vListView = userPopup.findViewById(R.id.list_alerts);
+        User user = UC.validateOnSearchUser(UC.currentUser.NRIC, PublicMainActivity.this);
+        ListView alertListView = userPopup.findViewById(R.id.list_alerts);
+        ArrayList<String> alertArrayList = new ArrayList<>();
+
         TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
 
         txt_NRIC.setText(user.NRIC);
 
-        ArrayList<String> alertArrayList = new ArrayList<>();
         for (int i=0; i < user.alerts.size(); i++)
         {
             if(!user.alerts.get(i).acknowledge) {
@@ -166,7 +168,24 @@ public class PublicMainActivity extends Activity {
         }
 
         ArrayAdapter<String> alertAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alertArrayList);
-        vListView.setAdapter(alertAdapter);
+
+        alertListView.setOnItemClickListener((parent, view, position, id) -> {
+            //TODO make the acknowledge happen here
+            String text = (String)parent.getItemAtPosition(position);
+            //splice the text and feed it to onAcknowledgeAlert
+            String dateTime = text.substring(text.lastIndexOf("On:") + 4, text.lastIndexOf("\n"));
+            String message = text.substring(text.lastIndexOf("\n") + 1);
+            if (onAcknowledgeAlert(user.NRIC, dateTime, message, PublicMainActivity.this)) {
+                //delete the acknowledge one from the listview
+                alertAdapter.remove(text);
+                displaySuccess();
+            }
+            else {
+                displayError();
+            }
+        });
+
+        alertListView.setAdapter(alertAdapter);
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         //btn_back.setOnClickListener(v -> dialog.dismiss());
 
@@ -179,7 +198,8 @@ public class PublicMainActivity extends Activity {
 
     void generateViewTHDialog() {
         UserController UC = UserController.getInstance();
-        User user = UC.currentUser;
+        //important, re-grab the user from the database to see the most updated stuff
+        User user = UC.validateOnSearchUser(UC.currentUser.NRIC, PublicMainActivity.this);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.manage_travelhistory, null);
@@ -196,6 +216,7 @@ public class PublicMainActivity extends Activity {
             String tempTravelHistory =
                     "Time in: " + user.travelHistories.get(i).timeIn + "\n" +
                     "Time out: " +  user.travelHistories.get(i).timeOut + "\n" +
+                    "Duration: " + user.travelHistories.get(i).getDuration() + "\n"+
                     "Location: " + user.travelHistories.get(i).location;
             travelHistoryArrayList.add(tempTravelHistory);
         }
@@ -214,6 +235,11 @@ public class PublicMainActivity extends Activity {
     boolean onAddTravelHistory (String NRIC, String timeIn, String timeOut, String location, Context context) {
         UserController UC = UserController.getInstance();
         return UC.validateOnAddTravelHistory(NRIC, timeIn, timeOut, location, context);
+    }
+
+    boolean onAcknowledgeAlert(String NRIC, String dateTime, String message, Context context) {
+        UserController UC = UserController.getInstance();
+        return UC.validateOnAcknowledgeAlert(NRIC, dateTime, message, context);
     }
 
     /*

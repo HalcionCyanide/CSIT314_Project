@@ -193,4 +193,9 @@ public class UserController {
         TravelHistory travelHistory = new TravelHistory();
         return travelHistory.addTravelHistory(nric, timeIn, timeOut, location, context);
     }
+
+    public boolean validateOnAcknowledgeAlert(String nric, String dateTime, String message, Context context) {
+        Alert alert = new Alert();
+        return alert.acknowledgeAlert(nric, dateTime, message, context);
+    }
 }

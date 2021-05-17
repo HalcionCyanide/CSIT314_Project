@@ -14,7 +14,10 @@
         <item>Pfizer-BioNTech</item>
         <item>Moderna</item>
     </string-array>
-    <string-array name="Placeholders">
+    <string-array name="NoCheckIn">
         <item>You are currently not checked into any location</item>
+    </string-array>
+    <string-array name="NoAlerts">
+        <item>You do not have any alerts, have a nice day!</item>
     </string-array>
 </resources>
