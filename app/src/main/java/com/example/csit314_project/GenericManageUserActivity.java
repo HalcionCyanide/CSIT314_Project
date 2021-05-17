@@ -160,11 +160,15 @@ public class GenericManageUserActivity extends Activity {
 
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
                     //THIS IS THE EQUIVALENT OF ONCLICK
-                    String firstVaccine = input.getText().toString();
-                    UC.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, GenericManageUserActivity.this);
-                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                    vaccineArrayList.set(1, "First Vaccination: " + displayedUser.vaccinations.first_vaccination);
-                    vaccineAdapter.notifyDataSetChanged();
+
+                        String firstVaccine = input.getText().toString();
+                    if (!firstVaccine.isEmpty()) {
+                        UC.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, GenericManageUserActivity.this);
+                        User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                        vaccineArrayList.set(1, "First Vaccination: " + displayedUser.vaccinations.first_vaccination);
+                        vaccineAdapter.notifyDataSetChanged();
+                        
+                    }
 
                 });
                 alertDialog.setView(input);
@@ -187,10 +191,12 @@ public class GenericManageUserActivity extends Activity {
                 alertDialog.setPositiveButton("OK", (dialog, which) -> {
                     //THIS IS THE EQUIVALENT OF ONCLICK
                     String secondVaccine = input.getText().toString();
-                    UC.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, GenericManageUserActivity.this);
-                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                    vaccineArrayList.set(2, "Second Vaccination: " + displayedUser.vaccinations.second_vaccination);
-                    vaccineAdapter.notifyDataSetChanged();
+                    if (!secondVaccine.isEmpty()) {
+                        UC.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, GenericManageUserActivity.this);
+                        User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                        vaccineArrayList.set(2, "Second Vaccination: " + displayedUser.vaccinations.second_vaccination);
+                        vaccineAdapter.notifyDataSetChanged();
+                    }
                 });
                 alertDialog.setView(input);
                 alertDialog.show();
@@ -227,7 +233,11 @@ public class GenericManageUserActivity extends Activity {
 
         for (int i=0; i < user.travelHistories.size(); i++)
         {
-            String tempTravHist = user.travelHistories.get(i).timeIn + user.travelHistories.get(i).timeOut + user.travelHistories.get(i).location;
+            String tempTravHist =
+                    "Time in: " + user.travelHistories.get(i).timeIn + "\n" +
+                    "Time out: " +  user.travelHistories.get(i).timeOut + "\n" +
+                    "Duration: " + user.travelHistories.get(i).getDuration() + "\n"+
+                    "Location: " + user.travelHistories.get(i).location;
             THArrayList.add(tempTravHist);
         }
 
