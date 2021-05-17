@@ -170,7 +170,6 @@ public class PublicMainActivity extends Activity {
         ArrayAdapter<String> alertAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alertArrayList);
 
         alertListView.setOnItemClickListener((parent, view, position, id) -> {
-            //TODO make the acknowledge happen here
             String text = (String)parent.getItemAtPosition(position);
             //splice the text and feed it to onAcknowledgeAlert
             String dateTime = text.substring(text.lastIndexOf("On:") + 4, text.lastIndexOf("\n"));

@@ -35,23 +35,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_logout" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="209dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="12dp"
-        android:text="Search By Date"
-        app:layout_constraintEnd_toEndOf="@+id/txt_datepicker"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/txt_datepicker"
-        app:layout_constraintTop_toBottomOf="@+id/txt_datepicker" />
-
     <EditText
         android:id="@+id/txt_datepicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:focusable="false"
         android:focusableInTouchMode="false"
@@ -59,5 +47,26 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_viewColleagues" />
+
+    <Button
+        android:id="@+id/btn_searchByDate"
+        android:layout_width="209dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="24dp"
+        android:text="Search By Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_datepicker" />
+
+    <Button
+        android:id="@+id/btn_viewColleagues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_logout"
+        tools:text="View Colleagues" />
 </androidx.constraintlayout.widget.ConstraintLayout>
