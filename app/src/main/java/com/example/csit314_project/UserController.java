@@ -216,4 +216,26 @@ public class UserController {
         String currDate = formatter.format(date);
         return alert.addAlert(NRIC, currDate, message, context);
     }
+
+    public Employment validateOnSearchEmployment(String NRIC, Context context)
+    {
+        Employment employment = new Employment();
+        return employment.findEmploymentByNRIC(NRIC, context);
+    }
+    public List<TravelHistory> validateOnSearchVisitorsByDate(String location, String date, Context context)
+    {
+        TravelHistory travelHistory = new  TravelHistory();
+        String[] splitDate = date.split("/");
+        if (splitDate[0].length() < 2)
+        {
+            splitDate[0] = "0" + splitDate[0];
+        }
+        if (splitDate[1].length() < 2)
+        {
+            splitDate[1] = "0" + splitDate[1];
+        }
+        String fixedDate = splitDate[0] + "/" + splitDate[1]+ "/" + splitDate[2];
+
+        return travelHistory.findVisitorsByDate(location, fixedDate, context);
+    }
 }

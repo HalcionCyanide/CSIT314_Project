@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -43,11 +45,14 @@ public class BusinessMainActivity extends Activity {
 
         Button btn_viewAlerts = findViewById(R.id.btn_viewAlerts);
         btn_viewAlerts.setOnClickListener(v -> generateViewAlertDialog());
+
+        Button btn_searchByDate = findViewById(R.id.btn_searchByDate);
+        btn_searchByDate.setOnClickListener(v -> searchByDate());
     }
 
     void generateViewAlertDialog() {
         AlertDialog dialog;
-        AlertDialog.Builder vaccineDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.generic_viewalerts, null);
 
         UserController UC = UserController.getInstance();
@@ -86,11 +91,58 @@ public class BusinessMainActivity extends Activity {
         Button btn_back = userPopup.findViewById(R.id.btn_back);
         //btn_back.setOnClickListener(v -> dialog.dismiss());
 
-        vaccineDialog.setView(userPopup);
-        dialog = vaccineDialog.create();
+        alertDialog.setView(userPopup);
+        dialog = alertDialog.create();
 
         btn_back.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    void searchByDate()
+    {
+
+        TextView txt_date = findViewById(R.id.txt_datepicker);
+
+
+        String date = txt_date.getText().toString();
+
+        if (!date.isEmpty()) {
+            AlertDialog dialog;
+            AlertDialog.Builder visitorDialog = new AlertDialog.Builder(this);
+            final View userPopup = getLayoutInflater().inflate(R.layout.business_searchdate, null);
+
+
+            UserController UC = UserController.getInstance();
+            Employment employed = UC.validateOnSearchEmployment(UC.currentUser.NRIC, BusinessMainActivity.this);
+
+            List<TravelHistory> visitorList = UC.validateOnSearchVisitorsByDate(employed.employementLocation, date, BusinessMainActivity.this);
+            ListView vListView = userPopup.findViewById(R.id.list_visitors);
+            TextView txt_location = userPopup.findViewById(R.id.txt_location);
+            txt_location.setText(employed.employementLocation);
+
+            ArrayList<String> visitorStringArray = new ArrayList<>();
+
+            for (int i = 0; i < visitorList.size(); i++) {
+                String temp = "NRIC : " + visitorList.get(i).NRIC + "\n" +
+                        "Check In : " + visitorList.get(i).timeIn + "\n" +
+                        "Check Out : " + visitorList.get(i).timeOut;
+
+                visitorStringArray.add(temp);
+            }
+            ArrayAdapter<String> visitorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitorStringArray);
+            vListView.setAdapter(visitorAdapter);
+
+            Button btn_back = userPopup.findViewById(R.id.btn_back);
+
+            visitorDialog.setView(userPopup);
+            dialog = visitorDialog.create();
+            btn_back.setOnClickListener(v -> dialog.dismiss());
+            dialog.show();
+            displaySuccess();
+        }
+        else displayError();
+
+
     }
 
     boolean onAcknowledgeAlert(String NRIC, String dateTime, String message, Context context) {

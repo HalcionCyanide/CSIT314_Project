@@ -211,4 +211,35 @@ public class TravelHistory {
         }
         return tempList;
     }
+
+    public List<TravelHistory> findVisitorsByDate(String location, String date, Context context) {
+        dbHelper = new DatabaseHelper(context);
+        List<TravelHistory> tempList = new ArrayList<>();
+
+        dbHelper.createDataBase();
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String query =
+                    "SELECT * " +
+                            "FROM TravelHistory " +
+                            "WHERE Location = '" + location + "'" +
+                            " AND CheckIn LIKE '" + date + "%'" ;
+
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    TravelHistory data = new TravelHistory();
+                    data.NRIC = cursor.getString(0);
+                    data.timeIn = cursor.getString(1);
+                    data.timeOut = cursor.getString(2);
+                    data.location = cursor.getString(3);
+
+                    tempList.add(data);
+                }
+                cursor.close();
+            }
+        }
+        return tempList;
+
+    }
 }
