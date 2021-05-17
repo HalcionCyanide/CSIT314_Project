@@ -29,12 +29,13 @@ public class TravelHistory {
     DatabaseHelper dbHelper;
 
     /*
-    Function Name: addVaccination
+    Function Name: addTravelHistory
     Brief Description: Accesses the database, adding a new entry
     Parameters:
     NRIC : Primary key
-    vaccination_brand : String of vaccination brand
-    first_vaccination : date of first vaccination formatted in dd/MM/yyyy HH:mm
+    timeIn : time in the location
+    timeOut : time out of the location
+    location : a random place
     context : app context for the database opening
     */
     public boolean addTravelHistory(String NRIC, String timeIn, String timeOut, String location, Context context) {
