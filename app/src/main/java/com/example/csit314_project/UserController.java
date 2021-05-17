@@ -10,7 +10,10 @@ package com.example.csit314_project;
 
 import android.content.Context;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class UserController {
 
@@ -197,5 +200,20 @@ public class UserController {
     public boolean validateOnAcknowledgeAlert(String nric, String dateTime, String message, Context context) {
         Alert alert = new Alert();
         return alert.acknowledgeAlert(nric, dateTime, message, context);
+    }
+
+    /*
+    Function Name: validateOnAddUser
+    Brief Description: tests the database if a user can be added
+    Parameters:
+    All parameters from the User class
+    context : app context for the database opening
+    */
+    protected boolean validateOnAddAlert(String NRIC, String message, Context context) {
+        Alert alert = new Alert();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+        Date date = new Date();
+        String currDate = formatter.format(date);
+        return alert.addAlert(NRIC, currDate, message, context);
     }
 }

@@ -10,7 +10,6 @@ package com.example.csit314_project;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,8 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -72,22 +71,61 @@ public class GenericManageUserActivity extends Activity {
             adapter.notifyDataSetChanged();
         });
 
+        Button btn_sendAlert = findViewById(R.id.btn_sendAlert);
+        btn_sendAlert.setOnClickListener(view -> {
+            //sendAlert btn interaction here
+            //TODO INTERACTION FOR SENDING ALERT
+            generateSendAlertDialog();
+        });
+
         Button btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(view -> {
             //back btn interaction here
             GenericManageUserActivity.this.finish();
         });
 
-        Button btn_sendAlert = findViewById(R.id.btn_sendAlert);
-        btn_sendAlert.setOnClickListener(view -> {
-            //sendAlert btn interaction here
-            //TODO INTERACTION FOR SENDING ALERT
-        });
-
         if (UC.currentUser.role.equals("Health_Staff")) {
             //set visibility of button SEND ALERT
             btn_sendAlert.setVisibility(View.VISIBLE);
         }
+    }
+
+    /*
+    Function Name: generateSendAlertDialog
+    Brief Description: creates a Dialog based on R.layout.healthstaff_sendalert
+    Parameters: None
+    */
+    void generateSendAlertDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.healthstaff_sendalert, null);
+        dialogBuilder.setView(userPopup);
+        dialog = dialogBuilder.create();
+
+        UserController UC = UserController.getInstance();
+        fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
+
+        TextView txt_nric = userPopup.findViewById(R.id.txt_NRIC);
+        txt_nric.setText(String.format("Sending to: %s", fakeNRIC));
+
+        EditText txt_message = userPopup.findViewById(R.id.txt_alertMSG);
+
+        Button btn_send = userPopup.findViewById(R.id.btn_sendAlert);
+        btn_send.setOnClickListener(v -> {
+            //SEND THE ALERT HERE
+            String msg = txt_message.getText().toString().isEmpty() ? "" : txt_message.getText().toString();
+
+            if (UC.validateOnAddAlert(fakeNRIC, msg, GenericManageUserActivity.this)) {
+                displaySuccess();
+            }
+            else {
+                displayError();
+            }
+            dialog.dismiss();
+        });
+
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     /*
@@ -272,5 +310,23 @@ public class GenericManageUserActivity extends Activity {
         arrayList.add("Toggle Suspended: " + displayedUser.isSuspend);
         arrayList.add("Click to view Vaccinations");
         arrayList.add("Click to view Travel History");
+    }
+
+    /*
+    Function Name: displaySuccess
+    Brief Description: Prints Success toast
+    Parameters: None
+    */
+    void displaySuccess() {
+        Toast.makeText(getApplicationContext(), "Operation Success", Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+    Function Name: displayError
+    Brief Description: Prints Error toast
+    Parameters: None
+    */
+    void displayError() {
+        Toast.makeText(getApplicationContext(), "Operation Failed!", Toast.LENGTH_SHORT).show();
     }
 }

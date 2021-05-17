@@ -13,20 +13,8 @@
         android:hint="NRIC"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txt_dateDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="Current Date"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/txt_NRIC"
-        app:layout_constraintStart_toStartOf="@+id/txt_NRIC"
-        app:layout_constraintTop_toBottomOf="@+id/txt_NRIC" />
 
     <EditText
         android:id="@+id/txt_alertMSG"
@@ -36,18 +24,26 @@
         android:ems="10"
         android:hint="Message"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/txt_dateDisplay"
-        app:layout_constraintStart_toStartOf="@+id/txt_dateDisplay"
-        app:layout_constraintTop_toBottomOf="@+id/txt_dateDisplay" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_NRIC" />
 
     <Button
-        android:id="@+id/btn_confirmAdd"
+        android:id="@+id/btn_sendAlert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/txt_alertMSG"
+        android:text="Send"
         app:layout_constraintStart_toStartOf="@+id/txt_alertMSG"
+        app:layout_constraintTop_toBottomOf="@+id/txt_alertMSG" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="@+id/txt_alertMSG"
         app:layout_constraintTop_toBottomOf="@+id/txt_alertMSG" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@ public class Alert {
 
     DatabaseHelper dbHelper;
 
-    public void addAlert(String nric, String dateTime, String message, Context context) {
+    public boolean addAlert(String nric, String dateTime, String message, Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
@@ -36,7 +36,9 @@ public class Alert {
             values.put("Acknowledge", false); //all Alerts are not acknowledged by default
 
             db.insert("Alerts", null, values);
+            return true;
         }
+        return false;
     }
 
     public boolean acknowledgeAlert (String NRIC, String dateTime, String message, Context context) {
