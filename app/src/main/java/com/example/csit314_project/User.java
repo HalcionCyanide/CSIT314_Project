@@ -297,4 +297,37 @@ public class User {
             }
         }
     }
+
+    List<User> findUsersByEmployment(List<Employment> colleagues, Context context)
+    {
+        List<User> tempList = new ArrayList<>();
+
+        dbHelper.createDataBase();
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            for (int i = 0; i < colleagues.size(); i++) {
+                String query = "SELECT * FROM UserData WHERE NRIC = '" + colleagues.get(i).NRIC + "'";
+                Cursor cursor = db.rawQuery(query, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    User data = new User();
+                    data.NRIC = cursor.getString(0);
+                    data.gender = cursor.getString(1);
+                    data.firstName = cursor.getString(2);
+                    data.lastName = cursor.getString(3);
+                    data.email = cursor.getString(4);
+                    data.contactNumber = cursor.getString(5);
+                    data.username = cursor.getString(6);
+                    data.password = cursor.getString(7);
+                    data.role = cursor.getString(8);
+                    data.hasCovid = cursor.getLong(9) != 0;
+                    data.isSuspend = cursor.getLong(10) != 0;
+                    data.updateTravelAndVaxAndAlerts(data.NRIC, context);
+                    cursor.close();
+                    tempList.add(data);
+                }
+
+            }
+        }
+        return tempList;
+    }
 }

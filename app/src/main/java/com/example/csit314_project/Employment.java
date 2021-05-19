@@ -38,4 +38,26 @@ public class Employment {
         }
         return null;
     }
+
+    public List<Employment> gatherEmployment(String location, Context context){
+        List<Employment> result = new ArrayList<>();
+        dbHelper = new DatabaseHelper(context);
+        dbHelper.createDataBase();
+        if(dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String query = "SELECT * FROM Employment WHERE Employment_Location = '" + location + "'";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor != null ) {
+                while (cursor.moveToNext()){
+                    Employment data = new Employment();
+                    data.NRIC =  cursor.getString(0);
+                    data.employementLocation =  cursor.getString(1);
+
+                    result.add(data);
+                }
+                cursor.close();
+            }
+        }
+        return result;
+    }
 }

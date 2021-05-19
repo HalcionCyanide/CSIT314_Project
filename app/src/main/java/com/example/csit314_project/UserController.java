@@ -237,4 +237,18 @@ public class UserController {
         return travelHistory.findCustomersByDateAndLocation(location, fixedDate, context);
     }
 
+    public String validateOnRetrieveEmploymentLocation(String NRIC, Context context) {
+        Employment employment = new Employment();
+        String location = employment.findLocationByNRIC(NRIC, context);
+        return location;
+    }
+
+    public List<User> validateOnRetrieveColleagues(String location, Context context){
+        Employment employment = new Employment();
+        List<Employment> colleagues = employment.gatherEmployment(location, context);
+        User user = new User();
+        return user.findUsersByEmployment(colleagues, context);
+
+    }
+
 }

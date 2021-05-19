@@ -48,9 +48,12 @@ public class BusinessMainActivity extends Activity {
 
         Button btn_searchByDate = findViewById(R.id.btn_searchByDate);
         btn_searchByDate.setOnClickListener(v -> searchDateButton());
+
+        Button btn_viewColleagues = findViewById(R.id.btn_viewColleagues);
+        btn_viewColleagues.setOnClickListener(v -> viewInfo());
     }
 
-    void generateViewAlertDialog() {
+    public void generateViewAlertDialog() {
         AlertDialog dialog;
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.generic_viewalerts, null);
@@ -98,7 +101,7 @@ public class BusinessMainActivity extends Activity {
         dialog.show();
     }
 
-    void searchDateButton(){
+    public void searchDateButton(){
 
         TextView txt_date = findViewById(R.id.txt_datepicker);
         String date = txt_date.getText().toString();
@@ -108,8 +111,6 @@ public class BusinessMainActivity extends Activity {
         }
         else displayError();
 
-
-
     }
 
     List<TravelHistory> searchDate(String date)
@@ -118,7 +119,7 @@ public class BusinessMainActivity extends Activity {
         return UC.validateOnSearchDate(UC.currentUser.NRIC, date,BusinessMainActivity.this);
     }
 
-    void displayCustomers(List<TravelHistory> customerList) {
+    public void displayCustomers(List<TravelHistory> customerList) {
         AlertDialog dialog;
         AlertDialog.Builder visitorDialog = new AlertDialog.Builder(this);
         final View userPopup = getLayoutInflater().inflate(R.layout.business_searchdate, null);
@@ -148,6 +149,47 @@ public class BusinessMainActivity extends Activity {
         displaySuccess();
     }
 
+    public void viewInfo() {
+        UserController UC = UserController.getInstance();
+        String location = UC.validateOnRetrieveEmploymentLocation(UC.currentUser.NRIC, BusinessMainActivity.this);
+
+        List<User> colleagues = UC.validateOnRetrieveColleagues(location,BusinessMainActivity.this);
+        displayEmployment(colleagues, location);
+    }
+
+
+
+    public void displayEmployment(List<User> colleagues, String location)
+    {
+        AlertDialog dialog;
+        AlertDialog.Builder colleaguesDialog = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.business_colleagues, null);
+
+        ListView vListView = userPopup.findViewById(R.id.list_colleagues);
+        TextView txt_location = userPopup.findViewById(R.id.txt_location);
+
+        txt_location.setText(location);
+
+        ArrayList<String> colleaguesStringArray = new ArrayList<>();
+        for (int i = 0; i < colleagues.size(); i++) {
+            String temp = "NRIC : " + colleagues.get(i).NRIC + "\n" +
+                    "Name : " + colleagues.get(i).firstName +  colleagues.get(i).lastName;
+
+            colleaguesStringArray.add(temp);
+        }
+
+        ArrayAdapter<String> colleaguesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, colleaguesStringArray);
+        vListView.setAdapter(colleaguesAdapter);
+
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+
+        colleaguesDialog.setView(userPopup);
+        dialog = colleaguesDialog.create();
+        btn_back.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+        displaySuccess();
+    }
+
     boolean onAcknowledgeAlert(String NRIC, String dateTime, String message, Context context) {
         UserController UC = UserController.getInstance();
         return UC.validateOnAcknowledgeAlert(NRIC, dateTime, message, context);
@@ -158,7 +200,7 @@ public class BusinessMainActivity extends Activity {
    Brief Description: Prints Success toast
    Parameters: None
    */
-    void displaySuccess() {
+    public void displaySuccess() {
         Toast.makeText(getApplicationContext(), "Operation Success", Toast.LENGTH_SHORT).show();
     }
 
@@ -167,7 +209,7 @@ public class BusinessMainActivity extends Activity {
     Brief Description: Prints Error toast
     Parameters: None
     */
-    void displayError() {
+    public void displayError() {
         Toast.makeText(getApplicationContext(), "Operation Failed!", Toast.LENGTH_SHORT).show();
     }
 }
