@@ -298,10 +298,10 @@ public class User {
         }
     }
 
-    List<User> findUsersByEmployment(List<Employment> colleagues, Context context)
-    {
+    List<User> findUsersByEmployment(List<Employment> colleagues, Context context) {
         List<User> tempList = new ArrayList<>();
 
+        dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();

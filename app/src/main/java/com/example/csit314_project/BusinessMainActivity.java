@@ -173,7 +173,7 @@ public class BusinessMainActivity extends Activity {
         ArrayList<String> colleaguesStringArray = new ArrayList<>();
         for (int i = 0; i < colleagues.size(); i++) {
             String temp = "NRIC : " + colleagues.get(i).NRIC + "\n" +
-                    "Name : " + colleagues.get(i).firstName +  colleagues.get(i).lastName;
+                    "Name : " + colleagues.get(i).firstName + " " + colleagues.get(i).lastName;
 
             colleaguesStringArray.add(temp);
         }
