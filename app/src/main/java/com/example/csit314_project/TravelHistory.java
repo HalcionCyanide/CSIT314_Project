@@ -212,7 +212,7 @@ public class TravelHistory {
         return tempList;
     }
 
-    public List<TravelHistory> findVisitorsByDate(String location, String date, Context context) {
+    public List<TravelHistory> findCustomersByDateAndLocation(String location, String date, Context context) {
         dbHelper = new DatabaseHelper(context);
         List<TravelHistory> tempList = new ArrayList<>();
 

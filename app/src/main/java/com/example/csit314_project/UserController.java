@@ -217,13 +217,11 @@ public class UserController {
         return alert.addAlert(NRIC, currDate, message, context);
     }
 
-    public Employment validateOnSearchEmployment(String NRIC, Context context)
+    public List<TravelHistory> validateOnSearchDate(String NRIC, String date, Context context)
     {
         Employment employment = new Employment();
-        return employment.findEmploymentByNRIC(NRIC, context);
-    }
-    public List<TravelHistory> validateOnSearchVisitorsByDate(String location, String date, Context context)
-    {
+        String location = employment.findLocationByNRIC(NRIC, context);
+
         TravelHistory travelHistory = new  TravelHistory();
         String[] splitDate = date.split("/");
         if (splitDate[0].length() < 2)
@@ -236,6 +234,7 @@ public class UserController {
         }
         String fixedDate = splitDate[0] + "/" + splitDate[1]+ "/" + splitDate[2];
 
-        return travelHistory.findVisitorsByDate(location, fixedDate, context);
+        return travelHistory.findCustomersByDateAndLocation(location, fixedDate, context);
     }
+
 }

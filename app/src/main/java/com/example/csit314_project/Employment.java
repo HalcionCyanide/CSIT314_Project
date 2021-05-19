@@ -20,7 +20,7 @@ public class Employment {
 
     DatabaseHelper dbHelper;
 
-    public Employment findEmploymentByNRIC(String NRIC, Context context) {
+    public String findLocationByNRIC(String NRIC, Context context) {
         dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
@@ -28,12 +28,10 @@ public class Employment {
             String query = "SELECT * FROM Employment WHERE NRIC = '" + NRIC + "'";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null && cursor.moveToFirst()) {
-                Employment data = new Employment();
-                data.NRIC = cursor.getString(0);
-                data.employementLocation = cursor.getString(1);
-
+                String location = cursor.getString(1);
                 cursor.close();
-                return data;
+                return location;
+
             } else {
                 return null;
             }

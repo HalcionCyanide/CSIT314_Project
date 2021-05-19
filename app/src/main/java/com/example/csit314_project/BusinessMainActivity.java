@@ -47,7 +47,7 @@ public class BusinessMainActivity extends Activity {
         btn_viewAlerts.setOnClickListener(v -> generateViewAlertDialog());
 
         Button btn_searchByDate = findViewById(R.id.btn_searchByDate);
-        btn_searchByDate.setOnClickListener(v -> searchByDate());
+        btn_searchByDate.setOnClickListener(v -> searchDateButton());
     }
 
     void generateViewAlertDialog() {
@@ -98,51 +98,54 @@ public class BusinessMainActivity extends Activity {
         dialog.show();
     }
 
-    void searchByDate()
-    {
+    void searchDateButton(){
 
         TextView txt_date = findViewById(R.id.txt_datepicker);
-
-
         String date = txt_date.getText().toString();
-
-        if (!date.isEmpty()) {
-            AlertDialog dialog;
-            AlertDialog.Builder visitorDialog = new AlertDialog.Builder(this);
-            final View userPopup = getLayoutInflater().inflate(R.layout.business_searchdate, null);
-
-
-            UserController UC = UserController.getInstance();
-            Employment employed = UC.validateOnSearchEmployment(UC.currentUser.NRIC, BusinessMainActivity.this);
-
-            List<TravelHistory> visitorList = UC.validateOnSearchVisitorsByDate(employed.employementLocation, date, BusinessMainActivity.this);
-            ListView vListView = userPopup.findViewById(R.id.list_visitors);
-            TextView txt_location = userPopup.findViewById(R.id.txt_location);
-            txt_location.setText(employed.employementLocation);
-
-            ArrayList<String> visitorStringArray = new ArrayList<>();
-
-            for (int i = 0; i < visitorList.size(); i++) {
-                String temp = "NRIC : " + visitorList.get(i).NRIC + "\n" +
-                        "Check In : " + visitorList.get(i).timeIn + "\n" +
-                        "Check Out : " + visitorList.get(i).timeOut;
-
-                visitorStringArray.add(temp);
-            }
-            ArrayAdapter<String> visitorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitorStringArray);
-            vListView.setAdapter(visitorAdapter);
-
-            Button btn_back = userPopup.findViewById(R.id.btn_back);
-
-            visitorDialog.setView(userPopup);
-            dialog = visitorDialog.create();
-            btn_back.setOnClickListener(v -> dialog.dismiss());
-            dialog.show();
-            displaySuccess();
+        if (!date.isEmpty()){
+            List<TravelHistory> customerList = searchDate(date);
+            displayCustomers(customerList);
         }
         else displayError();
 
 
+
+    }
+
+    List<TravelHistory> searchDate(String date)
+    {
+        UserController UC = UserController.getInstance();
+        return UC.validateOnSearchDate(UC.currentUser.NRIC, date,BusinessMainActivity.this);
+    }
+
+    void displayCustomers(List<TravelHistory> customerList) {
+        AlertDialog dialog;
+        AlertDialog.Builder visitorDialog = new AlertDialog.Builder(this);
+        final View userPopup = getLayoutInflater().inflate(R.layout.business_searchdate, null);
+
+        ListView vListView = userPopup.findViewById(R.id.list_visitors);
+        TextView txt_location = userPopup.findViewById(R.id.txt_location);
+        txt_location.setText(customerList.get(0).location);
+
+        ArrayList<String> visitorStringArray = new ArrayList<>();
+
+        for (int i = 0; i < customerList.size(); i++) {
+            String temp = "NRIC : " + customerList.get(i).NRIC + "\n" +
+                    "Check In : " + customerList.get(i).timeIn + "\n" +
+                    "Check Out : " + customerList.get(i).timeOut;
+
+            visitorStringArray.add(temp);
+        }
+        ArrayAdapter<String> visitorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitorStringArray);
+        vListView.setAdapter(visitorAdapter);
+
+        Button btn_back = userPopup.findViewById(R.id.btn_back);
+
+        visitorDialog.setView(userPopup);
+        dialog = visitorDialog.create();
+        btn_back.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+        displaySuccess();
     }
 
     boolean onAcknowledgeAlert(String NRIC, String dateTime, String message, Context context) {
