@@ -89,10 +89,6 @@ public class TravelHistory {
             // Calculate time difference in
             // seconds, minutes, hours, years,
             // and days
-            long difference_In_Seconds
-                    = (difference_In_Time
-                    / 1000)
-                    % 60;
 
             long difference_In_Minutes
                     = (difference_In_Time
@@ -129,13 +125,10 @@ public class TravelHistory {
             }
 
             if (difference_In_Minutes > 0) {
-                returnStr += difference_In_Minutes
-                        + " minutes, ";
-            }
-
-            if (difference_In_Seconds > 0) {
-                returnStr += difference_In_Seconds
-                        + " seconds, ";
+                returnStr += difference_In_Minutes + " minute";
+                if (difference_In_Minutes > 1) {
+                    returnStr += "s";
+                }
             }
         }
         // Catch the Exception
