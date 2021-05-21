@@ -335,10 +335,10 @@ public class HealthOrgMainActivity extends Activity {
     context : app context for the database opening
     */
     boolean onRetrieveCovidStats(ListView mostCases, ListView mostCheckIn, Context context) {
-        TravelHistory dummyTH = new TravelHistory();
+        UserController UC = UserController.getInstance();
         List<String> cases, checks;
-        cases = dummyTH.getByMostCases(4, context);
-        checks = dummyTH.getByMostCheckIn(4, context);
+        checks = UC.validateGetByMostCheckIn(4, context);
+        cases = UC.validateGetByMostCases(4, context);
 
         ArrayList<String> mCases = new ArrayList<>(cases);
         ArrayAdapter<String> casesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mCases);

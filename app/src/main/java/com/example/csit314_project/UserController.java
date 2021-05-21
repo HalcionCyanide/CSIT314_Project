@@ -239,8 +239,7 @@ public class UserController {
 
     public String validateOnRetrieveEmploymentLocation(String NRIC, Context context) {
         Employment employment = new Employment();
-        String location = employment.findLocationByNRIC(NRIC, context);
-        return location;
+        return employment.findLocationByNRIC(NRIC, context);
     }
 
     public List<User> validateOnRetrieveColleagues(String location, Context context){
@@ -249,6 +248,16 @@ public class UserController {
         User user = new User();
         return user.findUsersByEmployment(colleagues, context);
 
+    }
+
+    public List<String> validateGetByMostCheckIn(int limit, Context context) {
+        TravelHistory travelHistory = new TravelHistory();
+        return travelHistory.getByMostCheckIn(limit, context);
+    }
+
+    public List<String> validateGetByMostCases(int limit, Context context) {
+        TravelHistory travelHistory = new TravelHistory();
+        return travelHistory.getByMostCases(limit, context);
     }
 
 }
