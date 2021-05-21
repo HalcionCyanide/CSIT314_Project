@@ -220,10 +220,9 @@ public class TravelHistory {
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String query =
-                    "SELECT * " +
-                            "FROM TravelHistory " +
-                            "WHERE Location = '" + location + "'" +
-                            " AND CheckIn LIKE '" + date + "%'" ;
+                    "SELECT * " + "FROM TravelHistory " +
+                    "WHERE Location = '" + location + "'" +
+                    " AND CheckIn LIKE '" + date + "%'" ;
 
             Cursor cursor = db.rawQuery(query, null);
             if (cursor != null) {

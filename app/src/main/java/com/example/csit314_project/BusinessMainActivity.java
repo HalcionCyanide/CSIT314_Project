@@ -126,7 +126,6 @@ public class BusinessMainActivity extends Activity {
 
         ListView vListView = userPopup.findViewById(R.id.list_visitors);
         TextView txt_location = userPopup.findViewById(R.id.txt_location);
-        txt_location.setText(customerList.get(0).location);
 
         ArrayList<String> visitorStringArray = new ArrayList<>();
 
@@ -142,11 +141,19 @@ public class BusinessMainActivity extends Activity {
 
         Button btn_back = userPopup.findViewById(R.id.btn_back);
 
+        if(customerList.isEmpty()){
+            displayError();
+        }
+        else {
+            displaySuccess();
+            txt_location.setText(customerList.get(0).location);
+        }
+
         visitorDialog.setView(userPopup);
         dialog = visitorDialog.create();
         btn_back.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
-        displaySuccess();
+
     }
 
     public void viewInfo() {
