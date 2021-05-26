@@ -182,7 +182,14 @@ public class HealthOrgMainActivity extends Activity {
             String password = txt_resultPassword.getText().toString();
 
             //call controller
-            if (onAddUser(
+            boolean willFail = (
+                    txt_firstName.getText().toString().isEmpty() ||
+                    txt_lastName.getText().toString().isEmpty() ||
+                    txt_NRIC.getText().toString().isEmpty() ||
+                    txt_email.getText().toString().isEmpty() ||
+                    txt_contact.getText().toString().isEmpty()
+            );
+            if (!willFail && onAddUser(
                     txt_NRIC.getText().toString(),
                     txt_gender[0],
                     txt_firstName.getText().toString(),
