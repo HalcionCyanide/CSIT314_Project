@@ -43,7 +43,7 @@ public class HealthOrgMainActivity extends Activity {
     Parameters: None
     */
     void displayPage() {
-        UserController UC = new UserController();
+        UserController UC = UserController.getInstance();
         TextView currUser = findViewById(R.id.txt_currentUser);
         currUser.setText(UC.currentUser.username);
 

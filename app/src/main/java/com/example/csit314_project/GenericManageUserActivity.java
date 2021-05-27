@@ -10,6 +10,7 @@ package com.example.csit314_project;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -100,41 +101,10 @@ public class GenericManageUserActivity extends Activity {
     Parameters: None
     */
     void generateSendAlertDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.healthstaff_sendalert, null);
-        dialogBuilder.setView(userPopup);
-        dialog = dialogBuilder.create();
+        Intent mainIntent = new Intent(GenericManageUserActivity.this, Activity_SendAlert.class);
+        mainIntent.putExtra("SINGLE_NRIC", fakeNRIC);
+        GenericManageUserActivity.this.startActivity(mainIntent);
 
-        fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
-
-        TextView txt_nric = userPopup.findViewById(R.id.txt_NRIC);
-        txt_nric.setText(String.format("Sending to: %s", fakeNRIC));
-
-        EditText txt_message = userPopup.findViewById(R.id.txt_alertMSG);
-
-        Button btn_send = userPopup.findViewById(R.id.btn_sendAlert);
-        btn_send.setOnClickListener(v -> {
-            //SEND THE ALERT HERE
-            String msg = txt_message.getText().toString().isEmpty() ? "" : txt_message.getText().toString();
-            Controller_SendAlert controllerSendAlert = new Controller_SendAlert(GenericManageUserActivity.this);
-
-            //dateTime stuff
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
-            Date date = new Date();
-            String currDate = formatter.format(date);
-
-            if (controllerSendAlert.validateOnSendAlert(fakeNRIC, currDate, msg)) {
-                displaySuccess();
-            }
-            else {
-                displayError();
-            }
-            dialog.dismiss();
-        });
-
-        Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
     }
 
     /*
