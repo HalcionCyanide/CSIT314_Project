@@ -50,7 +50,7 @@ public class Alert {
         return false;
     }
 
-    public boolean acknowledgeAlert (String NRIC, String dateTime, String message, Context context) {
+    public boolean acknowledgeAlert (Context context) {
         dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
@@ -59,9 +59,9 @@ public class Alert {
             ContentValues values = new ContentValues();
             values.put("Acknowledge", true);
             db.update("Alerts", values,
-                    "ReceiveBy = '" + NRIC + "'" +
-                            " AND DateTime = '" + dateTime + "'" +
-                            " AND Message = '" + message + "'",
+                    "ReceiveBy = '" + this.NRIC + "'" +
+                            " AND DateTime = '" + this.dateTime + "'" +
+                            " AND Message = '" + this.message + "'",
                     null);
             dbHelper.close();
             return true;

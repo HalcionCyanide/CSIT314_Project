@@ -21,7 +21,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class GenericManageUserActivity extends Activity {
 
@@ -102,7 +105,6 @@ public class GenericManageUserActivity extends Activity {
         dialogBuilder.setView(userPopup);
         dialog = dialogBuilder.create();
 
-        UserController UC = UserController.getInstance();
         fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
 
         TextView txt_nric = userPopup.findViewById(R.id.txt_NRIC);
@@ -114,8 +116,14 @@ public class GenericManageUserActivity extends Activity {
         btn_send.setOnClickListener(v -> {
             //SEND THE ALERT HERE
             String msg = txt_message.getText().toString().isEmpty() ? "" : txt_message.getText().toString();
+            Controller_SendAlert controllerSendAlert = new Controller_SendAlert(GenericManageUserActivity.this);
 
-            if (UC.validateOnAddAlert(fakeNRIC, msg, GenericManageUserActivity.this)) {
+            //dateTime stuff
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+            Date date = new Date();
+            String currDate = formatter.format(date);
+
+            if (controllerSendAlert.validateOnSendAlert(fakeNRIC, currDate, msg)) {
                 displaySuccess();
             }
             else {

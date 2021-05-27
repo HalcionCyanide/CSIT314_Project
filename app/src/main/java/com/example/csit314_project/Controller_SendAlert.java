@@ -5,13 +5,18 @@ import android.content.Context;
 public class Controller_SendAlert {
 
     Alert toSend;
+    Context callingContext;
 
-    boolean validateOnSendAlert(String NRIC, String dateTime, String message, Context context) {
-        if (NRIC.isEmpty() || dateTime.isEmpty() || message.isEmpty()) {
+    public Controller_SendAlert(Context context) {
+        callingContext = context;
+    }
+
+    boolean validateOnSendAlert(String NRIC, String dateTime, String message) {
+        if (NRIC.isEmpty() || dateTime.isEmpty() || callingContext == null) {
             return false; //disallow empty alerts
         }
 
         toSend = new Alert(NRIC, dateTime, message);
-        return toSend.addAlert(context);
+        return toSend.addAlert(callingContext);
     }
 }
