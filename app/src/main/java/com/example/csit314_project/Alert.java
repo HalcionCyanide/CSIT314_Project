@@ -30,6 +30,13 @@ public class Alert {
         this.message = message;
         this.acknowledge = false;
     }
+
+    public Alert(String nric, String dateTime, String message, boolean acknowledge) {
+        this.NRIC = nric;
+        this.dateTime = dateTime;
+        this.message = message;
+        this.acknowledge = acknowledge;
+    }
     
     public boolean addAlert (Context context) {
         //OPEN DB
