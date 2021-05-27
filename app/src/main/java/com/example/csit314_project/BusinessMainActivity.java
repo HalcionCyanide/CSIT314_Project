@@ -53,56 +53,12 @@ public class BusinessMainActivity extends Activity {
         btn_viewColleagues.setOnClickListener(v -> viewInfo());
     }
 
-    public void generateViewAlertDialog() {
-        AlertDialog dialog;
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.generic_viewalerts, null);
-
-        UserController UC = UserController.getInstance();
-        User user = UC.validateOnSearchUser(UC.currentUser.NRIC, BusinessMainActivity.this);
-        ListView alertListView = userPopup.findViewById(R.id.list_alerts);
-        ArrayList<String> alertArrayList = new ArrayList<>();
-
-        TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
-
-        txt_NRIC.setText(user.NRIC);
-
-        for (int i=0; i < user.alerts.size(); i++)
-        {
-            if(!user.alerts.get(i).acknowledge) {
-                String tempAlert = "Received On: " + user.alerts.get(i).dateTime + "\n" +  user.alerts.get(i).message;
-                alertArrayList.add(tempAlert);
-            }
-        }
-        ArrayAdapter<String> alertAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alertArrayList);
-
-        alertListView.setOnItemClickListener((parent, view, position, id) -> {
-            String text = (String)parent.getItemAtPosition(position);
-            //splice the text and feed it to onAcknowledgeAlert
-            String dateTime = text.substring(text.lastIndexOf("On:") + 4, text.lastIndexOf("\n"));
-            String message = text.substring(text.lastIndexOf("\n") + 1);
-            if (onAcknowledgeAlert(user.NRIC, dateTime, message, BusinessMainActivity.this)) {
-                //delete the acknowledge one from the listview
-                alertAdapter.remove(text);
-                displaySuccess();
-            }
-            else {
-                displayError();
-            }
-        });
-        alertListView.setAdapter(alertAdapter);
-        Button btn_back = userPopup.findViewById(R.id.btn_back);
-        //btn_back.setOnClickListener(v -> dialog.dismiss());
-
-        alertDialog.setView(userPopup);
-        dialog = alertDialog.create();
-
-        btn_back.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
+    void generateViewAlertDialog() {
+        Controller_ViewAlerts controller_viewAlerts = new Controller_ViewAlerts();
+        controller_viewAlerts.displayAlerts(BusinessMainActivity.this);
     }
 
     public void searchDateButton(){
-
         TextView txt_date = findViewById(R.id.txt_datepicker);
         String date = txt_date.getText().toString();
         if (!date.isEmpty()){
@@ -157,11 +113,9 @@ public class BusinessMainActivity extends Activity {
     }
 
     public void viewInfo() {
-        UserController UC = UserController.getInstance();
-        String location = UC.validateOnRetrieveEmploymentLocation(UC.currentUser.NRIC, BusinessMainActivity.this);
+        Controller_BusinessInfo controller_businessInfo = new Controller_BusinessInfo();
+        controller_businessInfo.create_Activity_BusinessInfo(BusinessMainActivity.this);
 
-        List<User> colleagues = UC.validateOnRetrieveColleagues(location,BusinessMainActivity.this);
-        displayEmployment(colleagues, location);
     }
 
 

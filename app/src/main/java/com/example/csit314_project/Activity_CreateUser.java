@@ -17,7 +17,7 @@ public class Activity_CreateUser extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_healthorg_main);
+        setContentView(R.layout.healthorg_adduser);
 
         EditText txt_firstName = findViewById(R.id.txt_firstName);
         EditText txt_lastName = findViewById(R.id.txt_lastName);

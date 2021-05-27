@@ -51,7 +51,7 @@ public class LoginActivity extends Activity {
                 //toast here
                 displaySuccess();
                 //transition to next page
-                UserController UC = new UserController();
+                UserController UC = UserController.getInstance();
                 //assign a default value just in-case
                 Class<?> nextActivity = null; // THIS WILL BREAK APP, BE CAREFUL
                 User user = UC.currentUser;

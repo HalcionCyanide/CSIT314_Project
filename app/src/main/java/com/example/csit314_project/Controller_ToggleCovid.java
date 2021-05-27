@@ -10,8 +10,9 @@ public class Controller_ToggleCovid {
     }
 
     public void toggleCovid(Context context) {
+        User user = new User();
         if (targetUser != null) {
-            targetUser.setCovid(context);
+            user.setCovid(!targetUser.hasCovid, targetUser.NRIC, context);
         }
     }
 }

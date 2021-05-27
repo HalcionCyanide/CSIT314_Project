@@ -15,7 +15,7 @@ public class Activity_GenerateReport extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_healthorg_main);
+        setContentView(R.layout.healthorg_generatereport);
 
         ListView mostCheckIn = findViewById(R.id.list_mostCheckIn);
         ListView mostCases = findViewById(R.id.list_mostCases);

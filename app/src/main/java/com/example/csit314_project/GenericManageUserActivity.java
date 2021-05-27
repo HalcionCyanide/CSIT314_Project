@@ -113,120 +113,10 @@ public class GenericManageUserActivity extends Activity {
     Parameters: None
     */
     void generateVaccineDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.manage_vaccination, null);
 
-        UserController UC = UserController.getInstance();
-        User user = UC.validateOnSearchUser(fakeNRIC,GenericManageUserActivity.this);
-        ListView vListView = userPopup.findViewById(R.id.list_vaccination);
-        TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
+        Controller_ManageVaccine controller_manageVaccine = new Controller_ManageVaccine();
 
-        txt_NRIC.setText(fakeNRIC);
-
-        ArrayList<String> vaccineArrayList = new ArrayList<>();
-
-        vaccineArrayList.add("Vaccination Brand: " + user.vaccinations.vaccination_brand);
-        vaccineArrayList.add("First Vaccination: " + user.vaccinations.first_vaccination);
-        vaccineArrayList.add("Second Vaccination: " + user.vaccinations.second_vaccination);
-
-        ArrayAdapter<String> vaccineAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, vaccineArrayList);
-        vListView.setAdapter(vaccineAdapter);
-
-        vListView.setOnItemClickListener((parent, view, position, id) -> {
-            String text = (String) parent.getItemAtPosition(position);
-            if (text.contains("Brand")) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
-                alertDialog.setTitle("Edit Brand");
-
-                //POPULATE SPINNER
-                final Spinner input = new Spinner(GenericManageUserActivity.this);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                        GenericManageUserActivity.this,
-                        android.R.layout.simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.Vax_Types));
-                input.setAdapter(arrayAdapter);
-
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-
-                alertDialog.setPositiveButton("OK", (dialog, which) -> {
-                    //THIS IS THE EQUIVALENT OF ONCLICK
-                    String selectedBrand = input.getSelectedItem().toString();
-                    UC.validateUpdateVaccineBrand(fakeNRIC, selectedBrand, GenericManageUserActivity.this);
-                    User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                    vaccineArrayList.set(0, "Vaccination Brand: " + displayedUser.vaccinations.vaccination_brand);
-                    vaccineAdapter.notifyDataSetChanged();
-                });
-                alertDialog.setView(input);
-                alertDialog.show();
-            }
-            else if (text.contains("First")) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
-                alertDialog.setTitle("Edit First Vaccine");
-                final EditText input = new EditText(GenericManageUserActivity.this);
-                input.setFocusable(false);
-                input.setHint("Select First Vaccine Date");
-                DatePicker datePicker = new DatePicker(this, input);
-
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-
-                alertDialog.setPositiveButton("OK", (dialog, which) -> {
-                    //THIS IS THE EQUIVALENT OF ONCLICK
-
-                        String firstVaccine = input.getText().toString();
-                    if (!firstVaccine.isEmpty()) {
-                        UC.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, GenericManageUserActivity.this);
-                        User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                        vaccineArrayList.set(1, "First Vaccination: " + displayedUser.vaccinations.first_vaccination);
-                        vaccineAdapter.notifyDataSetChanged();
-                        
-                    }
-
-                });
-                alertDialog.setView(input);
-                alertDialog.show();
-
-            }
-            else if (text.contains("Second")) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GenericManageUserActivity.this);
-                alertDialog.setTitle("Edit Second Vaccine");
-                final EditText input = new EditText(GenericManageUserActivity.this);
-                input.setFocusable(false);
-                input.setHint("Select Second Vaccine Date");
-                DatePicker datePicker = new DatePicker(this, input);
-
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-
-                alertDialog.setPositiveButton("OK", (dialog, which) -> {
-                    //THIS IS THE EQUIVALENT OF ONCLICK
-                    String secondVaccine = input.getText().toString();
-                    if (!secondVaccine.isEmpty()) {
-                        UC.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, GenericManageUserActivity.this);
-                        User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                        vaccineArrayList.set(2, "Second Vaccination: " + displayedUser.vaccinations.second_vaccination);
-                        vaccineAdapter.notifyDataSetChanged();
-                    }
-                });
-                alertDialog.setView(input);
-                alertDialog.show();
-            }
-
-        });
-
-
-        Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(v -> dialog.dismiss());
-        dialogBuilder.setView(userPopup);
-        dialog = dialogBuilder.create();
-        dialog.show();
+        controller_manageVaccine.displayVaccine(fakeNRIC,GenericManageUserActivity.this);
     }
 
     /*
@@ -235,37 +125,11 @@ public class GenericManageUserActivity extends Activity {
     Parameters: None
     */
     void generateTravelHistoryDialog() {
-        UserController UC = UserController.getInstance();
-        User user = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+        Controller_ViewTravelHistory controller_viewTravelHistory = new Controller_ViewTravelHistory();
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.manage_travelhistory, null);
+        controller_viewTravelHistory.displayTravelHistory(fakeNRIC,GenericManageUserActivity.this);
 
-        TextView txt_NRIC = userPopup.findViewById(R.id.txt_NRIC);
-        ListView list_TravelHistory = userPopup.findViewById(R.id.list_TravelHistory);
-
-        txt_NRIC.setText(fakeNRIC);
-
-        ArrayList<String> THArrayList = new ArrayList<>();
-
-        for (int i=0; i < user.travelHistories.size(); i++)
-        {
-            String tempTravHist =
-                    "Time in: " + user.travelHistories.get(i).timeIn + "\n" +
-                    "Time out: " +  user.travelHistories.get(i).timeOut + "\n" +
-                    "Duration: " + user.travelHistories.get(i).getDuration() + "\n"+
-                    "Location: " + user.travelHistories.get(i).location;
-            THArrayList.add(tempTravHist);
-        }
-
-        ArrayAdapter<String> THadapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, THArrayList);
-        list_TravelHistory.setAdapter(THadapter);
-
-        Button btn_back = userPopup.findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(v -> dialog.dismiss());
-        dialogBuilder.setView(userPopup);
-        dialog = dialogBuilder.create();
-        dialog.show();
+        
     }
 
     /*

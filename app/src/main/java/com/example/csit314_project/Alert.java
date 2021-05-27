@@ -9,10 +9,13 @@ package com.example.csit314_project;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Alert {
     public String NRIC;
@@ -23,6 +26,9 @@ public class Alert {
 
     DatabaseHelper dbHelper;
 
+    public Alert() {
+
+    }
 
     public Alert(String nric, String dateTime, String message) {
         this.NRIC = nric;
@@ -67,5 +73,33 @@ public class Alert {
             return true;
         }
         return false;
+    }
+
+    public List<Alert> FindAlertListByNRIC(String NRIC, Context context) {
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        List<Alert> tempList = new ArrayList<>();
+
+        dbHelper.createDataBase();
+        if (dbHelper.openDataBase()) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String query =
+                    "SELECT * " + "FROM Alerts " +
+                            "WHERE ReceiveBy = '" + NRIC + "'";
+
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    Alert data = new Alert();
+                    data.NRIC = cursor.getString(0);
+                    data.dateTime = cursor.getString(1);
+                    data.message = cursor.getString(2);
+                    data.acknowledge = cursor.getInt(3) > 0;
+
+                    tempList.add(data);
+                }
+                cursor.close();
+            }
+        }
+        return tempList;
     }
 }

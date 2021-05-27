@@ -27,6 +27,10 @@
         <activity android:name=".Activity_SearchForUser" />
         <activity android:name=".Activity_SendAlert" />
         <activity android:name=".Activity_GenerateReport" />
+        <activity android:name=".Activity_ViewVaccine" />
+        <activity android:name=".Activity_ViewTravelHistory" />
+        <activity android:name=".Activity_ViewAlerts" />
+        <activity android:name=".Activity_BusinessInfo" />
 
 
 

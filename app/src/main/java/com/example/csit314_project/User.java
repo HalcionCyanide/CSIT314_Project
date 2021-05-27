@@ -29,6 +29,10 @@ public class User {
     public String role;
     public boolean hasCovid;
     public boolean isSuspend;
+    public List<TravelHistory> travelHistories = new ArrayList<>();
+    public Vaccination vaccinations = new Vaccination();
+    public List<Alert> alerts = new ArrayList<>();
+
     /*
     Function Name: setSuspend
     Brief Description: Accesses the database, Flipping the status of user suspend

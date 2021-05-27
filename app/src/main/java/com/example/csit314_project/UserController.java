@@ -198,8 +198,8 @@ public class UserController {
     }
 
     public boolean validateOnAcknowledgeAlert(String nric, String dateTime, String message, Context context) {
-        Alert alert = new Alert();
-        return alert.acknowledgeAlert(nric, dateTime, message, context);
+        Alert alert = new Alert(nric, dateTime, message);
+        return alert.acknowledgeAlert( context);
     }
 
     public List<TravelHistory> validateOnSearchDate(String NRIC, String date, Context context)
