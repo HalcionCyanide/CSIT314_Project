@@ -2,10 +2,10 @@ package com.example.csit314_project;
 
 import android.content.Context;
 
-public class controller_toggleCovid {
+public class Controller_ToggleCovid {
     public User targetUser;
 
-    public controller_toggleCovid(User targetUser) {
+    public Controller_ToggleCovid(User targetUser) {
         this.targetUser = targetUser;
     }
 

@@ -20,9 +20,18 @@ public class Alert {
     public String message;
     public boolean acknowledge;
 
+
     DatabaseHelper dbHelper;
 
-    public boolean addAlert(String nric, String dateTime, String message, Context context) {
+
+    public Alert(String nric, String dateTime, String message) {
+        this.NRIC = nric;
+        this.dateTime = dateTime;
+        this.message = message;
+        this.acknowledge = false;
+    }
+    
+    public boolean addAlert (Context context) {
         //OPEN DB
         dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
@@ -30,9 +39,9 @@ public class Alert {
             //add vaccination
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("ReceiveBy", nric);
-            values.put("DateTime", dateTime);
-            values.put("Message", message);
+            values.put("ReceiveBy", this.NRIC);
+            values.put("DateTime", this.dateTime);
+            values.put("Message", this.message);
             values.put("Acknowledge", false); //all Alerts are not acknowledged by default
 
             db.insert("Alerts", null, values);
