@@ -34,7 +34,7 @@ public class HealthStaffMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthstaff_main);
 
-        UserController UC = new UserController();
+        UserController UC = UserController.getInstance();
 
         TextView txt_currUser = findViewById(R.id.txt_currentUser);
         txt_currUser.setText(UC.currentUser.username);

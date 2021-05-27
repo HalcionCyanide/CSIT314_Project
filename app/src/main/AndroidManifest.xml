@@ -10,19 +10,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSIT314_Project">
         <activity   
-            android:name=".SplashActivity"
+            android:name=".LoginActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+
         <activity android:name=".BusinessMainActivity" />
         <activity android:name=".HealthOrgMainActivity" />
         <activity android:name=".GenericManageUserActivity" />
         <activity android:name=".HealthStaffMainActivity" />
         <activity android:name=".PublicMainActivity" />
+        <activity android:name=".Activity_CreateUser" />
+        <activity android:name=".Activity_SearchForUser" />
+        <activity android:name=".Activity_SendAlert" />
+        <activity android:name=".Activity_GenerateReport" />
+
+
 
     </application>
 
