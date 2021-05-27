@@ -39,11 +39,20 @@ public class Activity_ViewVaccine extends Activity {
         Vaccination targetVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
 
         ArrayList<String> vaccineArrayList = new ArrayList<>();
-        vaccineArrayList.add("Vaccination Brand: " + targetVac.vaccination_brand);
-        vaccineArrayList.add("First Vaccination: " + targetVac.first_vaccination);
-        vaccineArrayList.add("Second Vaccination: " + targetVac.second_vaccination);
+        if (targetVac != null) {
 
-        ArrayAdapter<String> vaccineAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, vaccineArrayList);
+            vaccineArrayList.add("Vaccination Brand: " + targetVac.vaccination_brand);
+            vaccineArrayList.add("First Vaccination: " + targetVac.first_vaccination);
+            vaccineArrayList.add("Second Vaccination: " + targetVac.second_vaccination);
+        }
+        else {
+
+            vaccineArrayList.add("Vaccination Brand: " );
+            vaccineArrayList.add("First Vaccination: ");
+            vaccineArrayList.add("Second Vaccination: ");
+        }
+
+        ArrayAdapter<String> vaccineAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, vaccineArrayList);
         vListView.setAdapter(vaccineAdapter);
 
         if (UC.currentUser.role.equals("Health_Staff")) {
