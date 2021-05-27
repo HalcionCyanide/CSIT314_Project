@@ -57,14 +57,14 @@ public class User {
     nric : Primary key
     context : app context for the database opening
     */
-    public void setCovid(boolean covid, String nric, Context context) {
+    public void setCovid(boolean covid, Context context) {
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("HasCovid", covid);
-            db.update("UserData", values, "NRIC = '" + nric + "'", null);
+            db.update("UserData", values, "NRIC = '" + this.NRIC + "'", null);
         }
         dbHelper.close();
     }

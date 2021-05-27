@@ -60,10 +60,16 @@ public class GenericManageUserActivity extends Activity {
             }
             //if clicked on covid and you are health_staff
             else if(text.contains("Covid") && UC.currentUser.role.equals("Health_Staff")) {
-                UC.toggleCovid(fakeNRIC, GenericManageUserActivity.this);
                 fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
-                User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
-                arrayList.set(6, "Toggle Covid: " + displayedUser.hasCovid);
+
+                Controller_SearchUsers controller_searchUsers = new Controller_SearchUsers();
+                User fakeUser = controller_searchUsers.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+
+                Controller_ToggleCovid controller_toggleCovid = new Controller_ToggleCovid(fakeUser, GenericManageUserActivity.this);
+                controller_toggleCovid.toggleCovid();
+                //refresh person
+                fakeUser = controller_searchUsers.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                arrayList.set(6, "Toggle Covid: " + fakeUser.hasCovid);
             }
             else if(text.contains("Vac")) {
                 //perform actions for view of vaccinations
