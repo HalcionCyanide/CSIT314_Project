@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -78,10 +79,22 @@ public class Activity_ViewVaccine extends Activity {
                     alertDialog.setPositiveButton("OK", (dialog, which) -> {
                         //THIS IS THE EQUIVALENT OF ONCLICK
                         String selectedBrand = input.getSelectedItem().toString();
-                        controller_manageVaccine.validateUpdateVaccineBrand(fakeNRIC, selectedBrand, Activity_ViewVaccine.this);
-                        Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
-                        vaccineArrayList.set(0, "Vaccination Brand: " + displayVac.vaccination_brand);
-                        vaccineAdapter.notifyDataSetChanged();
+                        if (targetVac != null) {
+                            controller_manageVaccine.validateUpdateVaccineBrand(fakeNRIC, selectedBrand, Activity_ViewVaccine.this);
+                            Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
+                            vaccineArrayList.set(0, "Vaccination Brand: " + displayVac.vaccination_brand);
+                            vaccineAdapter.notifyDataSetChanged();
+                        }
+                        else {
+                            boolean success = controller_manageVaccine.validateAddVaccineBrand(fakeNRIC, selectedBrand, Activity_ViewVaccine.this);
+                            Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
+                            vaccineArrayList.set(0, "Vaccination Brand: " + displayVac.vaccination_brand);
+                            vaccineAdapter.notifyDataSetChanged();
+
+                            if (success)
+                                displaySuccess();
+                        }
+
                     });
                     alertDialog.setView(input);
                     alertDialog.show();
@@ -98,16 +111,21 @@ public class Activity_ViewVaccine extends Activity {
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
 
+
                     alertDialog.setPositiveButton("OK", (dialog, which) -> {
                         //THIS IS THE EQUIVALENT OF ONCLICK
-
-                        String firstVaccine = input.getText().toString();
-                        if (!firstVaccine.isEmpty()) {
-                            controller_manageVaccine.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, Activity_ViewVaccine.this);
-                            Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
-                            vaccineArrayList.set(1, "First Vaccination: " + displayVac.first_vaccination);
-                            vaccineAdapter.notifyDataSetChanged();
-
+                        Vaccination targetVac1 = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
+                        if (targetVac1 != null) {
+                            String firstVaccine = input.getText().toString();
+                            if (!firstVaccine.isEmpty()) {
+                                controller_manageVaccine.validateUpdateFirstVaccineDate(fakeNRIC, firstVaccine, Activity_ViewVaccine.this);
+                                Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
+                                vaccineArrayList.set(1, "First Vaccination: " + displayVac.first_vaccination);
+                                vaccineAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        else {
+                            displayError();
                         }
 
                     });
@@ -128,13 +146,18 @@ public class Activity_ViewVaccine extends Activity {
                     input.setLayoutParams(lp);
 
                     alertDialog.setPositiveButton("OK", (dialog, which) -> {
+                        Vaccination targetVac1 = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
                         //THIS IS THE EQUIVALENT OF ONCLICK
-                        String secondVaccine = input.getText().toString();
-                        if (!secondVaccine.isEmpty()) {
-                            controller_manageVaccine.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, Activity_ViewVaccine.this);
-                            Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
-                            vaccineArrayList.set(2, "Second Vaccination: " + displayVac.second_vaccination);
-                            vaccineAdapter.notifyDataSetChanged();
+                        if (targetVac1 != null) {
+                            String secondVaccine = input.getText().toString();
+                            if (!secondVaccine.isEmpty()) {
+                                controller_manageVaccine.validateUpdateSecondVaccineDate(fakeNRIC, secondVaccine, Activity_ViewVaccine.this);
+                                Vaccination displayVac = controller_manageVaccine.validateFindVaccinationByNRIC(fakeNRIC, Activity_ViewVaccine.this);
+                                vaccineArrayList.set(2, "Second Vaccination: " + displayVac.second_vaccination);
+                                vaccineAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            displayError();
                         }
                     });
                     alertDialog.setView(input);
@@ -152,5 +175,23 @@ public class Activity_ViewVaccine extends Activity {
 
         btn_back.setOnClickListener(v -> Activity_ViewVaccine.this.finish());
 
+    }
+
+    /*
+ Function Name: displaySuccess
+ Brief Description: Prints Success toast
+ Parameters: None
+ */
+    void displaySuccess() {
+        Toast.makeText(getApplicationContext(), "Operation Success", Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+    Function Name: displayError
+    Brief Description: Prints Error toast
+    Parameters: None
+    */
+    void displayError() {
+        Toast.makeText(getApplicationContext(), "Operation Failed!", Toast.LENGTH_SHORT).show();
     }
 }

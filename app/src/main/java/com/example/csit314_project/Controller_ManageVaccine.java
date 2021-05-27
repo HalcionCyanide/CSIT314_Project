@@ -68,4 +68,9 @@ public class Controller_ManageVaccine {
             vaccination.setSecondVaccine(fixedSecondVaccine, NRIC, context);
         }
     }
+
+    public boolean validateAddVaccineBrand(String fakeNRIC, String selectedBrand, Context context) {
+        Vaccination vaccination = new Vaccination();
+        return vaccination.AddVaccineBrand(fakeNRIC,selectedBrand, context );
+    }
 }

@@ -79,4 +79,23 @@ public class Vaccination {
     }
 
 
+    public boolean AddVaccineBrand(String nric, String selectedBrand, Context context) {
+        //OPEN DB
+
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        dbHelper.createDataBase();
+        if (dbHelper.openDataBase()) {
+            //add vaccination
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("NRIC", nric);
+            values.put("Vaccination_Brand", selectedBrand);
+            values.put("First_Vaccination", "");
+            values.put("Second_Vaccination", ""); //all Alerts are not acknowledged by default
+
+            db.insert("Vaccination", null, values);
+            return true;
+        }
+        return false;
+    }
 }
