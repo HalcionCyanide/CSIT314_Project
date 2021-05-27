@@ -17,24 +17,8 @@ import java.util.Locale;
 
 public class UserController {
 
-    private static UserController INSTANCE = null;
-
-    private UserController() {}
-
     //just a temporary holder for the user
     public User currentUser;
-
-    /*
-    Function Name: getInstance
-    Brief Description: Returns the static Instance of the UserController
-    Parameters: None
-    */
-    public static UserController getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new UserController();
-        }
-        return(INSTANCE);
-    }
 
     /*
     Function Name: validateOnLogin
@@ -259,5 +243,4 @@ public class UserController {
         TravelHistory travelHistory = new TravelHistory();
         return travelHistory.getByMostCases(limit, context);
     }
-
 }

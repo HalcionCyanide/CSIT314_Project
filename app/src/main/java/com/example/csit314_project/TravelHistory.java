@@ -25,9 +25,6 @@ public class TravelHistory {
     public String timeIn;
     public String timeOut;
     public String location;
-
-    DatabaseHelper dbHelper;
-
     /*
     Function Name: addTravelHistory
     Brief Description: Accesses the database, adding a new entry
@@ -40,7 +37,7 @@ public class TravelHistory {
     */
     public boolean addTravelHistory(String NRIC, String timeIn, String timeOut, String location, Context context) {
         //OPEN DB
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             //add vaccination
@@ -146,7 +143,7 @@ public class TravelHistory {
     context : app context for the database opening
     */
     public List<String> getByMostCases(int limit, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         List<String> tempList = new ArrayList<>();
 
         dbHelper.createDataBase();
@@ -180,7 +177,7 @@ public class TravelHistory {
     context : app context for the database opening
     */
     public List<String> getByMostCheckIn(int limit, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         List<String> tempList = new ArrayList<>();
 
         dbHelper.createDataBase();
@@ -206,7 +203,7 @@ public class TravelHistory {
     }
 
     public List<TravelHistory> findCustomersByDateAndLocation(String location, String date, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         List<TravelHistory> tempList = new ArrayList<>();
 
         dbHelper.createDataBase();

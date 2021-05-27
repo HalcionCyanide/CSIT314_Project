@@ -28,12 +28,6 @@ public class User {
     public String role;
     public boolean hasCovid;
     public boolean isSuspend;
-    public List<TravelHistory> travelHistories = new ArrayList<>();
-    public Vaccination vaccinations = new Vaccination();
-    public List<Alert> alerts = new ArrayList<>();
-
-    DatabaseHelper dbHelper;
-
     /*
     Function Name: setSuspend
     Brief Description: Accesses the database, Flipping the status of user suspend
@@ -43,7 +37,7 @@ public class User {
     context : app context for the database opening
     */
     public void setSuspend(boolean suspend, String nric, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -63,7 +57,7 @@ public class User {
     context : app context for the database opening
     */
     public void setCovid(boolean covid, String nric, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -83,7 +77,7 @@ public class User {
     */
     public void addUser (String NRIC, String gender, String firstName, String lastName, String email, String contactNumber, String username, String password, String userType, Context context) {
         //OPEN DB
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             //add the user
@@ -113,7 +107,7 @@ public class User {
     context : app context for the database opening
     */
     public User findSingleUserByUsername(String username, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -150,7 +144,7 @@ public class User {
     context : app context for the database opening
     */
     public User findSingleUserByNRIC(String NRIC, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -190,7 +184,7 @@ public class User {
     context : app context for the database opening
     */
     public List<User> findUserSpecial(String NRIC, String userType, String nameContains, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         List<User> tempList = new ArrayList<>();
 
         String userTypeStr = ""; //this will trigger a crash
@@ -239,14 +233,14 @@ public class User {
     }
 
     /*
-    Function Name: updateTravelAndVax
+    Function Name: updateTravelAndVaxAndAlerts
     Brief Description: Accesses the database , updating the travel history and vaccination record of the calling user
     Parameters:
     NRIC : NRIC to update
     context : app context for the database opening
     */
     void updateTravelAndVaxAndAlerts(String NRIC, Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -301,7 +295,7 @@ public class User {
     List<User> findUsersByEmployment(List<Employment> colleagues, Context context) {
         List<User> tempList = new ArrayList<>();
 
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();

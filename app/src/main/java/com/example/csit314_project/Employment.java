@@ -6,7 +6,6 @@ Brief Description: Employment base class
 */
 package com.example.csit314_project;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class Employment {
     String NRIC;
-    String employementLocation;
+    String employmentLocation;
 
 
     DatabaseHelper dbHelper;
@@ -51,7 +50,7 @@ public class Employment {
                 while (cursor.moveToNext()){
                     Employment data = new Employment();
                     data.NRIC =  cursor.getString(0);
-                    data.employementLocation =  cursor.getString(1);
+                    data.employmentLocation =  cursor.getString(1);
 
                     result.add(data);
                 }

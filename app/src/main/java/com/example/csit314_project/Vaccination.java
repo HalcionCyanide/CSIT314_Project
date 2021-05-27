@@ -19,10 +19,8 @@ public class Vaccination {
     public String first_vaccination;
     public String second_vaccination;
 
-    DatabaseHelper dbHelper;
-
     public Vaccination findVaccinationByNRIC(String NRIC, Context context){
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if (dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -45,7 +43,7 @@ public class Vaccination {
     }
 
     public void setBrand(String selectedBrand, String NRIC, Context context){
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -57,7 +55,7 @@ public class Vaccination {
     }
 
     public void setFirstVaccine(String firstVaccine, String NRIC, Context context){
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -69,7 +67,7 @@ public class Vaccination {
     }
 
     public void setSecondVaccine(String secondVaccine, String NRIC, Context context){
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         dbHelper.createDataBase();
         if(dbHelper.openDataBase()) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
