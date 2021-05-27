@@ -47,7 +47,13 @@ public class BusinessMainActivity extends Activity {
         btn_viewAlerts.setOnClickListener(v -> generateViewAlertDialog());
 
         Button btn_searchByDate = findViewById(R.id.btn_searchByDate);
-        btn_searchByDate.setOnClickListener(v -> searchDateButton());
+        btn_searchByDate.setOnClickListener(v -> {
+            TextView txt_date = findViewById(R.id.txt_datepicker);
+            String date = txt_date.getText().toString();
+            if(!date.isEmpty()){
+                searchDateButton(date);
+            }
+        });
 
         Button btn_viewColleagues = findViewById(R.id.btn_viewColleagues);
         btn_viewColleagues.setOnClickListener(v -> viewInfo());
@@ -58,102 +64,16 @@ public class BusinessMainActivity extends Activity {
         controller_viewAlerts.displayAlerts(BusinessMainActivity.this);
     }
 
-    public void searchDateButton(){
-        TextView txt_date = findViewById(R.id.txt_datepicker);
-        String date = txt_date.getText().toString();
-        if (!date.isEmpty()){
-            List<TravelHistory> customerList = searchDate(date);
-            displayCustomers(customerList);
-        }
-        else displayError();
-
-    }
-
-    List<TravelHistory> searchDate(String date)
-    {
-        UserController UC = UserController.getInstance();
-        return UC.validateOnSearchDate(UC.currentUser.NRIC, date,BusinessMainActivity.this);
-    }
-
-    public void displayCustomers(List<TravelHistory> customerList) {
-        AlertDialog dialog;
-        AlertDialog.Builder visitorDialog = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.business_searchdate, null);
-
-        ListView vListView = userPopup.findViewById(R.id.list_visitors);
-        TextView txt_location = userPopup.findViewById(R.id.txt_location);
-
-        ArrayList<String> visitorStringArray = new ArrayList<>();
-
-        for (int i = 0; i < customerList.size(); i++) {
-            String temp = "NRIC : " + customerList.get(i).NRIC + "\n" +
-                    "Check In : " + customerList.get(i).timeIn + "\n" +
-                    "Check Out : " + customerList.get(i).timeOut;
-
-            visitorStringArray.add(temp);
-        }
-        ArrayAdapter<String> visitorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitorStringArray);
-        vListView.setAdapter(visitorAdapter);
-
-        Button btn_back = userPopup.findViewById(R.id.btn_back);
-
-        if(customerList.isEmpty()){
-            displayError();
-        }
-        else {
-            displaySuccess();
-            txt_location.setText(customerList.get(0).location);
-        }
-
-        visitorDialog.setView(userPopup);
-        dialog = visitorDialog.create();
-        btn_back.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
-
+    public void searchDateButton(String date){
+        Intent mainIntent = new Intent(BusinessMainActivity.this, Activity_ViewCheckIn.class);
+        mainIntent.putExtra("datePickerDate", date);
+        BusinessMainActivity.this.startActivity(mainIntent);
+        //BusinessMainActivity.this.finish();
     }
 
     public void viewInfo() {
         Controller_BusinessInfo controller_businessInfo = new Controller_BusinessInfo();
         controller_businessInfo.create_Activity_BusinessInfo(BusinessMainActivity.this);
-
-    }
-
-
-
-    public void displayEmployment(List<User> colleagues, String location)
-    {
-        AlertDialog dialog;
-        AlertDialog.Builder colleaguesDialog = new AlertDialog.Builder(this);
-        final View userPopup = getLayoutInflater().inflate(R.layout.business_colleagues, null);
-
-        ListView vListView = userPopup.findViewById(R.id.list_colleagues);
-        TextView txt_location = userPopup.findViewById(R.id.txt_location);
-
-        txt_location.setText(location);
-
-        ArrayList<String> colleaguesStringArray = new ArrayList<>();
-        for (int i = 0; i < colleagues.size(); i++) {
-            String temp = "NRIC : " + colleagues.get(i).NRIC + "\n" +
-                    "Name : " + colleagues.get(i).firstName + " " + colleagues.get(i).lastName;
-
-            colleaguesStringArray.add(temp);
-        }
-
-        ArrayAdapter<String> colleaguesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, colleaguesStringArray);
-        vListView.setAdapter(colleaguesAdapter);
-
-        Button btn_back = userPopup.findViewById(R.id.btn_back);
-
-        colleaguesDialog.setView(userPopup);
-        dialog = colleaguesDialog.create();
-        btn_back.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
-        displaySuccess();
-    }
-
-    boolean onAcknowledgeAlert(String NRIC, String dateTime, String message, Context context) {
-        UserController UC = UserController.getInstance();
-        return UC.validateOnAcknowledgeAlert(NRIC, dateTime, message, context);
     }
 
     /*

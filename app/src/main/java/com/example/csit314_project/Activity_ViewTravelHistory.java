@@ -30,8 +30,6 @@ public class Activity_ViewTravelHistory extends Activity {
         User user = UC.validateOnSearchUser(fakeNRIC, Activity_ViewTravelHistory.this);
 
 
-
-
         TextView txt_NRIC = findViewById(R.id.txt_NRIC);
         ListView list_TravelHistory = findViewById(R.id.list_TravelHistory);
 
