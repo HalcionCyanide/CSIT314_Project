@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+
     public String NRIC;
     public String gender;
     public String firstName;

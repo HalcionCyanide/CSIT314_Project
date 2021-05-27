@@ -51,7 +51,7 @@ public class LoginActivity extends Activity {
                 //toast here
                 displaySuccess();
                 //transition to next page
-                UserController UC = UserController.getInstance();
+                UserController UC = new UserController();
                 //assign a default value just in-case
                 Class<?> nextActivity = null; // THIS WILL BREAK APP, BE CAREFUL
                 User user = UC.currentUser;
@@ -92,8 +92,8 @@ public class LoginActivity extends Activity {
     */
     boolean onLogin(String username, String password) throws IOException {
         //let the login controller handle it, for now....
-        UserController UC = UserController.getInstance();
-        return UC.validateOnLogin(username, password, LoginActivity.this);
+        Controller_Login controller_login = new Controller_Login();
+        return controller_login.validateOnLogin(username, password, LoginActivity.this);
     }
 
     /*
