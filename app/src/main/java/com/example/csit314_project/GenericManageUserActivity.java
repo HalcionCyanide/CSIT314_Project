@@ -48,7 +48,8 @@ public class GenericManageUserActivity extends Activity {
             String text = (String) parent.getItemAtPosition(position);
             //if clicked on suspend and you are health_org
             if(text.contains("Suspen") && UC.currentUser.role.equals("Health_Org")) {
-                UC.toggleSuspension(fakeNRIC, GenericManageUserActivity.this);
+                Controller_SuspendUser controller_suspendUser = new Controller_SuspendUser();
+                controller_suspendUser.toggleSuspension(fakeNRIC, GenericManageUserActivity.this);
                 fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
                 User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
                 arrayList.set(7, "Toggle Suspended: " + displayedUser.isSuspend);

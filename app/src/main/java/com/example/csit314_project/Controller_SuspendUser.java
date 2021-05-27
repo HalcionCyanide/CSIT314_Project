@@ -11,7 +11,7 @@ public class Controller_SuspendUser {
    nric : string received from the boundary
    context : app context for the database opening
    */
-    public User toggleSuspension(String nric, Context context) {
+    public void toggleSuspension(String nric, Context context) {
         User user = new User();
         user = user.findSingleUserByNRIC(nric, context);
         //if the user cannot be found
@@ -19,6 +19,6 @@ public class Controller_SuspendUser {
             user.setSuspend(!user.isSuspend, nric, context);
         }
 
-        return user.findSingleUserByNRIC(nric, context);
+
     }
 }
