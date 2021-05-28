@@ -32,6 +32,7 @@
         <activity android:name=".Activity_ViewAlerts" />
         <activity android:name=".Activity_BusinessInfo" />
         <activity android:name=".Activity_ViewCheckIn"/>
+        <activity android:name=".Activity_CheckIn"/>
 
 
 

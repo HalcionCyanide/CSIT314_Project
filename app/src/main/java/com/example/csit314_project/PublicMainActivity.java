@@ -95,32 +95,13 @@ public class PublicMainActivity extends Activity {
     }
 
     void generateCheckInDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(PublicMainActivity.this);
-        alertDialog.setTitle("Checking in to....");
-        final EditText input = new EditText(PublicMainActivity.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-
-        alertDialog.setPositiveButton("OK", (dialog, which) -> {
-            //grab current time in-case
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
-            Date date = new Date();
-            //adding current location to local list
-            checkInLocations.add("Checked in to: " + input.getText().toString() + " at " + formatter.format(date));
-            //update the list in UI
-            checkInLocationsAdapter.notifyDataSetChanged();
-        });
-        alertDialog.setView(input);
-        alertDialog.show();
+        Controller_CheckIn controller_checkIn = new Controller_CheckIn();
+        controller_checkIn.displayCheckin(PublicMainActivity.this);
     }
 
     void generateViewVaccineDialog() {
         Controller_ManageVaccine controller_manageVaccine = new Controller_ManageVaccine();
         controller_manageVaccine.displayVaccine(PublicMainActivity.this);
-
-        
     }
 
     void generateViewAlertDialog() {
@@ -131,8 +112,6 @@ public class PublicMainActivity extends Activity {
     void generateViewTHDialog() {
         Controller_ViewTravelHistory controller_viewTravelHistory = new Controller_ViewTravelHistory();
         controller_viewTravelHistory.displayTravelHistory(PublicMainActivity.this);
-
-
     }
 
     boolean onAddTravelHistory (String NRIC, String timeIn, String timeOut, String location, Context context) {
