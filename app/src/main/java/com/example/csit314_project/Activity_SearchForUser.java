@@ -80,7 +80,7 @@ public class Activity_SearchForUser extends Activity {
         result.setAdapter(usersAdapter);
 
         result.setOnItemClickListener((parent, view, position, id) -> {
-            Intent mainIntent = new Intent(Activity_SearchForUser.this, GenericManageUserActivity.class);
+            Intent mainIntent = new Intent(Activity_SearchForUser.this, Activity_ManageUser.class);
             String text = (String) parent.getItemAtPosition(position);
             String fakeNRIC = text.substring(0, text.indexOf(","));
             mainIntent.putExtra("SINGLE_NRIC", fakeNRIC);

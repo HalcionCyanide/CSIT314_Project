@@ -15,19 +15,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
-public class GenericManageUserActivity extends Activity {
+public class Activity_ManageUser extends Activity {
 
     String fakeNRIC;
     ListView userInfo;
@@ -53,16 +46,16 @@ public class GenericManageUserActivity extends Activity {
             //if clicked on suspend and you are health_org
             if(text.contains("Suspen") && UC.currentUser.role.equals("Health_Org")) {
                 Controller_SuspendUser controller_suspendUser = new Controller_SuspendUser();
-                controller_suspendUser.toggleSuspension(fakeNRIC, GenericManageUserActivity.this);
+                controller_suspendUser.toggleSuspension(fakeNRIC, Activity_ManageUser.this);
                 fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
-                User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                User displayedUser = UC.validateOnSearchUser(fakeNRIC, Activity_ManageUser.this);
                 arrayList.set(7, "Toggle Suspended: " + displayedUser.isSuspend);
             }
             //if clicked on covid and you are health_staff
             else if(text.contains("Covid") && UC.currentUser.role.equals("Health_Staff")) {
-                UC.toggleCovid(fakeNRIC, GenericManageUserActivity.this);
+                UC.toggleCovid(fakeNRIC, Activity_ManageUser.this);
                 fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
-                User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+                User displayedUser = UC.validateOnSearchUser(fakeNRIC, Activity_ManageUser.this);
                 arrayList.set(6, "Toggle Covid: " + displayedUser.hasCovid);
             }
             else if(text.contains("Vac")) {
@@ -86,7 +79,7 @@ public class GenericManageUserActivity extends Activity {
         Button btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(view -> {
             //back btn interaction here
-            GenericManageUserActivity.this.finish();
+            Activity_ManageUser.this.finish();
         });
 
         if (UC.currentUser.role.equals("Health_Staff")) {
@@ -101,9 +94,9 @@ public class GenericManageUserActivity extends Activity {
     Parameters: None
     */
     void generateSendAlertDialog() {
-        Intent mainIntent = new Intent(GenericManageUserActivity.this, Activity_SendAlert.class);
+        Intent mainIntent = new Intent(Activity_ManageUser.this, Activity_SendAlert.class);
         mainIntent.putExtra("SINGLE_NRIC", fakeNRIC);
-        GenericManageUserActivity.this.startActivity(mainIntent);
+        Activity_ManageUser.this.startActivity(mainIntent);
 
     }
 
@@ -116,7 +109,7 @@ public class GenericManageUserActivity extends Activity {
 
         Controller_ManageVaccine controller_manageVaccine = new Controller_ManageVaccine();
 
-        controller_manageVaccine.displayVaccine(fakeNRIC,GenericManageUserActivity.this);
+        controller_manageVaccine.displayVaccine(fakeNRIC, Activity_ManageUser.this);
     }
 
     /*
@@ -127,7 +120,7 @@ public class GenericManageUserActivity extends Activity {
     void generateTravelHistoryDialog() {
         Controller_ViewTravelHistory controller_viewTravelHistory = new Controller_ViewTravelHistory();
 
-        controller_viewTravelHistory.displayTravelHistory(fakeNRIC,GenericManageUserActivity.this);
+        controller_viewTravelHistory.displayTravelHistory(fakeNRIC, Activity_ManageUser.this);
 
         
     }
@@ -141,7 +134,7 @@ public class GenericManageUserActivity extends Activity {
         fakeNRIC = getIntent().getStringExtra("SINGLE_NRIC");
 
         UserController UC = UserController.getInstance();
-        User displayedUser = UC.validateOnSearchUser(fakeNRIC, GenericManageUserActivity.this);
+        User displayedUser = UC.validateOnSearchUser(fakeNRIC, Activity_ManageUser.this);
 
         arrayList.add("First Name: " + displayedUser.firstName);
         arrayList.add("Last Name: " + displayedUser.lastName);
