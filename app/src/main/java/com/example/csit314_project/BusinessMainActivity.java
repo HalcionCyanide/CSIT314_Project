@@ -38,8 +38,6 @@ public class BusinessMainActivity extends Activity {
         Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-            Intent mainIntent = new Intent(BusinessMainActivity.this, LoginActivity.class);
-            BusinessMainActivity.this.startActivity(mainIntent);
             BusinessMainActivity.this.finish();
         });
 

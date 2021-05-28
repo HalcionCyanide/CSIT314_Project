@@ -14,6 +14,5 @@ public class Controller_ViewAlerts {
     public List<Alert> validateFindAlertListByNRIC(String nric, Context context) {
         Alert alert = new Alert();
         return alert.FindAlertListByNRIC(nric, context);
-
     }
 }

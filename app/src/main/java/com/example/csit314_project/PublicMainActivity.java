@@ -8,17 +8,11 @@ Brief Description: Public user main Activity
 package com.example.csit314_project;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,18 +57,17 @@ public class PublicMainActivity extends Activity {
             Date date = new Date();
             String timeOut = formatter.format(date);
 
-            if (onAddTravelHistory(NRIC, timeIn, timeOut, location, PublicMainActivity.this)){
+            if (onAddTravelHistory(NRIC, timeIn, timeOut, location, PublicMainActivity.this)) {
                 //this is a local view
                 checkInLocationsAdapter.remove(text);
                 displaySuccess();
-            }
-            else {
+            } else {
                 displayError();
             }
         });
 
         Button btn_checkIn = findViewById(R.id.btn_checkIn);
-        btn_checkIn.setOnClickListener(v -> generateCheckInDialog());
+        btn_checkIn.setOnClickListener(v -> generateCheckInDialog(checkInLocations));
 
         Button btn_viewVax = findViewById(R.id.btn_viewVax);
         btn_viewVax.setOnClickListener(v -> generateViewVaccineDialog());
@@ -88,15 +81,13 @@ public class PublicMainActivity extends Activity {
         Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-            Intent mainIntent = new Intent(PublicMainActivity.this, LoginActivity.class);
-            PublicMainActivity.this.startActivity(mainIntent);
             PublicMainActivity.this.finish();
         });
     }
 
-    void generateCheckInDialog() {
+    void generateCheckInDialog(ArrayList<String> list_currentLocations) {
         Controller_CheckIn controller_checkIn = new Controller_CheckIn();
-        controller_checkIn.displayCheckin(PublicMainActivity.this);
+        controller_checkIn.displayCheckIn(list_currentLocations, PublicMainActivity.this);
     }
 
     void generateViewVaccineDialog() {
@@ -114,12 +105,10 @@ public class PublicMainActivity extends Activity {
         controller_viewTravelHistory.displayTravelHistory(PublicMainActivity.this);
     }
 
-    boolean onAddTravelHistory (String NRIC, String timeIn, String timeOut, String location, Context context) {
-        UserController UC = UserController.getInstance();
-        return UC.validateOnAddTravelHistory(NRIC, timeIn, timeOut, location, context);
+    boolean onAddTravelHistory(String NRIC, String timeIn, String timeOut, String location, Context context) {
+        Controller_CheckIn controller_checkIn = new Controller_CheckIn();
+        return controller_checkIn.validateOnAddTravelHistory(NRIC, timeIn, timeOut, location, context);
     }
-
-
 
     /*
     Function Name: displaySuccess
@@ -137,5 +126,15 @@ public class PublicMainActivity extends Activity {
     */
     void displayError() {
         Toast.makeText(getApplicationContext(), "Operation Failed!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        checkInLocations = data.getExtras().getStringArrayList("checkInLocations");
+        //update the list in UI
+        checkInLocationsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkInLocations);
+        checkInLocationsAdapter.notifyDataSetChanged();
+        list_currentLocations.setAdapter(checkInLocationsAdapter);
     }
 }

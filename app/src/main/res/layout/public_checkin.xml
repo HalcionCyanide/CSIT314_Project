@@ -7,29 +7,29 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/txt_checkInLocation"
         android:layout_width="202dp"
         android:layout_height="43dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
+        android:hint="Location name"
         android:inputType="textPersonName"
-        android:text="Enter here:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn_confirmCheckIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Check IN"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintEnd_toEndOf="@+id/txt_checkInLocation"
+        app:layout_constraintStart_toStartOf="@+id/txt_checkInLocation"
+        app:layout_constraintTop_toBottomOf="@+id/txt_checkInLocation" />
 
     <TextView
         android:id="@+id/textView3"

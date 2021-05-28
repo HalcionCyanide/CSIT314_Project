@@ -59,8 +59,6 @@ public class HealthOrgMainActivity extends Activity {
         Button btn_logout = findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Log out!", Toast.LENGTH_SHORT).show();
-            Intent mainIntent = new Intent(HealthOrgMainActivity.this, LoginActivity.class);
-            HealthOrgMainActivity.this.startActivity(mainIntent);
             HealthOrgMainActivity.this.finish();
         });
     }

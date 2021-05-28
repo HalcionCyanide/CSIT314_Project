@@ -8,7 +8,6 @@ public class Controller_AcknowledgeAlerts {
 
     public void createActivity_AcknowledgeAlert(String nric, ListView alertListView, ArrayAdapter<String> alertAdapter, Context context) {
         Activity_AcknowledgeAlert activity_acknowledgeAlert = new Activity_AcknowledgeAlert();
-
         activity_acknowledgeAlert.acknowledge(nric, alertListView, alertAdapter, context);
     }
 

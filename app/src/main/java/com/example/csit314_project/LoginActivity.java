@@ -71,7 +71,6 @@ public class LoginActivity extends Activity {
                 }
                 Intent mainIntent = new Intent(LoginActivity.this, nextActivity);
                 LoginActivity.this.startActivity(mainIntent);
-                LoginActivity.this.finish();
             }
             else {
                 //toast here

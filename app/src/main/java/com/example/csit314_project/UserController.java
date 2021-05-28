@@ -81,9 +81,4 @@ public class UserController {
             user.setCovid(!user.hasCovid, nric, context);
         }
     }
-
-    public boolean validateOnAddTravelHistory(String nric, String timeIn, String timeOut, String location, Context context) {
-        TravelHistory travelHistory = new TravelHistory();
-        return travelHistory.addTravelHistory(nric, timeIn, timeOut, location, context);
-    }
 }
